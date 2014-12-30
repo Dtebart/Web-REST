@@ -1,42 +1,52 @@
-var articleList = [];
-var selectedArticle = 1;
+var list = [];
+articleList = new articleList_cl(list);
 
-function addArticleToList(number, name, price){
-	var article = { 'number' : number,
-					'name'   : name,
-					'price'  : price };
-	articleList.push(article);
+function article_cl (number, name, price){
+	this.number = number;
+	this.name = name;
+	this.price = price;
+}
+
+function articleList_cl (list)  {
+	this.list = list;
+	this.selectedArticle = null;
+	this.addArticle = addArticle;
+	this.getSelectedArticle = getSelectedArticle;
+}
+
+function addArticle(article){
+	this.list.push(article);
 	
 	var articleElem = $('<tr></tr>');
 	$('#article-table tbody').append(articleElem);
 	
-	var numberElem = articleElem.append('<td>' + number + '</td>');
-	var nameElem = articleElem.append('<td>' + name + '</td>');
-	var priceElem = articleElem.append('<td>' + price + '</td>');
+	var numberElem = articleElem.append('<td>' + article.number + '</td>');
+	var nameElem = articleElem.append('<td>' + article.name + '</td>');
+	var priceElem = articleElem.append('<td>' + article.price + '</td>');
 }
 
-function getArticle(number){
+function getSelectedArticle(){
 	var article;
-	for (i = 0; i < articleList.length; i++){
-		if (articleList[i]['number'] == number){
-			return articleList[i];
+	for (i = 0; i < this.list.length; i++){
+		if (this.list[i].number == this.selectedArticle){
+			return this.list[i];
 		}
 	}
 }
 
 $(document).ready(function(){
-
+	
 	$('#article-table tbody').on('click', 'tr', function(event) {
-		selectedArticle = $(this).children().first().text();
+		articleList.selectedArticle = $(this).children().first().text();
 	});
 
 	$('#show-article-button').click(function() {
-		var article = getArticle(selectedArticle);
+		var article = articleList.getSelectedArticle();
 		var details = '<p>Nummer: ' + article.number + ', Name: ' + article.name + ', Preis: ' + article.price + '</p>';
 		$('#article-details').html(details);
 	});
 	
-	addArticleToList(1, 'HN-Cappy', 4.50);
-	addArticleToList(2, 'HN-T-Shirt', 6.99);
-	addArticleToList(3, 'HN-Cup', 3.50);
+	articleList.addArticle(new article_cl(1, 'HN-Cappy', 4.50));
+	articleList.addArticle(new article_cl(2, 'HN-T-Shirt', 6.99));
+	articleList.addArticle(new article_cl(3, 'HN-Cup', 3.50));
 });
