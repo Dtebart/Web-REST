@@ -3,6 +3,7 @@
 import cherrypy
 import json
 import os
+from serverApp import article
 
 #-------------------------------------
 class Application_cl(object):
@@ -12,7 +13,7 @@ class Application_cl(object):
     def __init__(self):
     #-------------------------------------
         # constructor
-        pass
+        self.article = article.Article()
     
     #-------------------------------------
     def default(self, *arglist, **kwargs):

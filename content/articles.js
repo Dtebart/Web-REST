@@ -36,6 +36,15 @@ function getSelectedArticle(){
 
 $(document).ready(function(){
 	
+	$.get('article', function(data, status){
+		var articleList_str = data.replace(/'/g, '"');
+		var articleList_json = JSON.parse(articleList_str);
+		
+		for (var i = 0; i < articleList_json.length; i++){
+			articleList.addArticle(articleList_json[i]);
+		}
+	});
+	
 	$('#article-table tbody').on('click', 'tr', function(event) {
 		articleList.selectedArticle = $(this).children().first().text();
 	});
@@ -45,8 +54,4 @@ $(document).ready(function(){
 		var details = '<p>Nummer: ' + article.number + ', Name: ' + article.name + ', Preis: ' + article.price + '</p>';
 		$('#article-details').html(details);
 	});
-	
-	articleList.addArticle(new article_cl(1, 'HN-Cappy', 4.50));
-	articleList.addArticle(new article_cl(2, 'HN-T-Shirt', 6.99));
-	articleList.addArticle(new article_cl(3, 'HN-Cup', 3.50));
 });
