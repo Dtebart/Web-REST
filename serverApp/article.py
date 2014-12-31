@@ -14,20 +14,20 @@ class Article(object):
     #-------------------------------------
     def __init__(self):
     #-------------------------------------
-        self.database_obj = database.Database("data\\")
+        self.database_obj = database.Database("data\\articles\\")
         
         article1_dict = {"number" : 1, "name" : "HN-Cappy", "price": 3.50}
         article2_dict = {"number" : 2, "name" : "HN-T-Shirt", "price": 7.99}
         article3_dict = {"number" : 3, "name" : "HN-Cup", "price": 2.50}
         
-        self.database_obj.insertFile(article1_dict)
-        self.database_obj.insertFile(article2_dict)
-        self.database_obj.insertFile(article3_dict)
+        self.database_obj.insertFile(article1_dict, str(article1_dict["number"]))
+        self.database_obj.insertFile(article2_dict, str(article2_dict["number"]))
+        self.database_obj.insertFile(article3_dict, str(article3_dict["number"]))
     
     #-------------------------------------
     def index(self):
     #-------------------------------------
-        file_list = os.listdir("data")
+        file_list = os.listdir(self.database_obj.rootdir_str)
         article_list = []
         
         for article_file in file_list:
