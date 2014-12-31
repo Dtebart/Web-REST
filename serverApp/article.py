@@ -27,12 +27,11 @@ class Article(object):
     #-------------------------------------
     def index(self):
     #-------------------------------------
-        print("index-methode")
         file_list = os.listdir("data")
         article_list = []
         
         for article_file in file_list:
-            if article_file.endswith(".json"):
+            if article_file.endswith(".json") and not article_file.startswith("detail"):
                 article_obj = self.database_obj.readFile(article_file[:-5])
                 article_list.append(article_obj)    
         return str(article_list)
@@ -40,14 +39,21 @@ class Article(object):
     index.exposed = True
     
     #-------------------------------------
-    def get_article(self, articleId):
+    def get_article(self, article_id):
     #-------------------------------------
-        pass
+        article_detail_obj = self.database_obj.readFile("detail" + str(article_id))
+        
+        print(str(article_detail_obj))
+        return str(article_detail_obj)
     
     get_article.exposed = True
     
     #-------------------------------------
-    #def __getattr__(self, name):
+    def __getattr__(self, name):
     #-------------------------------------
-    #   cherrypy.request.params['articleId'] = name
-    #   return 0
+        try:
+            name = int(name)
+            cherrypy.request.params["article_id"] = name
+            return self.get_article            
+        except:
+            raise AttributeError("%r object has no attribute %r" % (self.__class__.__name__, name))
