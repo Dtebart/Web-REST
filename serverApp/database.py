@@ -13,9 +13,9 @@ class Database(object):
         self.rootdir_str = rootdir_str   
         
     #-------------------------------------
-    def insertFile(self, userData):
+    def insertFile(self, userData, fileName):
     #-------------------------------------
-        json_file = open(self.rootdir_str + str(userData["number"]) + ".json", "w+")
+        json_file = open(self.rootdir_str + fileName + ".json", "w+")
         json.dump(userData, json_file)
         json_file.close()
         
@@ -30,9 +30,9 @@ class Database(object):
         return json_obj        
     
     #-------------------------------------
-    def editFile(self, userData):
+    def editFile(self, userData, fileName):
     #-------------------------------------
-        json_file = open(self.rootdir_str + userData["id"] + ".json", "w+")
+        json_file = open(self.rootdir_str + fileName + ".json", "w+")
         json.dump(userData, json_file)
         json_file.close()
     

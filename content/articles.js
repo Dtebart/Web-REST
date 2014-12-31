@@ -1,10 +1,11 @@
 var list = [];
-articleList = new articleList_cl(list);
+var articleList = new articleList_cl(list);
 
 function article_cl (number, name, price){
 	this.number = number;
 	this.name = name;
 	this.price = price;
+	this.updateArticleView = updateArticleView;
 }
 
 function articleList_cl (list)  {
@@ -16,13 +17,7 @@ function articleList_cl (list)  {
 
 function addArticle(article){
 	this.list.push(article);
-	
-	var articleElem = $('<tr></tr>');
-	$('#article-table tbody').append(articleElem);
-	
-	var numberElem = articleElem.append('<td>' + article.number + '</td>');
-	var nameElem = articleElem.append('<td>' + article.name + '</td>');
-	var priceElem = articleElem.append('<td>' + article.price + '</td>');
+	updateArticleView(article);
 }
 
 function getSelectedArticle(){
@@ -32,6 +27,15 @@ function getSelectedArticle(){
 			return this.list[i];
 		}
 	}
+}
+
+function updateArticleView(article){
+	var articleElem = $('<tr></tr>');
+	$('#article-table tbody').append(articleElem);
+	
+	var numberElem = articleElem.append('<td>' + article.number + '</td>');
+	var nameElem = articleElem.append('<td>' + article.name + '</td>');
+	var priceElem = articleElem.append('<td>' + article.price + '</td>');
 }
 
 $(document).ready(function(){
@@ -56,8 +60,30 @@ $(document).ready(function(){
 		    var articleDetails_obj = JSON.parse(articleDetails_str);
 			
 			var details = '<p>Nummer: ' + article.number.toString() + ', Name: ' + article.name + ', Preis: ' + article.price.toString() + '</p>' + articleDetails_obj["article-description"];
-			console.log(details);
 			$('#article-details').html(details);
 		});
+	});
+	
+	$('#into-consumer-basket-button').click(function() {
+		var article = articleList.getSelectedArticle();
+		
+		if (consumerbasket === undefined){
+			$.post('consumerbasket/', JSON.parse(JSON.stringify(article)), function(data, status){
+				var consumerbasket_str = data.replace(/'/g, '"');
+		        var consumerbasket_obj = JSON.parse(consumerbasket_str);
+				
+				consumerbasket = new consumerbasket_cl(consumerbasket_obj["id"], 1, article.price);
+				consumerbasket.updateBasketView();
+			});
+		}
+		else{
+			$.ajax({
+				url: 'consumerbasket/' + consumerbasket.id,
+				type: 'PUT',
+				data: article,
+				success: function(data, status) {
+				}
+			});
+		}
 	});
 });
