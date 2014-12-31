@@ -36,13 +36,13 @@ function getSelectedArticle(){
 
 $(document).ready(function(){
 	
-	$.get('article', function(data, status){
-		var articleList_str = data.replace(/'/g, '"');
-		var articleList_json = JSON.parse(articleList_str);
-		
-		for (var i = 0; i < articleList_json.length; i++){
-			articleList.addArticle(articleList_json[i]);
-		}
+	$.get('article/', function(data, status){
+			var articleList_str = data.replace(/'/g, '"');
+			var articleList_json = JSON.parse(articleList_str);
+			
+			for (var i = 0; i < articleList_json.length; i++){
+				articleList.addArticle(articleList_json[i]);
+			}
 	});
 	
 	$('#article-table tbody').on('click', 'tr', function(event) {
@@ -51,7 +51,13 @@ $(document).ready(function(){
 
 	$('#show-article-button').click(function() {
 		var article = articleList.getSelectedArticle();
-		var details = '<p>Nummer: ' + article.number + ', Name: ' + article.name + ', Preis: ' + article.price + '</p>';
-		$('#article-details').html(details);
+		$.get('article/' + article.number, function (data, status){
+			var articleDetails_str = data.replace(/'/g, '"');
+		    var articleDetails_obj = JSON.parse(articleDetails_str);
+			
+			var details = '<p>Nummer: ' + article.number.toString() + ', Name: ' + article.name + ', Preis: ' + article.price.toString() + '</p>' + articleDetails_obj["article-description"];
+			console.log(details);
+			$('#article-details').html(details);
+		});
 	});
 });

@@ -18,7 +18,7 @@ class Database(object):
         json_file = open(self.rootdir_str + str(userData["number"]) + ".json", "w+")
         json.dump(userData, json_file)
         json_file.close()
-    
+        
     #-------------------------------------
     def readFile(self, fileName):
     #-------------------------------------
