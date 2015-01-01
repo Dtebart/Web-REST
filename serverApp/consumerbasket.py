@@ -2,6 +2,7 @@
 
 import cherrypy
 import json
+import re
 from serverApp import database
 
 #-------------------------------------
@@ -23,7 +24,7 @@ class Consumerbasket(object):
         
         article_data = cherrypy.request.body.params       
         
-        consumerbasket_data = {"id": self.last_id, "articleAmount" : 1, "price": article_data["price"]}
+        consumerbasket_data = {"id": self.last_id, "articleAmount" : 1, "price": float(article_data["price"])}
         self.database_obj.insertFile(consumerbasket_data, str(self.last_id))
         
         return str(id_data)
@@ -31,9 +32,18 @@ class Consumerbasket(object):
     index.exposed = True
     
     #-------------------------------------
-    def get_consumerbasket(self, consumerbasket_id):
+    def get_consumerbasket(self, consumerbasket_id, *arglist, **kwargs):
     #-------------------------------------
-        return 0
+        article_data = cherrypy.request.body.params
+        consumerbasket_data = self.database_obj.readFile(str(consumerbasket_id))
+        
+        # Rewrite basket-data
+        consumerbasket_data = {"id": consumerbasket_data["id"],
+                               "articleAmount": consumerbasket_data["articleAmount"] + 1,
+                               "price": float(consumerbasket_data["price"]) + float(article_data["price"])}
+        self.database_obj.editFile(consumerbasket_data, str(consumerbasket_data["id"]))
+        
+        return re.sub("'", "\"", str(consumerbasket_data))
     
     get_consumerbasket.exposed = True
         

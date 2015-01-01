@@ -81,8 +81,11 @@ $(document).ready(function(){
 				url: 'consumerbasket/' + consumerbasket.id,
 				type: 'PUT',
 				data: article,
-				success: function(data, status) {
-				}
+				dataType: 'json',
+			}).done(function (basket_obj){
+				consumerbasket.price = basket_obj.price;
+				consumerbasket.articleAmount = basket_obj.articleAmount;
+				updateBasketView();
 			});
 		}
 	});
