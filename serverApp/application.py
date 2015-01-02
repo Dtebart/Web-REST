@@ -3,6 +3,8 @@
 import cherrypy
 import json
 import os
+from serverApp import article
+from serverApp import consumerbasket
 
 #-------------------------------------
 class Application_cl(object):
@@ -12,7 +14,8 @@ class Application_cl(object):
     def __init__(self):
     #-------------------------------------
         # constructor
-        pass
+        self.article = article.Article()
+        self.consumerbasket = consumerbasket.Consumerbasket()
     
     #-------------------------------------
     def default(self, *arglist, **kwargs):
