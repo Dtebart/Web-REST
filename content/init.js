@@ -63,7 +63,7 @@ $(document).ready(function(){
 	});
 	
 	$('#confirm-purchase-button').click(function(event){
-		navigator_obj.showView('#start-view');
+		navigator_obj.showSubview('#purchase-results-subview');
 	});
 	
 	$('#cancel-button').click(function(event){
@@ -72,5 +72,9 @@ $(document).ready(function(){
 	
 	$('#show-consumer-basket-view-button').click(function(event){
 		navigator_obj.showView('#consumer-basket-view');
+	});
+	
+	$('#complete-purchase-button').click(function (event){
+		navigator_obj.showView('#start-view');
 	});
 });
