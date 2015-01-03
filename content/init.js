@@ -19,7 +19,9 @@ function initButtons(){
 	});
 	
 	$('#confirm-purchase-button').click(function(event){
-		navigator_obj.showSubview('#purchase-results-subview');
+		$.post('customer/', JSON.parse(JSON.stringify(customer)), function(data, status){
+			navigator_obj.showSubview('#purchase-results-subview');
+		});
 	});
 	
 	$('#cancel-button').click(function(event){
