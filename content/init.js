@@ -1,4 +1,10 @@
+eventService = new EventService_cl();
+function createObserver(){
+	eventService.subscribe_px(confirmPurchaseView, 'consumer-basket-price-change');
+}
+
 $(document).ready(function(){
+	createObserver();
 
 	$.get('article/', function(data, status){
 			var articleList_str = data.replace(/'/g, '"');
@@ -32,7 +38,7 @@ $(document).ready(function(){
 				var consumerbasket_str = data.replace(/'/g, '"');
 		        var consumerbasket_obj = JSON.parse(consumerbasket_str);
 				
-				consumerbasket = new consumerbasket_cl(consumerbasket_obj["id"], 1, article.price);
+				consumerbasket = new Consumerbasket_cl(consumerbasket_obj["id"], 1, article.price);
 				consumerbasket.updateBasketView();
 			});
 		}
@@ -43,7 +49,7 @@ $(document).ready(function(){
 				data: article,
 				dataType: 'json',
 			}).done(function (basket_obj){
-				consumerbasket.price = basket_obj.price;
+				consumerbasket.setPrice(basket_obj.price);
 				consumerbasket.articleAmount = basket_obj.articleAmount;
 				updateBasketView();
 			});

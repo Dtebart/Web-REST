@@ -1,14 +1,14 @@
 var list = [];
-var articleList = new articleList_cl(list);
+var articleList = new ArticleList_cl(list);
 
-function article_cl (number, name, price){
+function Article_cl (number, name, price){
 	this.number = number;
 	this.name = name;
 	this.price = price;
 	this.updateArticleView = updateArticleView;
 }
 
-function articleList_cl (list)  {
+function ArticleList_cl (list)  {
 	this.list = list;
 	this.selectedArticle = null;
 	this.addArticle = addArticle;
