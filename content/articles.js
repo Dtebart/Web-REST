@@ -64,29 +64,5 @@ $(document).ready(function(){
 		});
 	});
 	
-	$('#into-consumer-basket-button').click(function() {
-		var article = articleList.getSelectedArticle();
-		
-		if (consumerbasket === undefined){
-			$.post('consumerbasket/', JSON.parse(JSON.stringify(article)), function(data, status){
-				var consumerbasket_str = data.replace(/'/g, '"');
-		        var consumerbasket_obj = JSON.parse(consumerbasket_str);
-				
-				consumerbasket = new consumerbasket_cl(consumerbasket_obj["id"], 1, article.price);
-				consumerbasket.updateBasketView();
-			});
-		}
-		else{
-			$.ajax({
-				url: 'consumerbasket/' + consumerbasket.id,
-				type: 'PUT',
-				data: article,
-				dataType: 'json',
-			}).done(function (basket_obj){
-				consumerbasket.price = basket_obj.price;
-				consumerbasket.articleAmount = basket_obj.articleAmount;
-				updateBasketView();
-			});
-		}
-	});
+
 });
