@@ -45,8 +45,13 @@ class Consumerbasket(object):
 				
             self.database_obj.editFile(consumerbasket_data, str(consumerbasket_data["id"]))
 
-        else if cherrypy.request.method == "DELETE":
+        elif cherrypy.request.method == "DELETE":
             self.database_obj.deleteFile({"id": cherrypy.request.params["consumerbasket_id"]})
+
+        elif cherrypy.request.method == "GET":
+            consumerbasket_data = str(self.database_obj.readFile(str(consumerbasket_id))) 
+            return consumerbasket_data
+			
     get_consumerbasket.exposed = True
 	
     #-------------------------------------
