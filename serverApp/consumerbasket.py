@@ -24,7 +24,7 @@ class Consumerbasket(object):
         
         article_data = cherrypy.request.body.params       
         
-        consumerbasket_data = {"id": self.last_id, "articleAmount" : 1, "price": float(article_data["price"])}
+        consumerbasket_data = {"id": self.last_id, "articles": {str(article_data["number"]):{"name":article_data["name"], "price":article_data["price"], "quantity": 1}}}
         self.database_obj.insertFile(consumerbasket_data, str(self.last_id))
         
         return str(id_data)
@@ -33,23 +33,25 @@ class Consumerbasket(object):
     
     #-------------------------------------
     def get_consumerbasket(self, consumerbasket_id, *arglist, **kwargs):
-    #-------------------------------------
+    #-------------------------------------	
         article_data = cherrypy.request.body.params
-        consumerbasket_data = self.database_obj.readFile(str(consumerbasket_id))
-        
-        # Rewrite basket-data
-        consumerbasket_data = {"id": consumerbasket_data["id"],
-                               "articleAmount": consumerbasket_data["articleAmount"] + 1,
-                               "price": float(consumerbasket_data["price"]) + float(article_data["price"])}
-        self.database_obj.editFile(consumerbasket_data, str(consumerbasket_data["id"]))
-        
-        return re.sub("'", "\"", str(consumerbasket_data))
-    
+        if cherrypy.request.method == "PUT":
+            consumerbasket_data = self.database_obj.readFile(str(consumerbasket_id))        
+            # Rewrite basket-data
+            if article_data["number"] in consumerbasket_data["articles"]:
+                consumerbasket_data["articles"][article_data["number"]]["quantity"]+=1
+            else:
+                consumerbasket_data["articles"][article_data["number"]] = {"name":article_data["name"], "price":article_data["price"], "quantity": 1}	
+				
+            self.database_obj.editFile(consumerbasket_data, str(consumerbasket_data["id"]))
+
+        else if cherrypy.request.method == "DELETE":
+            self.database_obj.deleteFile({"id": cherrypy.request.params["consumerbasket_id"]})
     get_consumerbasket.exposed = True
-        
+	
     #-------------------------------------
     def __getattr__(self, name):
-    #-------------------------------------
+    #-------------------------------------      		
         try:
             name = int(name)
             cherrypy.request.params["consumerbasket_id"] = name

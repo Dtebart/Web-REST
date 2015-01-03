@@ -14,6 +14,8 @@ function basket_cl (list)  {
 	this.countArticle = countArticle;
 	this.getprice = getprice;
 	this.refresh = basketRefresh;
+	this.online = false;
+	this.id = 0;
 	
 }
 
@@ -62,11 +64,39 @@ function getprice() {
 	}
 	return price;
 }
+	$(document).ready(function(){
+	$('#add-to-basket').click(function() {
+		var article = articleList.getSelectedArticle();
+		
+		if (basket.online === false){
+			$.post('consumerbasket/', JSON.parse(JSON.stringify(article)), function(data, status){
+				var consumerbasket_str = data.replace(/'/g, '"');
+		        var consumerbasket_obj = JSON.parse(consumerbasket_str);
+				
+				basket.id = consumerbasket_obj["id"];
+				basket.online = true;
+				basket.addArticle(article);
+				basket.refresh();
+			});
+		}
+		else{
+			$.ajax({
+				url: 'consumerbasket/' + basket.id,
+				type: 'PUT',
+				data: article,
+				dataType: 'json',
+			}).done(function (basket_obj){
+				basket.addArticle(article);
+				basket.refresh();
+			});
+		}
+	});
+});
 
-$(document).ready(function(){
+/*$(document).ready(function(){
 	$('#add-to-basket').click(function() {
 		var article = articleList.getSelectedArticle();
 		basket.addArticle(article);
 		basket.refresh();
 	});
-});
+});*/
