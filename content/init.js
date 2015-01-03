@@ -1,6 +1,38 @@
 eventService = new EventService_cl();
 function createObserver(){
 	eventService.subscribe_px(confirmPurchaseView, 'consumer-basket-price-change');
+	eventService.subscribe_px(confirmPurchaseView, 'customer-lastName-change');
+	eventService.subscribe_px(confirmPurchaseView, 'customer-firstName-change');
+}
+
+function initButtons(){
+	$('#consumer-basket').click(function (event){
+		navigator_obj.showView('#consumer-basket-view');
+	});
+	
+	$('#show-overview-button').click(function (event){
+		navigator_obj.showView('#start-view');
+	});
+	
+	$('#show-purchase-button').click(function(event){
+		navigator_obj.showView('#confirm-purchase-view');
+	});
+	
+	$('#confirm-purchase-button').click(function(event){
+		navigator_obj.showSubview('#purchase-results-subview');
+	});
+	
+	$('#cancel-button').click(function(event){
+		navigator_obj.showView('#start-view');
+	});
+	
+	$('#show-consumer-basket-view-button').click(function(event){
+		navigator_obj.showView('#consumer-basket-view');
+	});
+	
+	$('#complete-purchase-button').click(function (event){
+		navigator_obj.showView('#start-view');
+	});
 }
 
 $(document).ready(function(){
@@ -56,31 +88,13 @@ $(document).ready(function(){
 		}
 	});
 	
-	$('#consumer-basket').click(function (event){
-		navigator_obj.showView('#consumer-basket-view');
-	});
+	initButtons();
 	
-	$('#show-overview-button').click(function (event){
-		navigator_obj.showView('#start-view');
+	$('#lastname-textbox').focusout(function (event){
+		customer.setLastName(event.target.value);
 	});
-	
-	$('#show-purchase-button').click(function(event){
-		navigator_obj.showView('#confirm-purchase-view');
-	});
-	
-	$('#confirm-purchase-button').click(function(event){
-		navigator_obj.showSubview('#purchase-results-subview');
-	});
-	
-	$('#cancel-button').click(function(event){
-		navigator_obj.showView('#start-view');
-	});
-	
-	$('#show-consumer-basket-view-button').click(function(event){
-		navigator_obj.showView('#consumer-basket-view');
-	});
-	
-	$('#complete-purchase-button').click(function (event){
-		navigator_obj.showView('#start-view');
+
+	$('#firstname-textbox').focusout(function (event){
+		customer.setFirstName(event.target.value);
 	});
 });
