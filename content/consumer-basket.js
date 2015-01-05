@@ -20,5 +20,5 @@ function updateBasketView(){
 
 function setPrice(price){
 	this.price = price;
-	eventService.publish_px('consumer-basket-price-change', price);
+	
 }

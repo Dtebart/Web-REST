@@ -10,20 +10,37 @@ basketArticle_cl.prototype = Article_cl;
 
 function basket_cl (list)  {
 	this.list = list;
+	this.id = 0;
+	this.totalPrice = 0;
+	this.online = false;
+	
+	this.setTotalPrice = setTotalPrice;
+	this.setQuantityOfArticle = setQuantityOfArticle;
+	
 	this.addArticle = addArticletoBasket;
+	this.deleteArticle = deleteArticle;
 	this.countArticle = countArticle;
 	this.getprice = getprice;
-	this.deleteArticle = deleteArticle;
 	this.refresh = basketRefresh;
 	this.getselectedArticle = getSelectedBasketArticle;
-	this.online = false;
-	this.id = 0;
-	this.selectedArticle = undefined;
 	this.sendUpdate = sendUpdate;
-	
+	this.selectedArticle = undefined;
+}
+
+function setTotalPrice(totalPrice){
+	console.log(totalPrice);
+	this.totalPrice = totalPrice;
+	eventService.publish_px('consumer-basket-price-change', totalPrice);
+}
+
+function setQuantityOfArticle(article, newQuantity){
+	var priceDifference = (newQuantity - article.quantity) * article.price;
+	this.setTotalPrice(this.totalPrice + priceDifference);
+	article.quantity = newQuantity;
 }
 
 function addArticletoBasket(article){
+	this.setTotalPrice(this.totalPrice + article.price);
 	for (i = 0; i < basket_list.length; i++)
 	{
 		if (article.number == basket_list[i].number)
@@ -31,11 +48,24 @@ function addArticletoBasket(article){
 			basket_list[i].quantity++;
 			return 1;
 		}
-			
 	}
 	basketArticle = new basketArticle_cl(article.number, article.name, article.price);
 	basket_list.push(basketArticle);
 	return 0;	
+}
+
+function deleteArticle()
+{
+	for (i = 0; i < basket_list.length; i++)
+	{
+		article = basket.getselectedArticle();
+		if (article.number == basket_list[i].number)
+		{
+			basket_list.splice(i,1)
+			this.setTotalPrice(this.totalPrice - article.price);
+			return 1;
+		}
+	}
 }
 
 function basketRefresh(){
@@ -55,20 +85,6 @@ function getSelectedBasketArticle(){
 		if (this.list[i].name == this.selectedArticle.slice(1, this.selectedArticle.length)){
 			return this.list[i];
 		}
-	}
-}
-
-function deleteArticle()
-{
-	for (i = 0; i < basket_list.length; i++)
-	{
-		article = basket.getselectedArticle();
-		if (article.number == basket_list[i].number)
-		{
-			basket_list.splice(i,1)
-			return 1;
-		}
-			
 	}
 }
 
@@ -140,7 +156,7 @@ function sendUpdate(article) {
 		var article = basket.getselectedArticle();
 		if (article.quantity < 9)
 		{
-			article.quantity+=1;
+			basket.setQuantityOfArticle(article, article.quantity + 1);
 		}
 		basket.sendUpdate(article);
 		basket.refresh();
@@ -148,9 +164,9 @@ function sendUpdate(article) {
 		
 	$('#remove-quantity').click(function() {
 		var article = basket.getselectedArticle();
-		if (article.quantity > 2)
+		if (article.quantity > 1)
 		{
-			article.quantity-=1;
+			basket.setQuantityOfArticle(article, article.quantity - 1);
 		}
 		basket.sendUpdate(article);
 		basket.refresh();
@@ -170,14 +186,5 @@ function sendUpdate(article) {
 		article["quantity"] = getQuantityofArticle(article);
 		basket.refresh();
 		basket.sendUpdate(article);
-
 	});
 });
-
-/*$(document).ready(function(){
-	$('#add-to-basket').click(function() {
-		var article = articleList.getSelectedArticle();
-		basket.addArticle(article);
-		basket.refresh();
-	});
-});*/
