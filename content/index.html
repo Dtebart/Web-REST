@@ -36,7 +36,16 @@
 			
 			<div id = "consumer-basket">
 				<p> Warenkorb: </p>
-
+				<ul>
+					<li id = "basket-article-number"> Anzahl an Artikeln: </li>
+					<li id = "basket-price"> Gesamtpreis: </li>
+				<ul id = "consumer-basket-info">
+				</ul>
+			</div>
+		</div>
+		
+		<div id = "consumer-basket-view">
+			<h1>Warenkorb</h1>
 				<table id = "basket-table">
 					<thead>
 						<tr>
@@ -48,15 +57,13 @@
 					<tbody id = "basket-entries">
 					</tbody>
 				</table>
-				<ul>
-					<li id = "basket-article-number"> Anzahl an Artikeln: </li>
-					<li id = "basket-price"> Gesamtpreis: </li>
-				<ul id = "consumer-basket-info">
-				</ul>
-			</div>
-		</div>
-		
-		<div id = "consumer-basket-view">
+				<p>
+					<button type = "button" id = "add-quantity">+</button>
+					<button type = "button" id = "remove-quantity">-</button>
+					<button type = "button" id = "delete-from-basket">ausgewählten Fan-Artikel entfernen</button>
+				</p>
+				<button type = "button" id = "show-purchase-button">Kaufen</button>
+				<button type = "button" id = "show-overview-button">Zurück</button>
 		</div>
 		
 		<div id = "confirm-purchase-view">
