@@ -1,10 +1,13 @@
 var consumerbasket = undefined;
 
-function consumerbasket_cl(id, articleAmount, price){
+function Consumerbasket_cl(id, articleAmount, price){
 	this.id = id;
 	this.articleAmount = articleAmount;
 	this.price = price;
 	this.updateBasketView = updateBasketView;
+	
+	this.setPrice = setPrice;
+	eventService.publish_px('consumer-basket-price-change', price);
 }
 
 function updateBasketView(){
@@ -13,4 +16,9 @@ function updateBasketView(){
 	
 	$('#consumer-basket-info').empty();
 	$('#consumer-basket-info').append(articleAmountElem, priceElem);
+}
+
+function setPrice(price){
+	this.price = price;
+	eventService.publish_px('consumer-basket-price-change', price);
 }

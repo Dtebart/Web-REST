@@ -37,10 +37,10 @@ class Consumerbasket(object):
         if cherrypy.request.method == "PUT":
             cl = cherrypy.request.headers['Content-Length']
             rawbody = cherrypy.request.body.read(int(cl))
-            body = json.loads(str(rawbody)[2:-1])
-            self.database_obj.editFile(body, str(body["id"]))
+            basket_json = json.loads(str(rawbody)[2:-1])
+            self.database_obj.editFile(basket_json, str(basket_json["id"]))
         
-            return re.sub("'", "\"", str(body))
+            return re.sub("'", "\"", str(basket_json))
 
         elif cherrypy.request.method == "DELETE":
             self.database_obj.deleteFile({"id": cherrypy.request.params["consumerbasket_id"]})
