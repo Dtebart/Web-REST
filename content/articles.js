@@ -52,6 +52,10 @@ $(document).ready(function(){
 	$('#article-table tbody').on('click', 'tr', function(event) {
 		articleList.selectedArticle = $(this).children().first().text();
 	});
+	
+	$('#basket-table tbody').on('click', 'tr', function(event) {
+		basket.selectedArticle = $(this).children().first().text();
+	});
 
 	$('#show-article-button').click(function() {
 		var article = articleList.getSelectedArticle();
