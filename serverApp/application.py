@@ -5,6 +5,7 @@ import json
 import os
 from serverApp import article
 from serverApp import consumerbasket
+from serverApp import customer
 
 #-------------------------------------
 class Application_cl(object):
@@ -16,6 +17,7 @@ class Application_cl(object):
         # constructor
         self.article = article.Article()
         self.consumerbasket = consumerbasket.Consumerbasket()
+        self.customer = customer.Customer()
     
     #-------------------------------------
     def default(self, *arglist, **kwargs):

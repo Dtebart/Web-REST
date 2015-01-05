@@ -4,9 +4,9 @@ var basket = new basket_cl(basket_list);
 function basketArticle_cl(number, name, price)
 {
 	this.quantity = 1;
-	article_cl.call(this, number, name, price);
+	Article_cl.call(this, number, name, price);
 }
-basketArticle_cl.prototype = article_cl;
+basketArticle_cl.prototype = Article_cl;
 
 function basket_cl (list)  {
 	this.list = list;
