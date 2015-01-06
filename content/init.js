@@ -1,4 +1,23 @@
-eventService = new EventService_cl();
+var eventService;
+
+var list = [];
+var articleList;
+
+var basket_list = [];
+var basket;
+var customer;
+var order;
+
+function initObjects(){
+	eventService = new EventService_cl();
+	
+	articleList = new ArticleList_cl(list);
+	
+	basket = new basket_cl(basket_list);
+	customer = new Customer_cl('', '');
+	order = new Order_cl(customer, basket);
+}
+
 function createObserver(){
 	eventService.subscribe_px(confirmPurchaseView, 'consumer-basket-price-change');
 	eventService.subscribe_px(confirmPurchaseView, 'customer-lastName-change');
@@ -15,6 +34,15 @@ function initButtons(){
 	});
 	
 	$('#show-purchase-button').click(function(event){
+		if (order.id === undefined){
+			$.post('order/', JSON.parse(JSON.stringify(order)))
+				.done(function (data, textStatus, jqXHR){
+					answer_obj = JSON.parse(data);
+					order.id = answer_obj['id'];
+				})
+				.fail(function (jqXHR, textStatus, errorThrown){
+				});
+		}
 		navigator_obj.showView('#confirm-purchase-view');
 	});
 	
@@ -38,6 +66,7 @@ function initButtons(){
 }
 
 $(document).ready(function(){
+	initObjects();
 	createObserver();
 
 	$.get('article/', function(data, status){
@@ -67,32 +96,6 @@ $(document).ready(function(){
 			$('#article-details').html(details);
 		});
 	});
-	
-	/*$('#into-consumer-basket-button').click(function() {
-		var article = articleList.getSelectedArticle();
-		
-		if (consumerbasket === undefined){
-			$.post('consumerbasket/', JSON.parse(JSON.stringify(article)), function(data, status){
-				var consumerbasket_str = data.replace(/'/g, '"');
-		        var consumerbasket_obj = JSON.parse(consumerbasket_str);
-				
-				consumerbasket = new Consumerbasket_cl(consumerbasket_obj["id"], 1, article.price);
-				consumerbasket.updateBasketView();
-			});
-		}
-		else{
-			$.ajax({
-				url: 'consumerbasket/' + consumerbasket.id,
-				type: 'PUT',
-				data: article,
-				dataType: 'json',
-			}).done(function (basket_obj){
-				consumerbasket.setPrice(basket_obj.price);
-				consumerbasket.articleAmount = basket_obj.articleAmount;
-				updateBasketView();
-			});
-		}
-	});*/
 	
 	initButtons();
 	

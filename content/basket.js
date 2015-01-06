@@ -1,7 +1,4 @@
-﻿var basket_list = [];
-var basket = new basket_cl(basket_list);
-
-function basketArticle_cl(number, name, price)
+﻿function basketArticle_cl(number, name, price)
 {
 	this.quantity = 1;
 	Article_cl.call(this, number, name, price);
@@ -28,7 +25,6 @@ function basket_cl (list)  {
 }
 
 function setTotalPrice(totalPrice){
-	console.log(totalPrice);
 	this.totalPrice = totalPrice;
 	eventService.publish_px('consumer-basket-price-change', totalPrice);
 }

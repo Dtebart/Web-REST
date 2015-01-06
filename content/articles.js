@@ -1,6 +1,3 @@
-var list = [];
-var articleList = new ArticleList_cl(list);
-
 function Article_cl (number, name, price){
 	this.number = number;
 	this.name = name;

@@ -1,20 +1,20 @@
 #coding utf-8
-import re
+
 import cherrypy
 
 from serverApp import database
 from json import encoder
 
 #-------------------------------------
-class Customer(object):
+class Order(object):
 #-------------------------------------
     
     #-------------------------------------
     def __init__(self):
     #-------------------------------------
-        self.database_obj = database.Database("data\\customer\\")
+        self.database_obj = database.Database("data\\orders\\")
         self.last_id = self.database_obj.readFile("id")["id"]
-        
+    
     #-------------------------------------
     def index(self, *arglist, **kwargs):
     #-------------------------------------
@@ -23,9 +23,9 @@ class Customer(object):
         id_data = {"id": self.last_id}
         self.database_obj.editFile(id_data, "id")
         
-        customer_obj = cherrypy.request.body.params
-        self.database_obj.insertFile(customer_obj, str(self.last_id))
+        order_obj = cherrypy.request.body.params
+        self.database_obj.insertFile(order_obj, str(self.last_id))
         
         return encoder.JSONEncoder().encode(id_data)
-    
+        
     index.exposed = True

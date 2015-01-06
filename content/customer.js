@@ -1,5 +1,3 @@
-var customer = new Customer_cl('', '');
-
 function Customer_cl(firstName, lastName){
 	this.firstName = firstName;
 	this.lastName = lastName;
