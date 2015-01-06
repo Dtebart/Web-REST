@@ -1,6 +1,7 @@
 #coding utf-8
 
 import cherrypy
+import json
 
 from serverApp import database
 from json import encoder
@@ -29,3 +30,26 @@ class Order(object):
         return encoder.JSONEncoder().encode(id_data)
         
     index.exposed = True
+    
+    #-------------------------------------
+    def update(self, order_id, *args, **kwargs):
+    #-------------------------------------
+        cl = cherrypy.request.headers['Content-Length']
+        rawbody = cherrypy.request.body.read(int(cl))
+        order_obj = json.loads(str(rawbody)[2:-1])    
+        
+        self.database_obj.editFile(order_obj, str(order_id))
+        
+        return encoder.JSONEncoder().encode(order_obj)
+    
+    update.exposed = True
+    
+    #-------------------------------------
+    def __getattr__(self, name):
+    #-------------------------------------      		
+        try:
+            name = int(name)
+            cherrypy.request.params["order_id"] = name
+            return self.update
+        except:
+            raise AttributeError("%r object has no attribute %r" % (self.__class__.__name__, name))    

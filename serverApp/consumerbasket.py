@@ -33,7 +33,6 @@ class Consumerbasket(object):
     #-------------------------------------
     def get_consumerbasket(self, consumerbasket_id, *arglist, **kwargs):
     #-------------------------------------	
-        basket_data = cherrypy.request.body.params
         if cherrypy.request.method == "PUT":
             cl = cherrypy.request.headers['Content-Length']
             rawbody = cherrypy.request.body.read(int(cl))
@@ -48,7 +47,7 @@ class Consumerbasket(object):
         elif cherrypy.request.method == "GET":
             consumerbasket_data = str(self.database_obj.readFile(str(consumerbasket_id))) 
 
-            return consumerbasket_data
+        return consumerbasket_data
     get_consumerbasket.exposed = True
 	
     #-------------------------------------

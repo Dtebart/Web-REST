@@ -34,22 +34,23 @@ function initButtons(){
 	});
 	
 	$('#show-purchase-button').click(function(event){
-		if (order.id === undefined){
-			$.post('order/', JSON.parse(JSON.stringify(order)))
-				.done(function (data, textStatus, jqXHR){
-					answer_obj = JSON.parse(data);
-					order.id = answer_obj['id'];
-				})
-				.fail(function (jqXHR, textStatus, errorThrown){
-				});
-		}
+		order.send();
 		navigator_obj.showView('#confirm-purchase-view');
 	});
 	
 	$('#confirm-purchase-button').click(function(event){
-		$.post('customer/', JSON.parse(JSON.stringify(customer)), function(data, status){
-			navigator_obj.showSubview('#purchase-results-subview');
-		});
+		if (customer.id == undefined){
+			$.post('customer/', JSON.parse(JSON.stringify(customer)))
+			.done(function(data, textStatus, jqXHR){
+				navigator_obj.showSubview('#purchase-results-subview');
+				
+				answer_obj = JSON.parse(data);
+				customer.id = answer_obj['id'];
+				order.send();
+			})
+			.fail(function (jqXHR, textStatus, errorThrown){
+			});
+		}
 	});
 	
 	$('#cancel-button').click(function(event){
@@ -61,6 +62,7 @@ function initButtons(){
 	});
 	
 	$('#complete-purchase-button').click(function (event){
+		customer = new Customer_cl('', '');
 		navigator_obj.showView('#start-view');
 	});
 }

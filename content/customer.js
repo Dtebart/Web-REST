@@ -1,6 +1,7 @@
 function Customer_cl(firstName, lastName){
 	this.firstName = firstName;
 	this.lastName = lastName;
+	this.id = undefined;
 	this.setFirstName = setFirstName;
 	this.setLastName = setLastName;
 }
