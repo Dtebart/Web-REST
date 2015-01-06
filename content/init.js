@@ -1,9 +1,7 @@
 var eventService;
 
-var list = [];
 var articleList;
 
-var basket_list = [];
 var basket;
 var customer;
 var order;
@@ -11,17 +9,17 @@ var order;
 function initObjects(){
 	eventService = new EventService_cl();
 	
-	articleList = new ArticleList_cl(list);
+	articleList = new ArticleList_cl([]);
 	
-	basket = new basket_cl(basket_list);
+	basket = new Basket_cl([]);
 	customer = new Customer_cl('', '');
 	order = new Order_cl(customer, basket);
 }
 
 function createObserver(){
 	eventService.subscribe_px(confirmPurchaseView, 'consumer-basket-price-change');
-	eventService.subscribe_px(confirmPurchaseView, 'customer-lastName-change');
-	eventService.subscribe_px(confirmPurchaseView, 'customer-firstName-change');
+	eventService.subscribe_px(confirmPurchaseView, 'customer-lastName-set');
+	eventService.subscribe_px(confirmPurchaseView, 'customer-firstName-set');
 }
 
 function initButtons(){
@@ -61,7 +59,21 @@ function initButtons(){
 				dataType: "text"
 				})
 				.done(function (data, textStatus, jqXHR){
-					console.log(textStatus);
+					basket.empty();
+				})
+				.fail(function (jqXHR, textStatus, errorThrown){
+				})
+				.always(function (data, textStatus, jqXHR){
+					navigator_obj.showView('#start-view');
+				});
+		$.ajax({
+				url: 'order/' + order.id,
+				type: 'DELETE',
+				contentType: "application/json",
+				dataType: "text"
+				})
+				.done(function (data, textStatus, jqXHR){
+					customer = new Customer_cl('', '');
 				})
 				.fail(function (jqXHR, textStatus, errorThrown){
 				})
@@ -77,6 +89,40 @@ function initButtons(){
 	$('#complete-purchase-button').click(function (event){
 		customer = new Customer_cl('', '');
 		navigator_obj.showView('#start-view');
+	});
+	
+	$('#add-quantity').click(function() {
+		var article = basket.getselectedArticle();
+		if (article.quantity < 9)
+		{
+			basket.setQuantityOfArticle(article, article.quantity + 1);
+		}
+		basket.sendUpdate(article);
+		basket.refresh();
+	});
+		
+	$('#remove-quantity').click(function() {
+		var article = basket.getselectedArticle();
+		if (article.quantity > 1)
+		{
+			basket.setQuantityOfArticle(article, article.quantity - 1);
+		}
+		basket.sendUpdate(article);
+		basket.refresh();
+	});
+		
+	$('#delete-from-basket').click(function() {
+		basket.deleteArticle();
+		basket.sendUpdate(article);
+		basket.refresh();		
+	});
+
+	$('#add-to-basket').click(function() {
+		var article = articleList.getSelectedArticle();
+		basket.addArticle(article);
+		article["quantity"] = basket.getQuantityofArticle(article);
+		basket.refresh();
+		basket.sendUpdate(article);
 	});
 }
 

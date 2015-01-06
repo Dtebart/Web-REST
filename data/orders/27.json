@@ -1,0 +1,1 @@
+{"customer": {"lastName": "Daniel", "firstName": "Tebart"}, "basket": {"totalPrice": 35.980000000000004, "selectedArticle": " HN-Cappy", "online": true, "id": 67, "list": [{"price": 7.99, "quantity": 2, "name": "HN-T-Shirt", "number": 2}, {"price": 3.5, "quantity": 5, "name": "HN-Cappy", "number": 1}, {"price": 2.5, "quantity": 1, "name": "HN-Cup", "number": 3}]}, "id": 27}
