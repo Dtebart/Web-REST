@@ -43,7 +43,6 @@ class Article(object):
     #-------------------------------------
         article_detail_obj = self.database_obj.readFile("detail" + str(article_id))
         
-        print(str(article_detail_obj))
         return str(article_detail_obj)
     
     get_article.exposed = True
