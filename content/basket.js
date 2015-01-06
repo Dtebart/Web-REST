@@ -82,14 +82,15 @@ function basketRefresh(){
 	$('#basket-entries').empty();
 	for (i = 0; i < this.list.length; i++)
 	{
-		$('#basket-entries').append("<tr> <th> " + this.list[i].name +  "</th><th>" + this.list[i].quantity + "</th>" + "<th>" + this.list[i].price * this.list[i].quantity + "</th> </tr>");
+		$('#basket-entries').append("<tr> <th> "+ this.list[i].number + "</th><th>" + this.list[i].name +  "</th><th>" + this.list[i].quantity + "</th>" + "<th>" + this.list[i].price +  "</th><th>" + this.list[i].price * this.list[i].quantity + "</th> </tr>");
 	}
+	$('#basket-entries').append("<tr> <th> "+ "</th><th>" + "</th>" + "<th>" + "Gesamtpreis:" +  "</th><th>" + this.totalPrice + "</th> </tr>");
 }
 
 function getSelectedBasketArticle(){
 	var article;
-	for (i = 0; i < this.list.length; i++){
-		if (this.list[i].name == this.selectedArticle.slice(1, this.selectedArticle.length)){
+	for (i = 0; i < this.list.length; i++){;
+		if (this.list[i].number == this.selectedArticle.slice(1, this.selectedArticle.length)){
 			return this.list[i];
 		}
 	}
