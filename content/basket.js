@@ -119,8 +119,7 @@ function getprice() {
 function sendUpdate(article) {
 		if (basket.online === false){
 			$.post('consumerbasket/', JSON.parse(JSON.stringify(article)), function(data, status){
-				var consumerbasket_str = data.replace(/'/g, '"');
-		        var consumerbasket_obj = JSON.parse(consumerbasket_str);
+		        var consumerbasket_obj = JSON.parse(data);
 				
 				basket.id = consumerbasket_obj["id"];
 				basket.online = true;				
