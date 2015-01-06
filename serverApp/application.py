@@ -3,9 +3,11 @@
 import cherrypy
 import json
 import os
+
 from serverApp import article
 from serverApp import consumerbasket
 from serverApp import customer
+from serverApp import order
 
 #-------------------------------------
 class Application_cl(object):
@@ -18,6 +20,7 @@ class Application_cl(object):
         self.article = article.Article()
         self.consumerbasket = consumerbasket.Consumerbasket()
         self.customer = customer.Customer()
+        self.order = order.Order()
     
     #-------------------------------------
     def default(self, *arglist, **kwargs):
