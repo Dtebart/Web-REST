@@ -3,6 +3,8 @@
 import cherrypy
 import json
 import re
+
+from json import encoder
 from serverApp import database
 
 #-------------------------------------
@@ -26,29 +28,39 @@ class Consumerbasket(object):
         consumerbasket_data = {"id": self.last_id, "articles": {str(article_data["number"]):{"name":article_data["name"], "price":article_data["price"], "quantity": 1}}}
         self.database_obj.insertFile(consumerbasket_data, str(self.last_id))
         
-        return str(id_data)
+        return encoder.JSONEncoder().encode(id_data)
     
     index.exposed = True
     
     #-------------------------------------
-    def get_consumerbasket(self, consumerbasket_id, *arglist, **kwargs):
+    def get(self, consumerbasket_id, *args, **kwargs):
     #-------------------------------------	
-        if cherrypy.request.method == "PUT":
-            cl = cherrypy.request.headers['Content-Length']
-            rawbody = cherrypy.request.body.read(int(cl))
-            basket_json = json.loads(str(rawbody)[2:-1])
-            self.database_obj.editFile(basket_json, str(basket_json["id"]))
+        consumerbasket_data = self.database_obj.readFile(str(consumerbasket_id))
+
+        return encoder.JSONEncoder().encode(consumerbasket_data)
+    
+    get.exposed = True
+    
+    #-------------------------------------
+    def edit(self, consumerbasket_id, *args, **kwargs):
+    #-------------------------------------
+        cl = cherrypy.request.headers['Content-Length']
+        rawbody = cherrypy.request.body.read(int(cl))
+        consumerbasket_data = json.loads(str(rawbody)[2:-1])
+        self.database_obj.editFile(consumerbasket_data, str(consumerbasket_data["id"]))
         
-            return re.sub("'", "\"", str(basket_json))
-
-        elif cherrypy.request.method == "DELETE":
-            self.database_obj.deleteFile({"id": cherrypy.request.params["consumerbasket_id"]})
-
-        elif cherrypy.request.method == "GET":
-            consumerbasket_data = str(self.database_obj.readFile(str(consumerbasket_id))) 
-
-        return consumerbasket_data
-    get_consumerbasket.exposed = True
+        return encoder.JSONEncoder().encode(consumerbasket_data)   
+    
+    edit.exposed = True
+    
+    #-------------------------------------
+    def delete(self, consumerbasket_id, *args, **kwargs):
+    #-------------------------------------
+        self.database_obj.deleteFile(str(cherrypy.request.params["consumerbasket_id"]))
+        
+        return "success"
+    
+    delete.exposed = True
 	
     #-------------------------------------
     def __getattr__(self, name):
@@ -56,7 +68,13 @@ class Consumerbasket(object):
         try:
             name = int(name)
             cherrypy.request.params["consumerbasket_id"] = name
-            return self.get_consumerbasket
+            
+            if cherrypy.request.method == "GET":
+                return self.get
+            elif cherrypy.request.method == "PUT":
+                return self.edit
+            elif cherrypy.request.method == "DELETE":
+                return self.delete
         except:
             raise AttributeError("%r object has no attribute %r" % (self.__class__.__name__, name))
         

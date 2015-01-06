@@ -37,7 +37,7 @@ class Database(object):
         json_file.close()
     
     #-------------------------------------
-    def deleteFile(self, userData):
+    def deleteFile(self, fileName):
     #-------------------------------------
-        os.remove(self.rootdir_str + userData["id"] + ".json")
+        os.remove(self.rootdir_str + fileName + ".json")
         

@@ -54,7 +54,20 @@ function initButtons(){
 	});
 	
 	$('#cancel-button').click(function(event){
-		navigator_obj.showView('#start-view');
+		$.ajax({
+				url: 'consumerbasket/' + basket.id,
+				type: 'DELETE',
+				contentType: "application/json",
+				dataType: "text"
+				})
+				.done(function (data, textStatus, jqXHR){
+					console.log(textStatus);
+				})
+				.fail(function (jqXHR, textStatus, errorThrown){
+				})
+				.always(function (data, textStatus, jqXHR){
+					navigator_obj.showView('#start-view');
+				});
 	});
 	
 	$('#show-consumer-basket-view-button').click(function(event){
