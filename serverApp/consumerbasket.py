@@ -42,7 +42,7 @@ class Consumerbasket(object):
     get.exposed = True
     
     #-------------------------------------
-    def edit(self, consumerbasket_id, *args, **kwargs):
+    def update(self, consumerbasket_id, *args, **kwargs):
     #-------------------------------------
         cl = cherrypy.request.headers['Content-Length']
         rawbody = cherrypy.request.body.read(int(cl))
@@ -51,7 +51,7 @@ class Consumerbasket(object):
         
         return encoder.JSONEncoder().encode(consumerbasket_data)   
     
-    edit.exposed = True
+    update.exposed = True
     
     #-------------------------------------
     def delete(self, consumerbasket_id, *args, **kwargs):
@@ -72,7 +72,7 @@ class Consumerbasket(object):
             if cherrypy.request.method == "GET":
                 return self.get
             elif cherrypy.request.method == "PUT":
-                return self.edit
+                return self.update
             elif cherrypy.request.method == "DELETE":
                 return self.delete
         except:

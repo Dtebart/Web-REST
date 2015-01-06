@@ -45,11 +45,24 @@ class Order(object):
     update.exposed = True
     
     #-------------------------------------
+    def delete(self, order_id, *args, **kwargs):
+    #-------------------------------------
+        self.database_obj.deleteFile(str(cherrypy.request.params["order_id"]))
+                
+        return "success"
+    
+    delete.exposed = True
+    
+    #-------------------------------------
     def __getattr__(self, name):
     #-------------------------------------      		
         try:
             name = int(name)
             cherrypy.request.params["order_id"] = name
-            return self.update
+            
+            if cherrypy.request.method == "PUT":
+                return self.update
+            elif cherrypy.request.method == "DELETE":
+                return self.delete            
         except:
             raise AttributeError("%r object has no attribute %r" % (self.__class__.__name__, name))    

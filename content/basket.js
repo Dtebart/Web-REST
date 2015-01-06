@@ -5,7 +5,7 @@
 }
 basketArticle_cl.prototype = Article_cl;
 
-function basket_cl (list)  {
+function Basket_cl (list)  {
 	this.list = list;
 	this.id = 0;
 	this.totalPrice = 0;
@@ -14,12 +14,14 @@ function basket_cl (list)  {
 	this.setTotalPrice = setTotalPrice;
 	this.setQuantityOfArticle = setQuantityOfArticle;
 	
+	this.empty = empty;
 	this.addArticle = addArticletoBasket;
 	this.deleteArticle = deleteArticle;
 	this.countArticle = countArticle;
 	this.getprice = getprice;
 	this.refresh = basketRefresh;
 	this.getselectedArticle = getSelectedBasketArticle;
+	this.getQuantityofArticle = getQuantityofArticle;
 	this.sendUpdate = sendUpdate;
 	this.selectedArticle = undefined;
 }
@@ -35,29 +37,38 @@ function setQuantityOfArticle(article, newQuantity){
 	article.quantity = newQuantity;
 }
 
+function empty(){
+	this.list.length = 0;
+	this.online = false;
+	this.totalPrice = 0;
+	this.id = undefined;
+	
+	eventService.publish_px('basket-emptied', this);
+}
+
 function addArticletoBasket(article){
 	this.setTotalPrice(this.totalPrice + article.price);
-	for (i = 0; i < basket_list.length; i++)
+	for (i = 0; i < this.list.length; i++)
 	{
-		if (article.number == basket_list[i].number)
+		if (article.number == this.list[i].number)
 		{
-			basket_list[i].quantity++;
+			this.list[i].quantity++;
 			return 1;
 		}
 	}
 	basketArticle = new basketArticle_cl(article.number, article.name, article.price);
-	basket_list.push(basketArticle);
+	this.list.push(basketArticle);
 	return 0;	
 }
 
 function deleteArticle()
 {
-	for (i = 0; i < basket_list.length; i++)
+	for (i = 0; i < this.list.length; i++)
 	{
 		article = basket.getselectedArticle();
-		if (article.number == basket_list[i].number)
+		if (article.number == this.list[i].number)
 		{
-			basket_list.splice(i,1)
+			this.list.splice(i,1)
 			this.setTotalPrice(this.totalPrice - article.price);
 			return 1;
 		}
@@ -69,9 +80,9 @@ function basketRefresh(){
 	$('#basket-article-number').html("Anzahl an Artikeln: " + basket.countArticle());
 	$('#basket-price').html  ("Gesamtpreis: " + basket.getprice());
 	$('#basket-entries').empty();
-	for (i = 0; i < basket_list.length; i++)
+	for (i = 0; i < this.list.length; i++)
 	{
-	$('#basket-entries').append("<tr> <th> " + basket_list[i].name +  "</th><th>" + basket_list[i].quantity + "</th>" + "<th>" + basket_list[i].price * basket_list[i].quantity + "</th> </tr>");
+		$('#basket-entries').append("<tr> <th> " + this.list[i].name +  "</th><th>" + this.list[i].quantity + "</th>" + "<th>" + this.list[i].price * this.list[i].quantity + "</th> </tr>");
 	}
 }
 
@@ -86,21 +97,20 @@ function getSelectedBasketArticle(){
 
 function getQuantityofArticle(article)
 {
-	for (i = 0; i < basket_list.length; i++)
+	for (i = 0; i < this.list.length; i++)
 	{
-		if (article.number == basket_list[i].number)
+		if (article.number == this.list[i].number)
 		{			
-			return basket_list[i].quantity;
-		}
-			
+			return this.list[i].quantity;
+		}	
 	}	
 }
 
 function countArticle() {
 	quantityArticle = 0;
-	for (i = 0; i < basket_list.length; i++)
+	for (i = 0; i < this.list.length; i++)
 	{
-		quantityArticle+= basket_list[i].quantity;
+		quantityArticle+= this.list[i].quantity;
 	}
 	
 	return quantityArticle;
@@ -109,9 +119,9 @@ function countArticle() {
 
 function getprice() {
 	price = 0;
-	for (i = 0; i < basket_list.length; i++)
+	for (i = 0; i < this.list.length; i++)
 	{
-		price += basket_list[i].price * basket_list[i].quantity;
+		price += this.list[i].price * this.list[i].quantity;
 	}
 	return price;
 }
@@ -128,9 +138,9 @@ function sendUpdate(article) {
 		}
 		else{
 			tmpBasket = {'id': basket.id, 'articles':{}};
-			for (i = 0; i < basket_list.length; i++)
+			for (i = 0; i < this.list.length; i++)
 			{				
-				tmpBasket.articles[i] = {'name':basket_list[i]['name'], 'price':basket_list[i]['price'], 'quantity': basket_list[i]['quantity'], 'number':basket_list[i]['number']};
+				tmpBasket.articles[i] = {'name':this.list[i]['name'], 'price':this.list[i]['price'], 'quantity': this.list[i]['quantity'], 'number':this.list[i]['number']};
 			}			
 			$.ajax({
 				url: 'consumerbasket/' + basket.id,
@@ -144,42 +154,3 @@ function sendUpdate(article) {
 			});
 		}	
 }
-
-	$(document).ready(function(){
-	
-	$('#add-quantity').click(function() {
-		var article = basket.getselectedArticle();
-		if (article.quantity < 9)
-		{
-			basket.setQuantityOfArticle(article, article.quantity + 1);
-		}
-		basket.sendUpdate(article);
-		basket.refresh();
-		});
-		
-	$('#remove-quantity').click(function() {
-		var article = basket.getselectedArticle();
-		if (article.quantity > 1)
-		{
-			basket.setQuantityOfArticle(article, article.quantity - 1);
-		}
-		basket.sendUpdate(article);
-		basket.refresh();
-		});
-		
-	$('#delete-from-basket').click(function() {
-		basket.deleteArticle();
-		basket.sendUpdate(article);
-		basket.refresh();		
-		});
-
-	
-	
-	$('#add-to-basket').click(function() {
-		var article = articleList.getSelectedArticle();
-		basket.addArticle(article);
-		article["quantity"] = getQuantityofArticle(article);
-		basket.refresh();
-		basket.sendUpdate(article);
-	});
-});
