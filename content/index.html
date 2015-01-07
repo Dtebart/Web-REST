@@ -15,6 +15,7 @@
 		<script src = "customer.js" type="text/javascript"></script>
 		<script src = "order.js" type="text/javascript"></script>
 		
+		<script src = "start-view.js" type = "text/javascript"></script>
 		<script src = "confirm-purchase-view.js" type = "text/javascript"></script>
 		<script src = "init.js" type="text/javascript"></script>
 		<meta charset = "utf-8">
@@ -35,6 +36,7 @@
 					<tfoot>
 					</tfoot>
 					<tbody id = "articles">
+						<!-- Siehe: articles.template -->
 					</tbody>
 				</table>
 				<button type = "button" id = "show-article-button">Fan-Artikel anzeigen</button>
@@ -42,15 +44,11 @@
 			</div>
 			
 			<div id = "article-details">
+				<!-- Siehe: article-details.template -->
 			</div>
 			
-			<div id = "consumer-basket" >
-				<p> Warenkorb: </p>
-				<ul>
-					<li id = "basket-article-number"> Anzahl an Artikeln: </li>
-					<li id = "basket-price"> Gesamtpreis: </li>
-				<ul id = "consumer-basket-info">
-				</ul>
+			<div id = "basket">
+				<!-- Siehe: basket.template -->
 			</div>
 		</div>
 		

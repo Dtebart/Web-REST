@@ -28,7 +28,7 @@ function Basket_cl (list)  {
 
 function setTotalPrice(totalPrice){
 	this.totalPrice = totalPrice;
-	LITAPP.es_o.publish_px('consumer-basket-price-change', totalPrice);
+	LITAPP.es_o.publish_px('basket-change', this);
 }
 
 function setQuantityOfArticle(article, newQuantity){
@@ -88,9 +88,6 @@ function deleteArticle()
 }
 
 function basketRefresh(){
-	
-	$('#basket-article-number').html("Anzahl an Artikeln: " + basket.countArticle());
-	$('#basket-price').html  ("Gesamtpreis: " + basket.getprice());
 	$('#basket-entries').empty();
 	for (i = 0; i < this.list.length; i++)
 	{

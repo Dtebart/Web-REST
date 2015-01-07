@@ -1,0 +1,6 @@
+@var basket_o = context@
+<p> Warenkorb: </p>
+<ul>
+	<li id> Anzahl an Artikeln: #basket_o.countArticle()#</li>
+	<li id> Gesamtpreis: #basket_o.totalPrice#</li>
+</ul>
