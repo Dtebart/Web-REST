@@ -14,7 +14,7 @@ class Customer(object):
     def __init__(self):
     #-------------------------------------
         self.database_obj = database.Database("data\\customer\\")
-        self.last_id = self.database_obj.readFile("id")["id"]
+        self.last_id = self.database_obj.readJSON("id")["id"]
         
     #-------------------------------------
     def index(self, *arglist, **kwargs):
@@ -25,7 +25,7 @@ class Customer(object):
         
         for customerFile_str in fileList_obj:
             if not customerFile_str.startswith("id"):
-                oldCustomer_obj = self.database_obj.readFile(customerFile_str[:-5])
+                oldCustomer_obj = self.database_obj.readJSON(customerFile_str[:-5])
                 if (oldCustomer_obj == newCustomer_obj):
                     raise cherrypy.HTTPError("405", "Anfrage nicht zugelassen: Benutzer existiert bereits")
                 

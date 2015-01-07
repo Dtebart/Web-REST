@@ -28,7 +28,7 @@ function Basket_cl (list)  {
 
 function setTotalPrice(totalPrice){
 	this.totalPrice = totalPrice;
-	eventService.publish_px('consumer-basket-price-change', totalPrice);
+	LITAPP.es_o.publish_px('consumer-basket-price-change', totalPrice);
 }
 
 function setQuantityOfArticle(article, newQuantity){
@@ -55,7 +55,7 @@ function empty(){
     this.totalPrice = 0;
 	this.id = undefined;
 	
-	eventService.publish_px('basket-emptied', this);
+	LITAPP.es_o.publish_px('basket-emptied', this);
 }
 
 function addArticletoBasket(article){

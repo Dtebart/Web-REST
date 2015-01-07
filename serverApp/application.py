@@ -4,6 +4,7 @@ import cherrypy
 import json
 import os
 
+from serverApp import template
 from serverApp import article
 from serverApp import consumerbasket
 from serverApp import customer
@@ -17,6 +18,7 @@ class Application_cl(object):
     def __init__(self):
     #-------------------------------------
         # constructor
+        self.template = template.Template()
         self.article = article.Article()
         self.consumerbasket = consumerbasket.Consumerbasket()
         self.customer = customer.Customer()

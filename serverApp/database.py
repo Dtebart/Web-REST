@@ -11,6 +11,15 @@ class Database(object):
     def __init__(self, rootdir_str):
     #-------------------------------------
         self.rootdir_str = rootdir_str   
+    
+    #-------------------------------------
+    def readFile(self, fileName):
+    #-------------------------------------
+        file_obj = open(self.rootdir_str + fileName, "r+")
+        fileContent_str = file_obj.read()
+        file_obj.close()
+        
+        return fileContent_str
         
     #-------------------------------------
     def insertFile(self, userData, fileName):
@@ -20,7 +29,7 @@ class Database(object):
         json_file.close()
         
     #-------------------------------------
-    def readFile(self, fileName):
+    def readJSON(self, fileName):
     #-------------------------------------
         json_file = open(self.rootdir_str + fileName + ".json", "r+")
         json_str = json_file.read()
