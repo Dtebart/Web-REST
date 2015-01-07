@@ -38,9 +38,21 @@ function setQuantityOfArticle(article, newQuantity){
 }
 
 function empty(){
+	$.ajax({
+		url: 'consumerbasket/' + basket.id,
+		type: 'DELETE',
+		contentType: "application/json",
+		dataType: "text"
+		})
+		.done(function () {})
+		.fail(function (jqXHR, textStatus, errorThrown){
+		})
+		.always(function (data, textStatus, jqXHR){
+			navigator_obj.showView('#start-view');
+	});
 	this.list.length = 0;
 	this.online = false;
-	this.totalPrice = 0;
+    this.totalPrice = 0;
 	this.id = undefined;
 	
 	eventService.publish_px('basket-emptied', this);
