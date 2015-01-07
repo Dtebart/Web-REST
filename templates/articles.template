@@ -1,0 +1,9 @@
+@var i@
+@for i = 0; i< context.length; i++@
+@article_obj = context[i];@
+	<tr>
+		<td>#article_obj.number#</td>
+		<td>#article_obj.name#</td>
+		<td>#article_obj.price#</td>
+	</tr>
+@endfor@

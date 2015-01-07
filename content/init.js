@@ -1,4 +1,5 @@
-var eventService;
+var LITAPP = {};
+var templateManager;
 
 var articleList;
 
@@ -7,7 +8,8 @@ var customer;
 var order;
 
 function initObjects(){
-	eventService = new EventService_cl();
+	LITAPP.es_o = new EventService_cl();
+	templateManager = new TELIB.TemplateManager_cl();
 	
 	articleList = new ArticleList_cl([]);
 	
@@ -17,9 +19,9 @@ function initObjects(){
 }
 
 function createObserver(){
-	eventService.subscribe_px(confirmPurchaseView, 'consumer-basket-price-change');
-	eventService.subscribe_px(confirmPurchaseView, 'customer-lastName-set');
-	eventService.subscribe_px(confirmPurchaseView, 'customer-firstName-set');
+	LITAPP.es_o.subscribe_px(confirmPurchaseView, 'consumer-basket-price-change');
+	LITAPP.es_o.subscribe_px(confirmPurchaseView, 'customer-lastName-set');
+	LITAPP.es_o.subscribe_px(confirmPurchaseView, 'customer-firstName-set');
 }
 
 function initButtons(){
@@ -115,29 +117,7 @@ function initButtons(){
 		basket.refresh();
 		basket.sendUpdate(article);
 	});
-}
-
-$(document).ready(function(){
-	initObjects();
-	createObserver();
-
-	$.get('article/', function(data, status){
-			var articleList_str = data.replace(/'/g, '"');
-			var articleList_json = JSON.parse(articleList_str);
-			
-			for (var i = 0; i < articleList_json.length; i++){
-				articleList.addArticle(articleList_json[i]);
-			}
-	});
 	
-	$('#article-table tbody').on('click', 'tr', function(event) {
-		articleList.selectedArticle = $(this).children().first().text();
-	});
-	
-	$('#basket-table tbody').on('click', 'tr', function(event) {
-		basket.selectedArticle = $(this).children().first().text();
-	});
-
 	$('#show-article-button').click(function() {
 		var article = articleList.getSelectedArticle();
 		$.get('article/' + article.number, function (data, status){
@@ -148,8 +128,31 @@ $(document).ready(function(){
 			$('#article-details').html(details);
 		});
 	});
+}
+
+$(document).ready(function(){
+	initObjects();
+	createObserver();
+	
+	$.get('article/', function(data, status){
+		var articleList_str = data.replace(/'/g, '"');
+		var articleList_json = JSON.parse(articleList_str);
+			
+		for (var i = 0; i < articleList_json.length; i++){
+			articleList.addArticle(articleList_json[i]);
+		}
+		$('#articles').html(templateManager.execute_px('articles.template', articleList_json));
+	});
 	
 	initButtons();
+	
+	$('#article-table tbody').on('click', 'tr', function(event) {
+		articleList.selectedArticle = $(this).children().first().text();
+	});
+	
+	$('#basket-table tbody').on('click', 'tr', function(event) {
+		basket.selectedArticle = $(this).children().first().text();
+	});
 	
 	$('#lastname-textbox').focusout(function (event){
 		customer.setLastName(event.target.value);

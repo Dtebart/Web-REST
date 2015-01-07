@@ -14,7 +14,7 @@ class Consumerbasket(object):
     def __init__(self):
     #-------------------------------------
         self.database_obj = database.Database("data\\consumer-baskets\\")
-        self.last_id = self.database_obj.readFile("id")["id"]
+        self.last_id = self.database_obj.readJSON("id")["id"]
     
     #-------------------------------------
     def index(self, *arglist, **kwargs):
@@ -35,7 +35,7 @@ class Consumerbasket(object):
     #-------------------------------------
     def get(self, consumerbasket_id, *args, **kwargs):
     #-------------------------------------	
-        consumerbasket_data = self.database_obj.readFile(str(consumerbasket_id))
+        consumerbasket_data = self.database_obj.readJSON(str(consumerbasket_id))
 
         return encoder.JSONEncoder().encode(consumerbasket_data)
     

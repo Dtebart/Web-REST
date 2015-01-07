@@ -10,10 +10,10 @@ function Customer_cl(firstName, lastName){
 
 function setFirstName(firstName){
 	this.firstName = firstName;
-	eventService.publish_px('customer-firstName-set', this.firstName);
+	LITAPP.es_o.publish_px('customer-firstName-set', this.firstName);
 }
 
 function setLastName(lastName){
 	this.lastName = lastName;
-	eventService.publish_px('customer-lastName-set', this.lastName);
+	LITAPP.es_o.publish_px('customer-lastName-set', this.lastName);
 }

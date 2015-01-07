@@ -14,7 +14,7 @@ class Order(object):
     def __init__(self):
     #-------------------------------------
         self.database_obj = database.Database("data\\orders\\")
-        self.last_id = self.database_obj.readFile("id")["id"]
+        self.last_id = self.database_obj.readJSON("id")["id"]
     
     #-------------------------------------
     def index(self, *arglist, **kwargs):

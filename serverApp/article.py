@@ -32,7 +32,7 @@ class Article(object):
         
         for article_file in file_list:
             if article_file.endswith(".json") and not article_file.startswith("detail"):
-                article_obj = self.database_obj.readFile(article_file[:-5])
+                article_obj = self.database_obj.readJSON(article_file[:-5])
                 article_list.append(article_obj)    
         return str(article_list)
     
@@ -41,7 +41,7 @@ class Article(object):
     #-------------------------------------
     def get_article(self, article_id):
     #-------------------------------------
-        article_detail_obj = self.database_obj.readFile("detail" + str(article_id))
+        article_detail_obj = self.database_obj.readJSON("detail" + str(article_id))
         
         return str(article_detail_obj)
     

@@ -14,7 +14,6 @@ function ArticleList_cl (list)  {
 
 function addArticle(article){
 	this.list.push(article);
-	updateArticleView(article);
 }
 
 function getSelectedArticle(){
