@@ -2,7 +2,6 @@ function Article_cl (number, name, price){
 	this.number = number;
 	this.name = name;
 	this.price = price;
-	this.updateArticleView = updateArticleView;
 }
 
 function ArticleList_cl (list)  {
@@ -14,6 +13,7 @@ function ArticleList_cl (list)  {
 
 function addArticle(article){
 	this.list.push(article);
+	LITAPP.es_o.publish_px('article-list-change', this.list);
 }
 
 function getSelectedArticle(){
@@ -23,14 +23,5 @@ function getSelectedArticle(){
 			return this.list[i];
 		}
 	}
-}
-
-function updateArticleView(article){
-	var articleElem = $('<tr></tr>');
-	$('#article-table tbody').append(articleElem);
-	
-	var numberElem = articleElem.append('<td>' + article.number + '</td>');
-	var nameElem = articleElem.append('<td>' + article.name + '</td>');
-	var priceElem = articleElem.append('<td>' + article.price + '</td>');
 }
 

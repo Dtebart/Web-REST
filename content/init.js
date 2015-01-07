@@ -2,20 +2,26 @@ var LITAPP = {};
 var templateManager;
 
 var articleList;
-
 var basket;
 var customer;
 var order;
+
+var startView;
+
+function changeElement(rootElem_spl, htmlContent_spl){
+	$(rootElem_spl).html(htmlContent_spl);
+}
 
 function initObjects(){
 	LITAPP.es_o = new EventService_cl();
 	templateManager = new TELIB.TemplateManager_cl();
 	
 	articleList = new ArticleList_cl([]);
-	
 	basket = new Basket_cl([]);
 	customer = new Customer_cl('', '');
 	order = new Order_cl(customer, basket);
+	
+	startView = new StartView_cl(templateManager);
 }
 
 function createObserver(){
@@ -124,8 +130,7 @@ function initButtons(){
 			var articleDetails_str = data.replace(/'/g, '"');
 		    var articleDetails_obj = JSON.parse(articleDetails_str);
 			
-			var details = '<p>Nummer: ' + article.number.toString() + ', Name: ' + article.name + ', Preis: ' + article.price.toString() + '</p>' + articleDetails_obj["article-description"];
-			$('#article-details').html(details);
+			LITAPP.es_o.publish_px('article-details-change', articleDetails_obj);
 		});
 	});
 }
@@ -141,7 +146,6 @@ $(document).ready(function(){
 		for (var i = 0; i < articleList_json.length; i++){
 			articleList.addArticle(articleList_json[i]);
 		}
-		$('#articles').html(templateManager.execute_px('articles.template', articleList_json));
 	});
 	
 	initButtons();

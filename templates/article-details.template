@@ -1,0 +1,2 @@
+@var articleDetails_o = context@
+<p>#articleDetails_o["article-description"]#</p>
