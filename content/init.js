@@ -47,25 +47,15 @@ function initButtons(){
 				order.send();
 			})
 			.fail(function (jqXHR, textStatus, errorThrown){
+				if (errorThrown == 'Method Not Allowed'){
+					alert('Nutzerdaten existieren bereits');
+				}
 			});
 		}
 	});
 	
 	$('#cancel-button').click(function(event){
-		$.ajax({
-				url: 'consumerbasket/' + basket.id,
-				type: 'DELETE',
-				contentType: "application/json",
-				dataType: "text"
-				})
-				.done(function (data, textStatus, jqXHR){
-					basket.empty();
-				})
-				.fail(function (jqXHR, textStatus, errorThrown){
-				})
-				.always(function (data, textStatus, jqXHR){
-					navigator_obj.showView('#start-view');
-				});
+		basket.empty();
 		$.ajax({
 				url: 'order/' + order.id,
 				type: 'DELETE',
@@ -87,6 +77,7 @@ function initButtons(){
 	});
 	
 	$('#complete-purchase-button').click(function (event){
+		basket.empty();
 		customer = new Customer_cl('', '');
 		navigator_obj.showView('#start-view');
 	});
