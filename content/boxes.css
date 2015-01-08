@@ -1,5 +1,17 @@
+html{
+	height: 100%;
+}
+
 body{
 	text-align: center;
+	background-image:linear-gradient(to bottom left, yellow 25%, red 75%);
+	background-repeat: no-repeat;
+	background-attachment: fixed;
+	height: 100%
+}
+
+#title-box{
+	background-image: linear-gradient(to bottom, silver 25%, gray 75%);
 }
 
 .selected-article td{
