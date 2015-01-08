@@ -40,6 +40,7 @@ class Consumerbasket(object):
         return encoder.JSONEncoder().encode(consumerbasket_data)
     
     get.exposed = True
+
     
     #-------------------------------------
     def update(self, consumerbasket_id, *args, **kwargs):

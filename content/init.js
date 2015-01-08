@@ -31,7 +31,7 @@ function createObserver(){
 }
 
 function initButtons(){
-	$('#consumer-basket').click(function (event){
+	$('#basket').click(function (event){
 		navigator_obj.showView('#consumer-basket-view');
 	});
 	
