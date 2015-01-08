@@ -22,6 +22,8 @@
 		<script src = "init.js" type="text/javascript"></script>
 		
 		<link rel = "stylesheet" type = "text/css" href = "boxes.css">
+		<link rel = "stylesheet" type = "text/css" href = "buttons.css">
+		<link rel = "stylesheet" type = "text/css" href = "tables.css">
 		<meta charset = "utf-8">
 	</head>
 	<body>
@@ -31,8 +33,10 @@
 				<div id = "articles">
 					<!-- Siehe: articles.template -->
 				</div>
-				<button type = "button" id = "show-article-button">Fan-Artikel anzeigen</button>
-				<button type = "button" id = "add-to-basket">Fan-Artikel in den Einkaufswagen</button>
+				<div class = "button-group">
+					<button type = "button" class = "action-button animate blue" id = "show-article-button">Fan-Artikel anzeigen</button>
+					<button type = "button" class = "action-button animate blue" id = "add-to-basket">Fan-Artikel in den Einkaufswagen</button>
+				</div>
 			</div>
 			
 			<div id = "article-details">
@@ -56,8 +60,8 @@
 				<button type = "button" id = "remove-quantity">-</button>
 				<button type = "button" id = "delete-from-basket">ausgewählten Fan-Artikel entfernen</button>
 			</p>
-			<button type = "button" id = "show-purchase-button">Kaufen</button>
-			<button type = "button" id = "show-overview-button">Zurück</button>
+			<button type = "button" class = "action-button animate blue" id = "show-purchase-button">Kaufen</button>
+			<button type = "button" class = "action-button animate blue" id = "show-overview-button">Zurück</button>
 		</div>
 		
 		<div id = "confirm-purchase-view" hidden>
@@ -73,9 +77,9 @@
 				<label for = "firstname-textbox">Vorname:</label>
 				<input type = "text" id = "firstname-textbox"/>
 			</form>
-			<button type = "button" id = "confirm-purchase-button">Verbindlich kaufen</button>
-			<button type = "button" id = "cancel-button">Stornieren</button>
-			<button type = "button" id = "show-consumer-basket-view-button">Zurück</button>
+			<button type = "button" class = "action-button animate blue" id = "confirm-purchase-button">Verbindlich kaufen</button>
+			<button type = "button" class = "action-button animate blue" id = "cancel-button">Stornieren</button>
+			<button type = "button" class = "action-button animate blue" id = "show-consumer-basket-view-button">Zurück</button>
 			
 			<div id = "results-subview" hidden>
 				<div id = "results-info">
