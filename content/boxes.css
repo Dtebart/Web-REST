@@ -1,3 +1,7 @@
+body{
+	text-align: center;
+}
+
 .selected-article td{
 	border-style: solid;
 	border-color: red;
