@@ -2,6 +2,7 @@
 
 import cherrypy
 import json
+import os
 
 from serverApp import database
 from json import encoder
@@ -19,6 +20,29 @@ class Order(object):
     #-------------------------------------
     def index(self, *arglist, **kwargs):
     #-------------------------------------
+        if cherrypy.request.method == "POST":
+            return self.new()
+
+        if cherrypy.request.method == "GET":
+            return self.getOrders()
+        
+    index.exposed = True
+
+    #-------------------------------------
+    def getOrders(self, *args, **kwargs):
+    #------------------------------------- 	
+        file_list = os.listdir(self.database_obj.rootdir_str)
+        order_list = []
+        
+        for order_file in file_list:
+            if order_file.endswith(".json"):
+                order_obj = self.database_obj.readJSON(order_file[:-5])
+                order_list.append(order_obj)    
+        return str(order_list)
+
+    #-------------------------------------
+    def new(self, *args, **kwargs):
+    #------------------------------------- 
         # Increase next_id value in file
         self.last_id = self.last_id + 1
         id_data = {"id": self.last_id}
@@ -27,10 +51,8 @@ class Order(object):
         order_obj = cherrypy.request.body.params
         self.database_obj.insertFile(order_obj, str(self.last_id))
         
-        return encoder.JSONEncoder().encode(id_data)
-        
-    index.exposed = True
-    
+        return encoder.JSONEncoder().encode(id_data)        
+	
     #-------------------------------------
     def update(self, order_id, *args, **kwargs):
     #-------------------------------------
