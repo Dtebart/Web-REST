@@ -12,10 +12,11 @@ function renderPurchase(entry_opl, message_spl, data_opl){
 	if (message_spl == 'order-change'){
 		templateName_s = 'results.template';
 		elementName_s = '#results';
+		console.log(data_opl);
 	}
 	else if (message_spl == 'basket-change'){
 		templateName_s = 'basket-articles.template';
-		elementName_s = '#basket-articles';
+		elementName_s = '#basket-articles-result';
 	}
 	
 	renderElement(elementName_s, templateName_s, data_opl);

@@ -8,6 +8,7 @@ var order;
 
 var startView;
 var confirmPurchaseView;
+var basketView;
 
 function changeElement(rootElem_spl, htmlContent_spl){
 	$(rootElem_spl).html(htmlContent_spl);
@@ -22,8 +23,9 @@ function initObjects(){
 	customer = new Customer_cl('', '');
 	order = new Order_cl(customer, basket);
 	
-	startView = new StartView_cl(templateManager);
+	startView = new StartView_cl();
 	confirmPurchaseView = new ConfirmPurchaseView_cl();
+	basketView = new BasketView_cl();
 }
 
 function initButtons(){
@@ -67,7 +69,7 @@ function initButtons(){
 				dataType: "text"
 				})
 				.done(function (data, textStatus, jqXHR){
-					customer = new Customer_cl('', '');
+					order.customer = new Customer_cl('', '');
 				})
 				.fail(function (jqXHR, textStatus, errorThrown){
 				})
@@ -82,7 +84,7 @@ function initButtons(){
 	
 	$('#results').on('click', '#complete-purchase-button', function (event){
 		basket.empty();
-		customer = new Customer_cl('', '');
+		order.customer = new Customer_cl('', '');
 		navigator_obj.showView('#start-view');
 	});
 	
@@ -93,7 +95,6 @@ function initButtons(){
 			basket.setQuantityOfArticle(article, article.quantity + 1);
 		}
 		basket.sendUpdate(article);
-		basket.refresh();
 	});
 		
 	$('#remove-quantity').click(function() {
@@ -103,20 +104,17 @@ function initButtons(){
 			basket.setQuantityOfArticle(article, article.quantity - 1);
 		}
 		basket.sendUpdate(article);
-		basket.refresh();
 	});
 		
 	$('#delete-from-basket').click(function() {
 		basket.deleteArticle();
-		basket.sendUpdate(article);
-		basket.refresh();		
+		basket.sendUpdate(article);		
 	});
 
 	$('#add-to-basket').click(function() {
 		var article = articleList.getSelectedArticle();
 		basket.addArticle(article);
 		article["quantity"] = basket.getQuantityofArticle(article);
-		basket.refresh();
 		basket.sendUpdate(article);
 		$('#basket').show();
 	});
@@ -150,7 +148,7 @@ $(document).ready(function(){
 		articleList.selectedArticle = $(this).children().first().text();
 	});
 	
-	$('#basket-table tbody').on('click', 'tr', function(event) {
+	$('#basket-articles').on('click', 'tbody tr', function(event) {
 		basket.selectedArticle = $(this).children().first().text();
 	});
 	

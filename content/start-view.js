@@ -1,5 +1,4 @@
-function StartView_cl(templateManager_opl){
-	this.templateManager_o = templateManager_opl;
+function StartView_cl(){
 	this.notify_px = renderStart;
 	
 	LITAPP.es_o.subscribe_px(this, 'article-list-change');
