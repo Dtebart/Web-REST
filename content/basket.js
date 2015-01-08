@@ -1,11 +1,4 @@
-﻿function basketArticle_cl(number, name, price)
-{
-	this.quantity = 1;
-	Article_cl.call(this, number, name, price);
-}
-basketArticle_cl.prototype = Article_cl;
-
-function Basket_cl (list)  {
+﻿function Basket_cl (list)  {
 	this.list = list;
 	this.id = 0;
 	this.totalPrice = 0;
@@ -59,7 +52,6 @@ function empty(){
 }
 
 function addArticletoBasket(article){
-	this.setTotalPrice(this.totalPrice + article.price);
 	for (i = 0; i < this.list.length; i++)
 	{
 		if (article.number == this.list[i].number)
@@ -68,8 +60,9 @@ function addArticletoBasket(article){
 			return 1;
 		}
 	}
-	basketArticle = new basketArticle_cl(article.number, article.name, article.price);
+	var basketArticle = new Article_cl(article.number, article.name, article.price);
 	this.list.push(basketArticle);
+	this.setTotalPrice(this.totalPrice + article.price);
 	return 0;	
 }
 

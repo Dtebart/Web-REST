@@ -7,6 +7,7 @@ function Order_cl(customer, basket){
 }
 
 function send(){
+	LITAPP.es_o.publish_px('order-change', this);
 	if (this.id == undefined){
 		$.post('order/', JSON.parse(JSON.stringify(order)))
 			.done(function (data, textStatus, jqXHR){

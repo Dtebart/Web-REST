@@ -1,4 +1,7 @@
 function Customer_cl(firstName, lastName){
+	this.firstName = firstName;
+	this.lastName = lastName;
+
 	this.setFirstName = setFirstName;
 	this.setLastName = setLastName;
 	
@@ -10,10 +13,8 @@ function Customer_cl(firstName, lastName){
 
 function setFirstName(firstName){
 	this.firstName = firstName;
-	LITAPP.es_o.publish_px('customer-firstName-set', this.firstName);
 }
 
 function setLastName(lastName){
 	this.lastName = lastName;
-	LITAPP.es_o.publish_px('customer-lastName-set', this.lastName);
 }
