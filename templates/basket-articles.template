@@ -1,4 +1,5 @@
 @var i@
+@var rowClass_s = "";@
 @var basket_o = context;@
 <table>
 	<thead>
@@ -19,7 +20,12 @@
 	<tbody>
 		@for i = 0; i< basket_o.list.length; i++@
 		@article_o = basket_o.list[i];@
-		<tr>
+		@if article_o.number == basket_o.selectedArticle@
+			@rowClass_s = "selected-article";@
+		@else@
+			@rowClass_s = "";@
+		@endif@
+		<tr class = #rowClass_s#>
 			<td>#article_o.number#</td>
 			<td>#article_o.name#</td>
 			<td>#article_o.price#</td>

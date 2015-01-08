@@ -8,13 +8,20 @@ function Article_cl (number, name, price){
 function ArticleList_cl (list)  {
 	this.list = list;
 	this.selectedArticle = null;
+	
 	this.addArticle = addArticle;
+	this.setSelectedArticle = setSelectedArticle;
 	this.getSelectedArticle = getSelectedArticle;
 }
 
 function addArticle(article){
 	this.list.push(article);
-	LITAPP.es_o.publish_px('article-list-change', this.list);
+	LITAPP.es_o.publish_px('article-list-change', this);
+}
+
+function setSelectedArticle(article){
+	this.selectedArticle = article;
+	LITAPP.es_o.publish_px('article-list-change', this);
 }
 
 function getSelectedArticle(){

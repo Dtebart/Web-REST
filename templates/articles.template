@@ -1,4 +1,6 @@
-@var i@
+@var i;@
+@var rowClass_s = "";@
+@var articleList_o = context;@
 <table>
 	<thead>
 		<tr>
@@ -10,13 +12,18 @@
 	<tfoot>
 	</tfoot>
 	<tbody>
-		@for i = 0; i< context.length; i++@
-		@article_obj = context[i];@
-		<tr>
-			<td>#article_obj.number#</td>
-			<td>#article_obj.name#</td>
-			<td>#article_obj.price#</td>
-		</tr>
+		@for i = 0; i< articleList_o.list.length; i++@
+			@var article_o = articleList_o.list[i];@
+			@if article_o.number == articleList_o.selectedArticle@
+				@rowClass_s = "selected-article";@
+			@else@
+				@rowClass_s = "";@
+			@endif@
+			<tr class = #rowClass_s#>
+				<td>#article_o.number#</td>
+				<td>#article_o.name#</td>
+				<td>#article_o.price#</td>
+			</tr>
 		@endfor@
 	</tbody>
 </table>

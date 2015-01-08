@@ -11,8 +11,7 @@ function renderPurchase(entry_opl, message_spl, data_opl){
 	
 	if (message_spl == 'order-change'){
 		templateName_s = 'results.template';
-		elementName_s = '#results';
-		console.log(data_opl);
+		elementName_s = '#results-info';
 	}
 	else if (message_spl == 'basket-change'){
 		templateName_s = 'basket-articles.template';

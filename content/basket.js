@@ -3,6 +3,7 @@
 	this.id = 0;
 	this.totalPrice = 0;
 	this.online = false;
+	this.selectedArticle = undefined;
 	
 	this.setTotalPrice = setTotalPrice;
 	this.setQuantityOfArticle = setQuantityOfArticle;
@@ -15,7 +16,6 @@
 	this.getselectedArticle = getSelectedBasketArticle;
 	this.getQuantityofArticle = getQuantityofArticle;
 	this.sendUpdate = sendUpdate;
-	this.selectedArticle = undefined;
 }
 
 function setTotalPrice(totalPrice){
@@ -51,6 +51,7 @@ function empty(){
 }
 
 function addArticletoBasket(article){
+	this.setTotalPrice(this.totalPrice + article.price);
 	for (i = 0; i < this.list.length; i++)
 	{
 		if (article.number == this.list[i].number)
@@ -61,7 +62,6 @@ function addArticletoBasket(article){
 	}
 	var basketArticle = new Article_cl(article.number, article.name, article.price);
 	this.list.push(basketArticle);
-	this.setTotalPrice(this.totalPrice + article.price);
 	return 0;	
 }
 
