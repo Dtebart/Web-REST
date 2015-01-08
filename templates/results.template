@@ -5,4 +5,3 @@
 	<li>Vorname: #order_o.customer.firstName#</li>
 	<li>Gesamtpreis: #order_o.basket.totalPrice#</li>
 </ul>
-<button type = "button" id = "complete-purchase-button">Weiter</button>

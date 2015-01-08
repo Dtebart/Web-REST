@@ -1,0 +1,1 @@
+{"id": 75, "customer": {"id": 70, "firstName": "iopuk", "lastName": "tert"}, "basket": {"totalPrice": 7.500000000000014, "id": 177, "list": [{"number": 3, "quantity": 3, "name": "HN-Cup", "price": 2.5}], "online": true, "selectedArticle": "3"}}

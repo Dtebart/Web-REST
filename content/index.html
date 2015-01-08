@@ -20,8 +20,9 @@
 		<script src = "confirm-purchase-view.js" type = "text/javascript"></script>
 		
 		<script src = "init.js" type="text/javascript"></script>
+		
+		<link rel = "stylesheet" type = "text/css" href = "boxes.css">
 		<meta charset = "utf-8">
-
 	</head>
 	<body>
 		<div id = "start-view">
@@ -76,8 +77,11 @@
 			<button type = "button" id = "cancel-button">Stornieren</button>
 			<button type = "button" id = "show-consumer-basket-view-button">Zurück</button>
 			
-			<div id = "results" hidden>
-				<!-- Siehe: results.template -->
+			<div id = "results-subview" hidden>
+				<div id = "results-info">
+					<!-- Siehe: results.template -->
+				</div>
+				<button type = "button" id = "complete-purchase-button">Weiter</button>
 			</div>
 		</div>
 	</body>

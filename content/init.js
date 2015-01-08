@@ -46,7 +46,7 @@ function initButtons(){
 		if (customer.id == undefined){
 			$.post('customer/', JSON.parse(JSON.stringify(customer)))
 			.done(function(data, textStatus, jqXHR){
-				navigator_obj.showSubview('#results');
+				navigator_obj.showSubview('#results-subview');
 				
 				answer_obj = JSON.parse(data);
 				customer.id = answer_obj['id'];
@@ -82,7 +82,7 @@ function initButtons(){
 		navigator_obj.showView('#consumer-basket-view');
 	});
 	
-	$('#results').on('click', '#complete-purchase-button', function (event){
+	$('#results-subview').on('click', '#complete-purchase-button', function (event){
 		basket.empty();
 		order.customer = new Customer_cl('', '');
 		navigator_obj.showView('#start-view');
@@ -145,11 +145,12 @@ $(document).ready(function(){
 	initButtons();
 	
 	$('#articles').on('click', 'tbody tr', function(event) {
-		articleList.selectedArticle = $(this).children().first().text();
+		articleList.setSelectedArticle($(this).children().first().text());
 	});
 	
 	$('#basket-articles').on('click', 'tbody tr', function(event) {
 		basket.selectedArticle = $(this).children().first().text();
+		LITAPP.es_o.publish_px('basket-change', basket);
 	});
 	
 	$('#lastname-textbox').focusout(function (event){

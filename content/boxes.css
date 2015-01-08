@@ -1,0 +1,5 @@
+.selected-article td{
+	border-style: solid;
+	border-color: red;
+	border-width: 2px;
+}
