@@ -2,6 +2,7 @@ function Article_cl (number, name, price){
 	this.number = number;
 	this.name = name;
 	this.price = price;
+	this.quantity = 1;
 }
 
 function ArticleList_cl (list)  {

@@ -1,0 +1,31 @@
+@var i@
+@var basket_o = context;@
+<table>
+	<thead>
+		<tr>
+			<th> Artikelnummer </th>
+			<th> Artikelname </th>
+			<th> Artikelpreis </th>
+			<th> Anzahl </th>
+			<th> Summe </th>
+		</tr>
+	</thead>
+	<tfoot>
+		<tr>
+			<td> Gesamtpreis: </td>
+			<td> #basket_o.totalPrice# </td>
+		</tr>
+	</tfoot>
+	<tbody>
+		@for i = 0; i< basket_o.list.length; i++@
+		@article_o = basket_o.list[i];@
+		<tr>
+			<td>#article_o.number#</td>
+			<td>#article_o.name#</td>
+			<td>#article_o.price#</td>
+			<td>#article_o.quantity#</td>
+			<td>#article_o.quantity * article_o.price#</td>
+		</tr>
+		@endfor@
+	</tbody>
+</table>

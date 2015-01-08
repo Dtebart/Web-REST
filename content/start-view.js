@@ -5,6 +5,7 @@ function StartView_cl(templateManager_opl){
 	LITAPP.es_o.subscribe_px(this, 'article-list-change');
 	LITAPP.es_o.subscribe_px(this, 'basket-change');
 	LITAPP.es_o.subscribe_px(this, 'article-details-change');
+	LITAPP.es_o.subscribe_px(this, 'basket-emptied');
 }
 
 function renderElement(elementName_spl, templateName_spl, data_opl){
@@ -27,6 +28,11 @@ function renderStart(entry_opl, message_spl, data_opl){
 	else if (message_spl == 'article-details-change'){
 		templateName_s = 'article-details.template';
 		elementName_s = '#article-details';
+	}
+	else if (message_spl == 'basket-emptied'){
+		templateName_s = 'basket.template';
+		elementName_s = '#basket';
+		$('#basket').hide();
 	}
 	
 	renderElement(elementName_s, templateName_s, data_opl);

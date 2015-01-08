@@ -25,20 +25,9 @@
 		<div id = "start-view">
 			<h1>Willkommenn zum HN-Fanshop in Krefeld</h1>
 			<div id = "shop-offer">
-				<table id = "article-table">
-					<thead>
-						<tr>
-							<th> Artikelnummer </th>
-							<th> Artikelname </th>
-							<th> Preis </th>
-						</tr>
-					</thead>
-					<tfoot>
-					</tfoot>
-					<tbody id = "articles">
-						<!-- Siehe: articles.template -->
-					</tbody>
-				</table>
+				<div id = "articles">
+					<!-- Siehe: articles.template -->
+				</div>
 				<button type = "button" id = "show-article-button">Fan-Artikel anzeigen</button>
 				<button type = "button" id = "add-to-basket">Fan-Artikel in den Einkaufswagen</button>
 			</div>
@@ -47,7 +36,7 @@
 				<!-- Siehe: article-details.template -->
 			</div>
 			
-			<div id = "basket">
+			<div id = "basket" hidden>
 				<!-- Siehe: basket.template -->
 			</div>
 		</div>
@@ -79,6 +68,11 @@
 		
 		<div id = "confirm-purchase-view" hidden>
 			<h1>Kauf bestätigen</h1>
+			
+			<div id = "basket-articles">
+				<!-- Siehe: basket-articles.template -->
+			</div>
+			
 			<form id = "customer-info-form">
 				<label for = "lastname-textbox">Name:</label>
 				<input type = "text" id = "lastname-textbox"/>
@@ -89,10 +83,8 @@
 			<button type = "button" id = "cancel-button">Stornieren</button>
 			<button type = "button" id = "show-consumer-basket-view-button">Zurück</button>
 			
-			<div id = "purchase-results-subview" hidden>
-				<p>Ihr Kauf wurde bestätigt mit diesen Angaben:</p>
-				<ul id = "results-info"></ul>
-				<button type = "button" id = "complete-purchase-button">Weiter</button>
+			<div id = "results" hidden>
+				<!-- Siehe: results.template -->
 			</div>
 		</div>
 	</body>

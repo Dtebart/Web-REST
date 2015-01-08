@@ -7,6 +7,7 @@ var customer;
 var order;
 
 var startView;
+var confirmPurchaseView;
 
 function changeElement(rootElem_spl, htmlContent_spl){
 	$(rootElem_spl).html(htmlContent_spl);
@@ -22,12 +23,7 @@ function initObjects(){
 	order = new Order_cl(customer, basket);
 	
 	startView = new StartView_cl(templateManager);
-}
-
-function createObserver(){
-	LITAPP.es_o.subscribe_px(confirmPurchaseView, 'consumer-basket-price-change');
-	LITAPP.es_o.subscribe_px(confirmPurchaseView, 'customer-lastName-set');
-	LITAPP.es_o.subscribe_px(confirmPurchaseView, 'customer-firstName-set');
+	confirmPurchaseView = new ConfirmPurchaseView_cl();
 }
 
 function initButtons(){
@@ -48,7 +44,7 @@ function initButtons(){
 		if (customer.id == undefined){
 			$.post('customer/', JSON.parse(JSON.stringify(customer)))
 			.done(function(data, textStatus, jqXHR){
-				navigator_obj.showSubview('#purchase-results-subview');
+				navigator_obj.showSubview('#results');
 				
 				answer_obj = JSON.parse(data);
 				customer.id = answer_obj['id'];
@@ -84,7 +80,7 @@ function initButtons(){
 		navigator_obj.showView('#consumer-basket-view');
 	});
 	
-	$('#complete-purchase-button').click(function (event){
+	$('#results').on('click', '#complete-purchase-button', function (event){
 		basket.empty();
 		customer = new Customer_cl('', '');
 		navigator_obj.showView('#start-view');
@@ -122,6 +118,7 @@ function initButtons(){
 		article["quantity"] = basket.getQuantityofArticle(article);
 		basket.refresh();
 		basket.sendUpdate(article);
+		$('#basket').show();
 	});
 	
 	$('#show-article-button').click(function() {
@@ -137,7 +134,6 @@ function initButtons(){
 
 $(document).ready(function(){
 	initObjects();
-	createObserver();
 	
 	$.get('article/', function(data, status){
 		var articleList_str = data.replace(/'/g, '"');
@@ -150,7 +146,7 @@ $(document).ready(function(){
 	
 	initButtons();
 	
-	$('#article-table tbody').on('click', 'tr', function(event) {
+	$('#articles').on('click', 'tbody tr', function(event) {
 		articleList.selectedArticle = $(this).children().first().text();
 	});
 	
