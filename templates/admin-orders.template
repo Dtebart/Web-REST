@@ -1,0 +1,39 @@
+@var i@
+@var h@
+@var rowClass_s = "";@
+@var order_o = context;@
+
+@for h = 0; h< context.length-1; h++@
+@basket_o = context[h]["basket"];@
+<p>
+<table>
+	<thead>
+		<tr>
+			<th> Artikelnummer </th>
+			<th> Artikelname </th>
+			<th> Artikelpreis </th>
+			<th> Anzahl </th>
+			<th> Summe </th>
+		</tr>
+	</thead>
+	<tfoot>
+		<tr>
+			<td> Kunde: </td>
+			<td> #order_o[h]["customer"].firstName + " " + order_o[h]["customer"].lastName #</td>
+		</tr>
+	</tfoot>
+	<tbody>
+		@for i = 0; i< basket_o.list.length; i++@
+		@article_o = basket_o.list[i];@
+		<tr class = #rowClass_s#>
+			<td>#article_o.number#</td>
+			<td>#article_o.name#</td>
+			<td>#article_o.price#</td>
+			<td>#article_o.quantity#</td>
+			<td>#article_o.quantity * article_o.price#</td>
+		</tr>
+		@endfor@
+	</tbody>
+</table>
+</p>
+@endfor@

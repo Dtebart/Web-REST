@@ -9,6 +9,7 @@ from serverApp import article
 from serverApp import consumerbasket
 from serverApp import customer
 from serverApp import order
+from serverApp import admin
 
 #-------------------------------------
 class Application_cl(object):
@@ -23,6 +24,7 @@ class Application_cl(object):
         self.consumerbasket = consumerbasket.Consumerbasket()
         self.customer = customer.Customer()
         self.order = order.Order()
+        self.admin = admin.Admin()
     
     #-------------------------------------
     def default(self, *arglist, **kwargs):
