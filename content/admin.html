@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title> Adminsicht </title>
+		<script src = "../jquery.js" type="text/javascript"></script>
+		<script src = "../inheritance.js" type = "text/javascript"></script>
+		<script src = "../es.js" type = "text/javascript"></script>
+		<script src = "../te.js" type = "text/javascript"></script>
+		<script src = "../tm.js" type = "text/javascript"></script>
+		<script src = "../admin-init.js" type="text/javascript"></script>
+		<script src = "../admin-view.js" type="text/javascript"></script>
+		
+		<meta charset = "utf-8">
+	</head>
+	<body>
+		<div>
+			<h1> Administration </h1>
+		</div>
+		<div id = "head-order">
+		<button type = "button" id = "to-customer">Nach Kunden sortieren</button>	
+		<div id = "orders">
+		</div>
+		</div>
+		<div id = "head-customer" hidden>
+		<button type = "button" id = "to-order">Alle Bestellungen anzeigen</button>	
+		<div id = "customer">
+		</div>
+		</div>
+	</body>
+</html>

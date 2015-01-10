@@ -1,0 +1,47 @@
+@var i@
+@var h@
+@var rowClass_s = "";@
+@var order_o = context;@
+@for g = 0; g < context["customer"].length-1; g++@
+@var current_firstName = context["customer"][g].firstName@
+@var current_lastName = context["customer"][g].lastName@
+<p>
+<h2> #current_firstName + " " + current_lastName# </h2>
+@for h = 0; h < context.length-1; h++@
+@if(current_firstName == context[h]["customer"]["firstName"] && current_lastName == context[h]["customer"]["lastName"])@
+@basket_o = context[h]["basket"];@
+<p>
+<table>
+	<thead>
+		<tr>
+			<th> Artikelnummer </th>
+			<th> Artikelname </th>
+			<th> Artikelpreis </th>
+			<th> Anzahl </th>
+			<th> Summe </th>
+		</tr>
+	</thead>
+	<tfoot>
+		<tr>
+			<td> Gesamtpreis: </td>
+			<td> #basket_o["totalPrice"]#</td>
+		</tr>
+	</tfoot>
+	<tbody>
+		@for i = 0; i< basket_o.list.length; i++@
+		@article_o = basket_o.list[i];@
+		<tr class = #rowClass_s#>
+			<td>#article_o.number#</td>
+			<td>#article_o.name#</td>
+			<td>#article_o.price#</td>
+			<td>#article_o.quantity#</td>
+			<td>#article_o.quantity * article_o.price#</td>
+		</tr>
+		@endfor@
+	</tbody>
+</table>
+</p>
+@endif@
+@endfor@
+</p>
+@endfor@
