@@ -1,36 +1,35 @@
-﻿function Basket_cl (list)  {
-	this.list = list;
-	this.id = 0;
-	this.totalPrice = 0;
-	this.online = false;
-	this.selectedArticle = undefined;
+﻿Basket_cl = Class.create({
+	initialize: function (list) {
+		this.list = list;
+		this.id = 0;
+		this.totalPrice = 0;
+		this.online = false;
+		this.selectedArticle = undefined;
+	},
 	
-	this.setTotalPrice = setTotalPrice;
-	this.setQuantityOfArticle = setQuantityOfArticle;
+	setTotalPrice: function (totalPrice){
+		this.totalPrice = totalPrice;
+		LITAPP.es_o.publish_px('basket-change', this);
+	},
 	
-	this.empty = empty;
-	this.addArticle = addArticletoBasket;
-	this.deleteArticle = deleteArticle;
-	this.countArticle = countArticle;
-	this.getprice = getprice;
-	this.getselectedArticle = getSelectedBasketArticle;
-	this.getQuantityofArticle = getQuantityofArticle;
-	this.sendUpdate = sendUpdate;
-}
-
-function setTotalPrice(totalPrice){
-	this.totalPrice = totalPrice;
-	LITAPP.es_o.publish_px('basket-change', this);
-}
-
-function setQuantityOfArticle(article, newQuantity){
-	var priceDifference = (newQuantity - article.quantity) * article.price;
-	this.setTotalPrice(this.totalPrice + priceDifference);
-	article.quantity = newQuantity;
-}
-
-function empty(){
-	$.ajax({
+	setQuantityOfArticle: function (article, newQuantity){
+		var priceDifference = (newQuantity - article.quantity) * article.price;
+		this.setTotalPrice(this.totalPrice + priceDifference);
+		article.quantity = newQuantity;
+	},
+	
+	getQuantityofArticle: function (article){
+		for (i = 0; i < this.list.length; i++)
+		{
+			if (article.number == this.list[i].number)
+			{			
+				return this.list[i].quantity;
+			}	
+		}
+	},
+	
+	empty: function(){
+		$.ajax({
 		url: 'consumerbasket/' + basket.id,
 		type: 'DELETE',
 		contentType: "application/json",
@@ -40,92 +39,78 @@ function empty(){
 		.fail(function (jqXHR, textStatus, errorThrown){
 		})
 		.always(function (data, textStatus, jqXHR){
-			navigator_obj.showView('#start-view');
-	});
-	this.list.length = 0;
-	this.online = false;
-    this.totalPrice = 0;
-	this.id = undefined;
+			viewNavigator.showView('#start-view');
+		});
+		this.list.length = 0;
+		this.online = false;
+		this.totalPrice = 0;
+		this.id = undefined;
+		
+		LITAPP.es_o.publish_px('basket-emptied', this);
+	},
 	
-	LITAPP.es_o.publish_px('basket-emptied', this);
-}
-
-function addArticletoBasket(article){
-	this.setTotalPrice(this.totalPrice + article.price);
-	for (i = 0; i < this.list.length; i++)
-	{
-		if (article.number == this.list[i].number)
+	addArticle: function (article){
+		this.setTotalPrice(this.totalPrice + article.price);
+		for (i = 0; i < this.list.length; i++)
 		{
-			this.list[i].quantity++;
-			return 1;
+			if (article.number == this.list[i].number)
+			{
+				this.list[i].quantity++;
+				return 1;
+			}
 		}
-	}
-	var basketArticle = new Article_cl(article.number, article.name, article.price);
-	this.list.push(basketArticle);
-	return 0;	
-}
-
-function deleteArticle()
-{
-	for (i = 0; i < this.list.length; i++)
-	{
-		article = basket.getselectedArticle();
-		if (article.number == this.list[i].number)
+		var basketArticle = new Article_cl(article.number, article.name, article.price);
+		this.list.push(basketArticle);
+		return 0;
+	},
+	
+	deleteArticle: function (){
+		for (i = 0; i < this.list.length; i++)
 		{
-			this.list.splice(i,1)
-			this.setTotalPrice(this.totalPrice - (article.price * article.quantity));
-			return 1;
+			article = basket.getselectedArticle();
+			if (article.number == this.list[i].number)
+			{
+				this.list.splice(i,1)
+				this.setTotalPrice(this.totalPrice - (article.price * article.quantity));
+				return 1;
+			}
 		}
-	}
-}
-
-function getSelectedBasketArticle(){
-	var article;
-	for (i = 0; i < this.list.length; i++){;
-		if (this.list[i].number == this.selectedArticle){
-			return this.list[i];
+	},
+	
+	getselectedArticle: function(){
+		var article;
+		for (i = 0; i < this.list.length; i++){;
+			if (this.list[i].number == this.selectedArticle){
+				return this.list[i];
+			}
 		}
-	}
-}
-
-function getQuantityofArticle(article)
-{
-	for (i = 0; i < this.list.length; i++)
-	{
-		if (article.number == this.list[i].number)
-		{			
-			return this.list[i].quantity;
-		}	
-	}	
-}
-
-function countArticle() {
-	quantityArticle = 0;
-	for (i = 0; i < this.list.length; i++)
-	{
-		quantityArticle+= this.list[i].quantity;
-	}
+	},
 	
-	return quantityArticle;
+	countArticle : function(){
+		quantityArticle = 0;
+		for (i = 0; i < this.list.length; i++)
+		{
+			quantityArticle+= this.list[i].quantity;
+		}
+		return quantityArticle;
+	},
 	
-}
-
-function getprice() {
-	price = 0;
-	for (i = 0; i < this.list.length; i++)
-	{
-		price += this.list[i].price * this.list[i].quantity;
-	}
-	return price;
-}
-
-function sendUpdate(article) {
+	getPrice : function() {
+		price = 0;
+		for (i = 0; i < this.list.length; i++)
+		{
+			price += this.list[i].price * this.list[i].quantity;
+		}
+		return price;
+	},
+	
+	sendUpdate: function (article) {
 		if (basket.online === false){
-			$.post('consumerbasket/', JSON.parse(JSON.stringify(article)), function(data, status){
-		        var consumerbasket_obj = JSON.parse(data);
+		$.post('consumerbasket/', JSON.parse(JSON.stringify(article)), function(data, status){
+		    var consumerbasket_obj = JSON.parse(data);
 				
-				basket.id = consumerbasket_obj["id"];
-				basket.online = true;				
+			basket.id = consumerbasket_obj["id"];
+			basket.online = true;				
 			});
 		}
 		else{
@@ -143,5 +128,6 @@ function sendUpdate(article) {
 				dataType: "text"
 			}).done(function (basket_obj){				
 			});
-		}	
-}
+		}
+	}
+});

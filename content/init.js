@@ -6,13 +6,10 @@ var basket;
 var customer;
 var order;
 
+var viewNavigator;
 var startView;
 var confirmPurchaseView;
 var basketView;
-
-function changeElement(rootElem_spl, htmlContent_spl){
-	$(rootElem_spl).html(htmlContent_spl);
-}
 
 function initObjects(){
 	LITAPP.es_o = new EventService_cl();
@@ -20,9 +17,10 @@ function initObjects(){
 	
 	articleList = new ArticleList_cl([]);
 	basket = new Basket_cl([]);
-	customer = new Customer_cl('', '');
+	customer = new Customer_cl('test', 'test');
 	order = new Order_cl(customer, basket);
 	
+	viewNavigator = new ViewNavigator_cl();
 	startView = new StartView_cl();
 	confirmPurchaseView = new ConfirmPurchaseView_cl();
 	basketView = new BasketView_cl();
@@ -30,23 +28,23 @@ function initObjects(){
 
 function initButtons(){
 	$('#basket').click(function (event){
-		navigator_obj.showView('#consumer-basket-view');
+		viewNavigator.showView('#consumer-basket-view');
 	});
 	
 	$('#show-overview-button').click(function (event){
-		navigator_obj.showView('#start-view');
+		viewNavigator.showView('#start-view');
 	});
 	
 	$('#show-purchase-button').click(function(event){
 		order.send();
-		navigator_obj.showView('#confirm-purchase-view');
+		viewNavigator.showView('#confirm-purchase-view');
 	});
 	
 	$('#confirm-purchase-button').click(function(event){
-		if (customer.id == undefined){
+		if (order.customer.id == undefined){
 			$.post('customer/', JSON.parse(JSON.stringify(customer)))
 			.done(function(data, textStatus, jqXHR){
-				navigator_obj.showSubview('#results-subview');
+				viewNavigator.showSubview('#results-subview');
 				
 				answer_obj = JSON.parse(data);
 				customer.id = answer_obj['id'];
@@ -74,18 +72,18 @@ function initButtons(){
 				.fail(function (jqXHR, textStatus, errorThrown){
 				})
 				.always(function (data, textStatus, jqXHR){
-					navigator_obj.showView('#start-view');
+					viewNavigator.showView('#start-view');
 				});
 	});
 	
 	$('#show-consumer-basket-view-button').click(function(event){
-		navigator_obj.showView('#consumer-basket-view');
+		viewNavigator.showView('#consumer-basket-view');
 	});
 	
 	$('#results-subview').on('click', '#complete-purchase-button', function (event){
 		basket.empty();
 		order.customer = new Customer_cl('', '');
-		navigator_obj.showView('#start-view');
+		viewNavigator.showView('#start-view');
 	});
 	
 	$('#add-quantity').click(function() {
@@ -154,10 +152,10 @@ $(document).ready(function(){
 	});
 	
 	$('#lastname-textbox').focusout(function (event){
-		customer.setLastName(event.target.value);
+		order.customer.setLastName(event.target.value);
 	});
 
 	$('#firstname-textbox').focusout(function (event){
-		customer.setFirstName(event.target.value);
+		order.customer.setFirstName(event.target.value);
 	});
 });

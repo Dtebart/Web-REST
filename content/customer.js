@@ -1,20 +1,18 @@
-function Customer_cl(firstName, lastName){
-	this.firstName = firstName;
-	this.lastName = lastName;
-
-	this.setFirstName = setFirstName;
-	this.setLastName = setLastName;
+Customer_cl = Class.create({
+	initialize: function (firstName, lastName){
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.id = undefined;
+		
+		this.setFirstName(firstName);
+		this.setLastName(lastName);
+	},
 	
-	setFirstName(firstName);
-	setLastName(lastName);
+	setFirstName: function(firstName){
+		this.firstName = firstName;
+	},
 	
-	this.id = undefined;
-}
-
-function setFirstName(firstName){
-	this.firstName = firstName;
-}
-
-function setLastName(lastName){
-	this.lastName = lastName;
-}
+	setLastName: function(lastName){
+		this.lastName = lastName;
+	}
+});
