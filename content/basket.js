@@ -30,7 +30,7 @@
 	
 	empty: function(){
 		$.ajax({
-		url: 'consumerbasket/' + basket.id,
+		url: 'consumerbasket/' + this.id,
 		type: 'DELETE',
 		contentType: "application/json",
 		dataType: "text"
@@ -67,7 +67,7 @@
 	deleteArticle: function (){
 		for (i = 0; i < this.list.length; i++)
 		{
-			article = basket.getselectedArticle();
+			var article = this.getselectedArticle();
 			if (article.number == this.list[i].number)
 			{
 				this.list.splice(i,1)
@@ -105,12 +105,13 @@
 	},
 	
 	sendUpdate: function (article) {
-		if (basket.online === false){
+		var self = this;
+		if (this.online == false){
 		$.post('consumerbasket/', JSON.parse(JSON.stringify(article)), function(data, status){
 		    var consumerbasket_obj = JSON.parse(data);
 				
-			basket.id = consumerbasket_obj["id"];
-			basket.online = true;				
+			self.id = consumerbasket_obj["id"];
+			self.online = true;				
 			});
 		}
 		else{
@@ -120,7 +121,7 @@
 				tmpBasket.articles[i] = {'name':this.list[i]['name'], 'price':this.list[i]['price'], 'quantity': this.list[i]['quantity'], 'number':this.list[i]['number']};
 			}			
 			$.ajax({
-				url: 'consumerbasket/' + basket.id,
+				url: 'consumerbasket/' + self.id,
 				type: 'PUT',
 				data: JSON.stringify(tmpBasket),
 				contentType: "application/json",
