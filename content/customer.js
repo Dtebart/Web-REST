@@ -14,5 +14,11 @@ Customer_cl = Class.create({
 	
 	setLastName: function(lastName){
 		this.lastName = lastName;
+	},
+	
+	clear: function(){
+		this.firstName = '';
+		this.lastName = '';
+		this.id = undefined;
 	}
 });

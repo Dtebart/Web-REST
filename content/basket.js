@@ -29,18 +29,6 @@
 	},
 	
 	empty: function(){
-		$.ajax({
-		url: 'consumerbasket/' + this.id,
-		type: 'DELETE',
-		contentType: "application/json",
-		dataType: "text"
-		})
-		.done(function () {})
-		.fail(function (jqXHR, textStatus, errorThrown){
-		})
-		.always(function (data, textStatus, jqXHR){
-			viewNavigator.showView('#start-view');
-		});
 		this.list.length = 0;
 		this.online = false;
 		this.totalPrice = 0;

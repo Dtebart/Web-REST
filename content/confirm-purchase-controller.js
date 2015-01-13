@@ -43,7 +43,17 @@ ConfirmPurchaseController_cl = Class.create({
 		});
 	
 		$('#cancel-button').click(function(event){
-			self.order.emptyBasket();
+			$.ajax({
+				url: 'consumerbasket/' + this.id,
+				type: 'DELETE',
+				contentType: "application/json",
+				dataType: "text"
+				})
+				.done(function () {})
+				.fail(function (jqXHR, textStatus, errorThrown){
+				})
+				.always(function (data, textStatus, jqXHR){
+				});
 			$.ajax({
 					url: 'order/' + self.order.id,
 					type: 'DELETE',
@@ -51,7 +61,8 @@ ConfirmPurchaseController_cl = Class.create({
 					dataType: "text"
 					})
 					.done(function (data, textStatus, jqXHR){
-						self.customer = new Customer_cl('', '');
+						self.order.close();
+						viewNavigator.showView('#start-view');
 					})
 					.fail(function (jqXHR, textStatus, errorThrown){
 					})
@@ -61,8 +72,7 @@ ConfirmPurchaseController_cl = Class.create({
 		});
 	
 		$('#results-subview').on('click', '#complete-purchase-button', function (event){
-			self.order.emptyBasket();
-			self.customer = new Customer_cl('', '');
+			self.order.close();
 			viewNavigator.showView('#start-view');
 		});
 	},
