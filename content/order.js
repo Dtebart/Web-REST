@@ -10,7 +10,9 @@ Order_cl = Class.create({
 		LITAPP.es_o.publish_px('order-change', this);
 	},
 	
-	emptyBasket: function(){
+	close: function(){
 		this.basket.empty();
+		this.customer.clear();
+		this.id = undefined;
 	}
 });
