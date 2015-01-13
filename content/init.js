@@ -1,161 +1,28 @@
 var LITAPP = {};
 var templateManager;
 
-var articleList;
-var basket;
-var customer;
-var order;
-
 var viewNavigator;
 var startView;
 var confirmPurchaseView;
 var basketView;
 
-function initObjects(){
+$(document).ready(main);
+
+function main(){
 	LITAPP.es_o = new EventService_cl();
 	templateManager = new TELIB.TemplateManager_cl();
 	
-	articleList = new ArticleList_cl([]);
-	basket = new Basket_cl([]);
-	customer = new Customer_cl('test', 'test');
-	order = new Order_cl(customer, basket);
+	var articleList = new ArticleList_cl([]);
+	var basket = new Basket_cl([]);
+	var customer = new Customer_cl('test', 'test');
+	var order = new Order_cl(customer, basket);
 	
 	viewNavigator = new ViewNavigator_cl();
 	startView = new StartView_cl();
 	confirmPurchaseView = new ConfirmPurchaseView_cl();
 	basketView = new BasketView_cl();
+	
+	var startController = new StartController_cl(startView, articleList, basket);
+	var basketController = new BasketController_cl(basketView, basket, order);
+	var confirmPurchaseController = new ConfirmPurchaseController_cl(confirmPurchaseView, order, customer);
 }
-
-function initButtons(){
-	$('#basket').click(function (event){
-		viewNavigator.showView('#consumer-basket-view');
-	});
-	
-	$('#show-overview-button').click(function (event){
-		viewNavigator.showView('#start-view');
-	});
-	
-	$('#show-purchase-button').click(function(event){
-		order.send();
-		viewNavigator.showView('#confirm-purchase-view');
-	});
-	
-	$('#confirm-purchase-button').click(function(event){
-		if (order.customer.id == undefined){
-			$.post('customer/', JSON.parse(JSON.stringify(customer)))
-			.done(function(data, textStatus, jqXHR){
-				viewNavigator.showSubview('#results-subview');
-				
-				answer_obj = JSON.parse(data);
-				customer.id = answer_obj['id'];
-				order.send();
-			})
-			.fail(function (jqXHR, textStatus, errorThrown){
-				if (errorThrown == 'Method Not Allowed'){
-					alert('Nutzerdaten existieren bereits');
-				}
-			});
-		}
-	});
-	
-	$('#cancel-button').click(function(event){
-		basket.empty();
-		$.ajax({
-				url: 'order/' + order.id,
-				type: 'DELETE',
-				contentType: "application/json",
-				dataType: "text"
-				})
-				.done(function (data, textStatus, jqXHR){
-					order.customer = new Customer_cl('', '');
-				})
-				.fail(function (jqXHR, textStatus, errorThrown){
-				})
-				.always(function (data, textStatus, jqXHR){
-					viewNavigator.showView('#start-view');
-				});
-	});
-	
-	$('#show-consumer-basket-view-button').click(function(event){
-		viewNavigator.showView('#consumer-basket-view');
-	});
-	
-	$('#results-subview').on('click', '#complete-purchase-button', function (event){
-		basket.empty();
-		order.customer = new Customer_cl('', '');
-		viewNavigator.showView('#start-view');
-	});
-	
-	$('#add-quantity').click(function() {
-		var article = basket.getselectedArticle();
-		if (article.quantity < 9)
-		{
-			basket.setQuantityOfArticle(article, article.quantity + 1);
-		}
-		basket.sendUpdate(article);
-	});
-		
-	$('#remove-quantity').click(function() {
-		var article = basket.getselectedArticle();
-		if (article.quantity > 1)
-		{
-			basket.setQuantityOfArticle(article, article.quantity - 1);
-		}
-		basket.sendUpdate(article);
-	});
-		
-	$('#delete-from-basket').click(function() {
-		basket.deleteArticle();
-		basket.sendUpdate(article);		
-	});
-
-	$('#add-to-basket').click(function() {
-		var article = articleList.getSelectedArticle();
-		basket.addArticle(article);
-		article["quantity"] = basket.getQuantityofArticle(article);
-		basket.sendUpdate(article);
-		$('#basket').show();
-	});
-	
-	$('#show-article-button').click(function() {
-		var article = articleList.getSelectedArticle();
-		$.get('article/' + article.number, function (data, status){
-			var articleDetails_str = data.replace(/'/g, '"');
-		    var articleDetails_obj = JSON.parse(articleDetails_str);
-			
-			LITAPP.es_o.publish_px('article-details-change', articleDetails_obj);
-		});
-	});
-}
-
-$(document).ready(function(){
-	initObjects();
-	
-	$.get('article/', function(data, status){
-		var articleList_str = data.replace(/'/g, '"');
-		var articleList_json = JSON.parse(articleList_str);
-			
-		for (var i = 0; i < articleList_json.length; i++){
-			articleList.addArticle(articleList_json[i]);
-		}
-	});
-	
-	initButtons();
-	
-	$('#articles').on('click', 'tbody tr', function(event) {
-		articleList.setSelectedArticle($(this).children().first().text());
-	});
-	
-	$('#basket-articles').on('click', 'tbody tr', function(event) {
-		basket.selectedArticle = $(this).children().first().text();
-		LITAPP.es_o.publish_px('basket-change', basket);
-	});
-	
-	$('#lastname-textbox').focusout(function (event){
-		order.customer.setLastName(event.target.value);
-	});
-
-	$('#firstname-textbox').focusout(function (event){
-		order.customer.setFirstName(event.target.value);
-	});
-});
