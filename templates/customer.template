@@ -1,0 +1,27 @@
+@var i;@
+@var rowClass_s = "";@
+@var customerList_o = context;@
+<table>
+	<thead>
+		<tr>
+			<th> Name </th>
+			<th> Vorname </th>
+		</tr>
+	</thead>
+	<tfoot>
+	</tfoot>
+	<tbody>
+		@for i = 0; i< customerList_o.list.length; i++@
+			@var customer_o = customerList_o.list[i];@
+			@if JSON.stringify(customer_o) === JSON.stringify(customerList_o.selectedCustomer)@
+				@rowClass_s = "selected-article";@
+			@else@
+				@rowClass_s = "";@
+			@endif@
+			<tr class = #rowClass_s#>
+				<td>#customer_o.lastName#</td>
+				<td>#customer_o.firstName#</td>
+			</tr>
+		@endfor@
+	</tbody>
+</table>

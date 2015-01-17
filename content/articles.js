@@ -10,7 +10,7 @@ Article_cl = Class.create({
 ArticleList_cl = Class.create({
 	initialize: function (list) {
 		this.list = list;
-		this.selectedArticle = null;
+		this.selectedArticle = undefined;
 	},
 	
 	addArticle: function (article) {

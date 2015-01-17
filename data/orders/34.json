@@ -1,0 +1,1 @@
+{"id": 34, "customer": {"lastName": "Redecker", "firstName": "Karl"}, "basket": {"id": 35, "online": true, "list": [{"name": "HN-T-Shirt", "quantity": 3, "number": 2, "price": 7.99}, {"name": "HN-Cup", "quantity": 3, "number": 3, "price": 2.5}], "totalPrice": 31.47, "selectedArticle": "3"}}
