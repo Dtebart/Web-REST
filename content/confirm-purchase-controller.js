@@ -28,8 +28,8 @@ ConfirmPurchaseController_cl = Class.create({
 		});
 		
 		$('#confirm-purchase-button').click(function(event){
-			viewNavigator.showSubview('#results-subview');
 			if (self.customerList.selectedCustomer != undefined){
+				viewNavigator.showSubview('#results-subview');
 				self.order.setCustomer(self.customerList.selectedCustomer);
 				
 				$.ajax({
@@ -45,7 +45,8 @@ ConfirmPurchaseController_cl = Class.create({
 			else{
 				$.post('customer/', JSON.parse(JSON.stringify(self.customer)))
 				.done(function(data, textStatus, jqXHR){
-				
+					viewNavigator.showSubview('#results-subview');
+					
 					var answer_obj = JSON.parse(data);
 					self.customer.id = answer_obj['id'];
 					self.order.setCustomer(self.customer);
