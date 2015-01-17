@@ -81,6 +81,11 @@
 				<!-- Siehe: basket-articles.template -->
 			</div>
 			
+			<form>
+				<input type="radio" name = "customer-option" value = "" id="new-customer-radio-button" checked="checked"/>Neuer Besteller
+				<input type="radio" name = "customer-option" value = "" id="existing-customer-radio-button"/>Vorhandenen Besteller auswählen
+			</form>
+			
 			<form id = "customer-info-form">
 				<p>
 					<label for = "lastname-textbox">Name:</label>
@@ -91,6 +96,11 @@
 					<input type = "text" class = "textbox" id = "firstname-textbox"/>
 				</p>
 			</form>
+			
+			<div id = "customer-table-subview" hidden>
+				<!-- Siehe: customer.template -->
+			</div>
+			
 			<button type = "button" class = "action-button animate blue" id = "confirm-purchase-button">Verbindlich kaufen</button>
 			<button type = "button" class = "action-button animate blue" id = "cancel-button">Stornieren</button>
 			<button type = "button" class = "action-button animate blue" id = "show-consumer-basket-view-button">Zurück</button>

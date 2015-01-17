@@ -56,7 +56,7 @@ class Customer(object):
         customer_list = []
         
         for customer_file in file_list:
-            if customer_file.endswith(".json"):
+            if not customer_file.startswith("id"):
                 customer_obj = self.database_obj.readJSON(customer_file[:-5])
                 customer_list.append(customer_obj)    
-        return str(customer_list) 
+        return encoder.JSONEncoder().encode(customer_list) 
