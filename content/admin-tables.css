@@ -1,0 +1,42 @@
+table {
+	font-family: Helvetica, Arial, sans-serif; 
+	border-collapse: collapse; 
+	border: solid;
+	border-color: #BBBBFF;
+}
+
+th {
+	background-color: #DFDFDF;
+	font-weight: bold;
+}
+ 
+td {
+	border: solid;
+	border-color: #BBBBFF;
+	text-align: center;
+	padding: 15px;
+}
+thead {
+	padding: 10px;
+}
+
+h2 {
+        font-family: times, Times New Roman, times-roman, georgia, serif;
+		font-size: 32px;
+		color: #444;
+		padding: 5px;
+        font-weight: 100;	
+}
+
+h1 {
+    font: bold 32px "Century Schoolbook", Georgia, Times, serif;
+	color: #333;
+}
+
+button {
+	background-color:#DDDDFF;
+	border-radius: 5px 10px / 10px;
+	box-shadow: 0 0 5px 5px #888; 
+	padding: 10px;
+	
+}

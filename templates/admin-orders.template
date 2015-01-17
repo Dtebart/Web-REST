@@ -6,6 +6,9 @@
 @for h = 0; h< context.length-1; h++@
 @basket_o = context[h]["basket"];@
 <p>
+<h2>
+	Bestellnummer: #order_o[h].id#
+</h2>
 <table>
 	<thead>
 		<tr>
