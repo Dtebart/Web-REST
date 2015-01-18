@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="pandoc">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title></title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+</head>
+<body>
+<nav id="TOC">
+<ul>
+<li><a href="#web-praktikum-4-dokumentation">Web Praktikum 4 Dokumentation</a><ul>
+<li><a href="#allgemeines-zur-lösung">1. Allgemeines zur Lösung</a></li>
+<li><a href="#beschreibung-der-komponenten">2. Beschreibung der Komponenten</a></li>
+<li><a href="#client---api">3. Client - API</a><ul>
+<li><a href="#article_cl">Article_cl</a></li>
+<li><a href="#articlelist_cl">ArticleList_cl</a></li>
+<li><a href="#basket_cl">Basket_cl</a></li>
+</ul></li>
+<li><a href="#server---api">4. Server - API</a><ul>
+<li><a href="#datenbank">Datenbank</a></li>
+<li><a href="#kunden">Kunden</a></li>
+<li><a href="#bestellungen">Bestellungen</a></li>
+<li><a href="#artikel">Artikel</a></li>
+<li><a href="#warenkorb">Warenkorb</a></li>
+</ul></li>
+<li><a href="#daten">5. Daten</a><ul>
+<li><a href="#artikel-1">Artikel</a></li>
+<li><a href="#kunden-1">Kunden</a></li>
+<li><a href="#einkaufswagen">Einkaufswagen</a></li>
+<li><a href="#bestellungen-1">Bestellungen</a></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
+<h1 id="web-praktikum-4-dokumentation">Web Praktikum 4 Dokumentation</h1>
+<ul>
+<li><h2>Gruppe R</h2></li>
+<li><h2>Gruppenmitglieder: Redecker, Max; Tebart, Daniel</h2></li>
+<li><h2>Datum: 29.01.2015</h2></li>
+</ul>
+<h2 id="allgemeines-zur-lösung">1. Allgemeines zur Lösung</h2>
+<p>Die Web-Anwendung HnFanShop ist eine Single-Page Webanwendung und wurde mit einer Client-Server Architektur auf der Basis des REST Ansatzes implementiert. Der Server wurde hierbei mit Python und dem Framework Cherrypy realisiert. Die Übertragung der Daten findet asynchron mit den Jquery-Ajax Methoden statt. Das Format der übertragenden ist JSON konform.</p>
+<h2 id="beschreibung-der-komponenten">2. Beschreibung der Komponenten</h2>
+<p>An Komponenten existieren:</p>
+<ul>
+<li>Eine Html Index-Datei</li>
+<li>Eine Html Admin-Datei</li>
+<li>Javascript Dateien zur Verwaltung von Bestellungen und Nutzern, für Clientseitige-Validierung und zum Versenden der Anfragen sowie Reagieren auf Server - Antworten</li>
+<li>Ein Phython Modul für die Serverkonfigurationen sowie verschiedene Module für verschiedene Serverdienste, die von Client aufgerufen werden</li>
+<li>Stylesheets für die HTML Elemente.</li>
+</ul>
+<h2 id="client---api">3. Client - API</h2>
+<p>Die Client Implementierung basiert auf einigen nützlichen Klassen, deren Funktion und Methoden hier aufgelistet sind:</p>
+<h3 id="article_cl">Article_cl</h3>
+<p>Die <em>Article_cl</em> Klasse enthält Informationen über einen Artikel.</p>
+<p>Attribute:</p>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Attribut</th>
+<th style="text-align: left;">Beschreibung</th>
+<th style="text-align: left;">Typ</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">number</td>
+<td style="text-align: left;">Die ID des Artikels</td>
+<td style="text-align: left;">integer</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">name</td>
+<td style="text-align: left;">Name des Artikels</td>
+<td style="text-align: left;">string</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">price</td>
+<td style="text-align: left;">Preis des Artikels</td>
+<td style="text-align: left;">integer</td>
+</tr>
+</tbody>
+</table>
+<p>Methoden:</p>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Methodenname</th>
+<th style="text-align: left;">Beschreibung</th>
+<th style="text-align: left;">Parameter</th>
+<th style="text-align: left;">Rückgabewert</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><em>Konstruktor(number, name, price)</em></td>
+<td style="text-align: left;"><em>Konstruktor</em></td>
+<td style="text-align: left;">ID, Name und Preis des Artikels</td>
+<td style="text-align: left;">Nicht vorhanden</td>
+</tr>
+</tbody>
+</table>
+<h3 id="articlelist_cl">ArticleList_cl</h3>
+<p>Die ArticleList_cl Klasse speichert eine Liste von Artikeln.</p>
+<p>Attribute:</p>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Attribut</th>
+<th style="text-align: left;">Beschreibung</th>
+<th style="text-align: left;">Typ</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">list</td>
+<td style="text-align: left;">Eine Liste in der die Artikel gespeichert werden</td>
+<td style="text-align: left;">array</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">selectedArticle</td>
+<td style="text-align: left;">Momentan ausgewähler Artikel</td>
+<td style="text-align: left;">object(Article_cl)</td>
+</tr>
+</tbody>
+</table>
+<p>Methoden:</p>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Methodenname</th>
+<th style="text-align: left;">Beschreibung</th>
+<th style="text-align: left;">Parameter</th>
+<th style="text-align: left;">Rückgabewert</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><em>Konstruktor(list)</em></td>
+<td style="text-align: left;"><em>Konstruktor</em></td>
+<td style="text-align: left;">Liste in der die Artikel gespeichert werden</td>
+<td style="text-align: left;">Nicht vorhanden</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">addArticle(article)</td>
+<td style="text-align: left;">Fügt <em>article</em> in die Artikelliste ein</td>
+<td style="text-align: left;">Ein Artikel vom typ <em>Article_cl</em></td>
+<td style="text-align: left;">nicht Vorhanden</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">setSelectedArticle(article)</td>
+<td style="text-align: left;">Setzt <em>selectedArticle</em> auf <em>article</em></td>
+<td style="text-align: left;">Ein Artikel vom typ <em>Article_cl</em></td>
+<td style="text-align: left;">nicht Vorhanden</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">getSelectedArticle()</td>
+<td style="text-align: left;">Gibt den aktuell ausgewählten Artikel zurück</td>
+<td style="text-align: left;">keine</td>
+<td style="text-align: left;">ein Objekt vom Typ <em>Article_cl</em></td>
+</tr>
+</tbody>
+</table>
+<h3 id="basket_cl">Basket_cl</h3>
+<p>Die Basket_cl Klasse verwaltet einen vom Nutzer angelegten Warenkorb.</p>
+<p>Attribute:</p>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Attribut</th>
+<th style="text-align: left;">Beschreibung</th>
+<th style="text-align: left;">Typ</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">list</td>
+<td style="text-align: left;">Eine Liste in der die Artikel im Warenkorb gespeichert werden.</td>
+<td style="text-align: left;">array</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">id</td>
+<td style="text-align: left;">Die ID des Warenkorbes.</td>
+<td style="text-align: left;">integer</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">totalPrice</td>
+<td style="text-align: left;">Der Gesamtpreis des Warenkorbes.</td>
+<td style="text-align: left;">integer</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">online</td>
+<td style="text-align: left;">Gibt an, ob der Warenkorb schon im Server existiert.</td>
+<td style="text-align: left;">boolean</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">selectedArticle</td>
+<td style="text-align: left;">Der im Warenkorb aktuelle ausgewählte Artikel</td>
+<td style="text-align: left;">ein Objekt vom Typ <em>Article_cl</em></td>
+</tr>
+</tbody>
+</table>
+<p>Methoden:</p>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Methodenname</th>
+<th style="text-align: left;">Beschreibung</th>
+<th style="text-align: left;">Parameter</th>
+<th style="text-align: left;">Rückgabewert</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">setTotalPrice(totalPrice)</td>
+<td style="text-align: left;">Verändert den Gesamtpreis zu <em>totalPrice</em></td>
+<td style="text-align: left;">Der neue Gesamtpreis</td>
+<td style="text-align: left;">Nicht Vorhanden</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">setQuantityofArticle(article, newQuantity)</td>
+<td style="text-align: left;">setzt die Anzahl der Artikel vom typ <em>article</em> auf <em>newQuantity</em>, aktualisiert den Gesamtpreis</td>
+<td style="text-align: left;">Der zu veränderne Artikel, Neue Anzahl</td>
+<td style="text-align: left;">Nicht Vorhanden</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">getQuantityofArticle(article)</td>
+<td style="text-align: left;">Gibt die Anzahl der Artikel vom Typ <em>article</em> zurück</td>
+<td style="text-align: left;">ein Artikel vom typ <em>Article_cl</em></td>
+<td style="text-align: left;">die Anzahl der Artikel (integer)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">empty</td>
+<td style="text-align: left;">Löscht alle Artikel im in <em>list</em></td>
+<td style="text-align: left;">keine</td>
+<td style="text-align: left;">nicht Vorhanden</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">addArticle(article)</td>
+<td style="text-align: left;">Fügt <em>article</em> in die Liste <em>list</em> ein</td>
+<td style="text-align: left;">Ein Artikel vom Typ <em>Article_cl</em></td>
+<td style="text-align: left;">nicht Vorhanden</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">deleteArticle()</td>
+<td style="text-align: left;">Löscht <em>selectedArticle</em> aus <em>list</em></td>
+<td style="text-align: left;">keine</td>
+<td style="text-align: left;">nicht Vorhanden</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">getselectedArticle()</td>
+<td style="text-align: left;">Gibt den im Warenkorb ausgewählten Artikel zurück</td>
+<td style="text-align: left;">keine</td>
+<td style="text-align: left;">Ein Artikel vom Typ <em>Article_cl</em></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">countArticle()</td>
+<td style="text-align: left;">Zählt die Anzahl der Artikel im Warenkorb</td>
+<td style="text-align: left;">keine</td>
+<td style="text-align: left;">Anzahl der Artikel im Warenkorb (integer)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">getPrice()</td>
+<td style="text-align: left;">Berechnet den Gesamtpreis des Warenkorbes</td>
+<td style="text-align: left;">keine</td>
+<td style="text-align: left;">Gesamtpreis des Warenkorbes (integer)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">sendUpdate(article)</td>
+<td style="text-align: left;">Sendet ein Update an den Server, um den Warenkorb zu synchronisieren</td>
+<td style="text-align: left;">Neu ausgesuchter Artikel</td>
+<td style="text-align: left;">nicht Vorhanden</td>
+</tr>
+</tbody>
+</table>
+<h2 id="server---api">4. Server - API</h2>
+<h3 id="datenbank">Datenbank</h3>
+<p>Das Datenbank - Modul bietet einige nützliche Methoden um Dateien zu editieren, löschen oder neu zu erstellen:</p>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Funktionsname</th>
+<th style="text-align: left;">Beschreibung</th>
+<th style="text-align: left;">Parameter</th>
+<th style="text-align: left;">Rückgabewert</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">readJSON(fileName)</td>
+<td style="text-align: left;">Das JSON File <em>fileName</em> wird ausgelesen und zurückgegeben.</td>
+<td style="text-align: left;">Dateiname als String</td>
+<td style="text-align: left;">Ausgelesenes File (JSON)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">insertFile(userData, fileName)</td>
+<td style="text-align: left;">Eine Neue Datei mit dem Namen <em>fileName</em> wird erstellt. Als Inhalt der Datei wird <em>userData</em> gespeichert.</td>
+<td style="text-align: left;">Zu schreibene Daten, Name der Datei</td>
+<td style="text-align: left;">Nicht vorhanden</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">readFile(fileName)</td>
+<td style="text-align: left;">Das File <em>fileName</em> wird ausgelesen und zurückgegeben.</td>
+<td style="text-align: left;">Dateinamen als String</td>
+<td style="text-align: left;">Ausgelesenens File (string)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">editFile(userData, fileName)</td>
+<td style="text-align: left;">Eine bestehende Datei mit dem Namen <em>fileName</em> wird mit <em>userData</em> überschrieben.</td>
+<td style="text-align: left;">Zu schreibene Daten, Name der Datei</td>
+<td style="text-align: left;">Nicht vorhanden</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">deleteFile(fileName)</td>
+<td style="text-align: left;">Eine bestehende Datei mit dem Name <em>fileName</em> wird gelöscht.</td>
+<td style="text-align: left;">Einen Teilnehmer im JSON Format</td>
+<td style="text-align: left;">Nicht vorhanden</td>
+</tr>
+</tbody>
+</table>
+<h3 id="kunden">Kunden</h3>
+<p>Das Kunden - Modul bietet Methoden um Kunden zu erfassen und um diese abzurufen:</p>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Funktionsname</th>
+<th style="text-align: left;">Typ</th>
+<th style="text-align: left;">Beschreibung</th>
+<th style="text-align: left;">Parameter</th>
+<th style="text-align: left;">Rückgabewert</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">index()</td>
+<td style="text-align: left;">POST</td>
+<td style="text-align: left;">Ein neuer Nutzer wird im JSON Format im Body übergeben, dieser wird persistent im Server gespeichert.</td>
+<td style="text-align: left;">Ein Nutzer im JSON Format im body des POST Requests</td>
+<td style="text-align: left;">die ID des Nutzers (int)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">index()</td>
+<td style="text-align: left;">GET</td>
+<td style="text-align: left;">Alle Nutzer werden vom Server ausgelesen und im JSON Format zurückgegeben.</td>
+<td style="text-align: left;">keine</td>
+<td style="text-align: left;">Liste aller Nutzer im JSON Format.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="bestellungen">Bestellungen</h3>
+<p>Das Bestellungen - Modul bietet Methoden um Bestellungen abzuwickeln und um diese abzurufen:</p>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Funktionsname</th>
+<th style="text-align: left;">Typ</th>
+<th style="text-align: left;">Beschreibung</th>
+<th style="text-align: left;">Parameter</th>
+<th style="text-align: left;">Rückgabewert</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">index()</td>
+<td style="text-align: left;">POST</td>
+<td style="text-align: left;">Eine neue Bestelleung wird im JSON Format im Body übergeben, diese wird persistent im Server gespeichert.</td>
+<td style="text-align: left;">Eine Bestellung im JSON Format im body des POST Requests</td>
+<td style="text-align: left;">die ID der Bestellung(int)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">index()</td>
+<td style="text-align: left;">GET</td>
+<td style="text-align: left;">Alle Bestellungen werden vom Server ausgelesen und im JSON Format zurückgegeben.</td>
+<td style="text-align: left;">keine</td>
+<td style="text-align: left;">Liste aller Bestellungen im JSON Format.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">update(id)</td>
+<td style="text-align: left;">POST</td>
+<td style="text-align: left;">Die Bestellung mit der ID <em>id</em> wird durch die im Body mitgegebene Bestellung überschrieben.</td>
+<td style="text-align: left;">id der Bestellung, aktualisierte Bestellung (JSON Format) im Body</td>
+<td style="text-align: left;">Liste aller Bestellungen im JSON Format.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">delete(id)</td>
+<td style="text-align: left;">POST</td>
+<td style="text-align: left;">Die Bestellung mit der ID <em>id</em> wird dauerhaft gelöscht.</td>
+<td style="text-align: left;">id der Bestellung</td>
+<td style="text-align: left;">&quot;Success&quot; (string)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="artikel">Artikel</h3>
+<p>Das Artikel - Modul bietet Methoden um im Server persistent gespeicherte Artikel abzurufen:</p>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Funktionsname</th>
+<th style="text-align: left;">Typ</th>
+<th style="text-align: left;">Beschreibung</th>
+<th style="text-align: left;">Parameter</th>
+<th style="text-align: left;">Rückgabewert</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">index()</td>
+<td style="text-align: left;">GET</td>
+<td style="text-align: left;">Liefert alle Artikel im JSON Format.</td>
+<td style="text-align: left;">keine</td>
+<td style="text-align: left;">Liste aller Artikel im JSON Format</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">get_article(article_id)</td>
+<td style="text-align: left;">GET</td>
+<td style="text-align: left;">Liefert Artikel mit der ID <em>article_id</em> im JSON Format.</td>
+<td style="text-align: left;">ID des Artikels</td>
+<td style="text-align: left;">Artikel im JSON Format</td>
+</tr>
+</tbody>
+</table>
+<h3 id="warenkorb">Warenkorb</h3>
+<p>Das Warenkorb - Modul bietet Methoden um Warenkörbe zu speichern, zu editieren, zu löschen und zum abrufen:</p>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Funktionsname</th>
+<th style="text-align: left;">Typ</th>
+<th style="text-align: left;">Beschreibung</th>
+<th style="text-align: left;">Parameter</th>
+<th style="text-align: left;">Rückgabewert</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">index()</td>
+<td style="text-align: left;">POST</td>
+<td style="text-align: left;">Speichert einen im Body übergebenen Warenkorb persistent im Server ab.</td>
+<td style="text-align: left;">Einen Warenkorb im JSON Format</td>
+<td style="text-align: left;">ID des Warenkorbs (int)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">get(consumerbasket_id)</td>
+<td style="text-align: left;">GET</td>
+<td style="text-align: left;">Liefert Warenkorb mit der ID <em>consumerbasket_id</em> im JSON Format.</td>
+<td style="text-align: left;">ID des Warenkorbs</td>
+<td style="text-align: left;">Warenkorb im JSON Format</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">update(consumerbasket_id)</td>
+<td style="text-align: left;">POST</td>
+<td style="text-align: left;">Überschreibt Warenkorb mit der ID <em>consumerbasket_id</em> mit dem im Body im JSON Format übergebenen Warenkorb</td>
+<td style="text-align: left;">ID des Warenkorbs, Warenkorb als JSON Format im Body</td>
+<td style="text-align: left;">Aktualisierter Warenkorb im JSON Format</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">delete(consumerbasket_id)</td>
+<td style="text-align: left;">POST</td>
+<td style="text-align: left;">Löscht den Warenkorb mit der ID <em>consumerbasket_id</em> dauerhaft.</td>
+<td style="text-align: left;">ID des Warenkorbes</td>
+<td style="text-align: left;">&quot;success&quot; (string)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="daten">5. Daten</h2>
+<p>In diesem Abschnitt werden alle Dictionaries und Ihre Bestandteile aufgelistet:</p>
+<h3 id="artikel-1">Artikel</h3>
+<p>Dictionary, Aufbau:</p>
+<ul>
+<li>name : <em>ArticleName</em></li>
+<li>price : <em>ArticlePrice</em></li>
+<li>number : <em>id</em></li>
+</ul>
+<h3 id="kunden-1">Kunden</h3>
+<p>Dictionary, Aufbau:</p>
+<ul>
+<li>lastName : <em>lastName</em></li>
+<li>firstName : <em>firstName</em></li>
+</ul>
+<h3 id="einkaufswagen">Einkaufswagen</h3>
+<p>Dictionary, Aufbau:</p>
+<ul>
+<li>id : <em>ID</em></li>
+<li>articles: <em>DictionaryOfArticles</em></li>
+</ul>
+<h3 id="bestellungen-1">Bestellungen</h3>
+<p>Dictionary, Aufbau:</p>
+<ul>
+<li>id : <em>ID</em></li>
+<li>customer : <em>KundenDictionary</em></li>
+<li>basket : <em>EinkaufswagenDictionary</em></li>
+</ul>
+</body>
+</html>
