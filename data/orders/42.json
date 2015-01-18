@@ -1,0 +1,1 @@
+{"id": 42, "customer": {"lastName": "Tebart", "firstName": "Daniel"}, "basket": {"id": 44, "online": true, "list": [{"name": "HN-Cappy", "quantity": 4, "number": 1, "price": 3.5}], "totalPrice": 14, "selectedArticle": "1"}}

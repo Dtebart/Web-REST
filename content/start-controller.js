@@ -1,5 +1,6 @@
 StartController_cl = Class.create({
-	initialize: function (startView, articleList, basket){		
+	initialize: function (viewNavigator, startView, articleList, basket){		
+		this.viewNavigator = viewNavigator;
 		this.startView = startView;
 		this.articleList = articleList;
 		this.basket = basket;
@@ -24,10 +25,12 @@ StartController_cl = Class.create({
 		
 		$('#add-to-basket-button').click(function() {
 			var article = self.articleList.getSelectedArticle();
-			self.basket.addArticle(article);
-			article["quantity"] = self.basket.getQuantityofArticle(article);
-			self.basket.sendUpdate(article);
-			$('#basket').show();
+			if (article != undefined){
+				self.basket.addArticle(article);
+				article["quantity"] = self.basket.getQuantityofArticle(article);
+				self.basket.sendUpdate(article);
+				$('#basket').show();
+			}
 		});
 	},
 	
@@ -49,8 +52,9 @@ StartController_cl = Class.create({
 	},
 	
 	initBasketControl: function(){
+		var self = this;
 		$('#basket').click(function (event){
-			viewNavigator.showView('#consumer-basket-view');
+			self.viewNavigator.showView('#consumer-basket-view');
 		});
 	}
 });

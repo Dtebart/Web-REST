@@ -95,11 +95,12 @@
 	sendUpdate: function (article) {
 		var self = this;
 		if (this.online == false){
-		$.post('consumerbasket/', JSON.parse(JSON.stringify(article)), function(data, status){
-		    var consumerbasket_obj = JSON.parse(data);
-				
-			self.id = consumerbasket_obj["id"];
-			self.online = true;				
+		$.post('consumerbasket/', JSON.parse(JSON.stringify(article)))
+			.done(function(data, textStatus, jqXHR){
+				var consumerbasket_obj = JSON.parse(data);
+					
+				self.id = consumerbasket_obj["id"];
+				self.online = true;				
 			});
 		}
 		else{

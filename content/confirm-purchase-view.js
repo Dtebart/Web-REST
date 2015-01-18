@@ -25,6 +25,10 @@ ConfirmPurchaseView_cl = Class.create({
 		renderElement(elementName_s, templateName_s, data_opl);
 	},
 	
+	showStartLayout: function(){
+		$('#customer-subview').show();
+	},
+	
 	showCustomerForm: function(){
 		$('#customer-info-form').show();
 		$('#customer-table-subview').hide();

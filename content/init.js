@@ -1,11 +1,6 @@
 var LITAPP = {};
 var templateManager;
 
-var viewNavigator;
-var startView;
-var confirmPurchaseView;
-var basketView;
-
 $(document).ready(main);
 
 function main(){
@@ -17,12 +12,12 @@ function main(){
 	var customer = new Customer_cl('test', 'test');
 	var order = new Order_cl(customer, basket);
 	
-	viewNavigator = new ViewNavigator_cl();
-	startView = new StartView_cl();
-	confirmPurchaseView = new ConfirmPurchaseView_cl();
-	basketView = new BasketView_cl();
+	var viewNavigator = new ViewNavigator_cl();
+	var startView = new StartView_cl();
+	var confirmPurchaseView = new ConfirmPurchaseView_cl();
+	var basketView = new BasketView_cl();
 	
-	var startController = new StartController_cl(startView, articleList, basket);
-	var basketController = new BasketController_cl(basketView, basket, order);
-	var confirmPurchaseController = new ConfirmPurchaseController_cl(confirmPurchaseView, order, customer);
+	var startController = new StartController_cl(viewNavigator, startView, articleList, basket);
+	var basketController = new BasketController_cl(viewNavigator, basketView, basket, order);
+	var confirmPurchaseController = new ConfirmPurchaseController_cl(viewNavigator, confirmPurchaseView, order, customer);
 }

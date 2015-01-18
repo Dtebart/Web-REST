@@ -1,5 +1,6 @@
 BasketController_cl = Class.create({
-	initialize: function(basketView, basket, order){
+	initialize: function(viewNavigator, basketView, basket, order){
+		this.viewNavigator = viewNavigator;
 		this.basketView = basketView;
 		this.basket = basket;
 		this.order = order;
@@ -12,7 +13,7 @@ BasketController_cl = Class.create({
 		var self = this;
 		
 		$('#show-overview-button').click(function (event){
-			viewNavigator.showView('#start-view');
+			self.viewNavigator.showView('#start-view');
 		});
 	
 		$('#show-purchase-button').click(function(event){
@@ -37,7 +38,7 @@ BasketController_cl = Class.create({
 					.done(function (data, textStatus, jqXHR){	
 					});
 				}
-			viewNavigator.showView('#confirm-purchase-view');
+			self.viewNavigator.showView('#confirm-purchase-view');
 		});
 		
 		$('#add-quantity').click(function() {

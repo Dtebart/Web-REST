@@ -1,1 +1,1 @@
-{"id": "basket", "articles": {"1": {"name": "HN-T-Shirt", "quantity": 1, "price": 7.99, "number": 2}, "0": {"name": "HN-Cappy", "quantity": 1, "price": 3.5, "number": 1}}}
+{"id": "basket", "articles": {"0": {"number": 1, "price": 3.5, "quantity": 5, "name": "HN-Cappy"}}}

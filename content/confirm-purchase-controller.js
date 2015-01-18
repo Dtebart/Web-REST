@@ -1,5 +1,6 @@
 ConfirmPurchaseController_cl = Class.create({
-	initialize: function(confirmPurchaseView, order, customer){
+	initialize: function(viewNavigator, confirmPurchaseView, order, customer){
+		this.viewNavigator = viewNavigator;
 		this.confirmPurchaseView = confirmPurchaseView;
 		this.order = order;
 		this.customer = customer;
@@ -24,12 +25,13 @@ ConfirmPurchaseController_cl = Class.create({
 		});
 		
 		$('#show-consumer-basket-view-button').click(function(event){
-			viewNavigator.showView('#consumer-basket-view');
+			self.viewNavigator.showView('#consumer-basket-view');
 		});
 		
 		$('#confirm-purchase-button').click(function(event){
 			if (self.customerList.selectedCustomer != undefined){
-				viewNavigator.showSubview('#results-subview');
+				self.viewNavigator.showSubview('#results-subview');
+				$('#customer-subview').hide();
 				self.order.setCustomer(self.customerList.selectedCustomer);
 				
 				$.ajax({
@@ -45,7 +47,8 @@ ConfirmPurchaseController_cl = Class.create({
 			else{
 				$.post('customer/', JSON.parse(JSON.stringify(self.customer)))
 				.done(function(data, textStatus, jqXHR){
-					viewNavigator.showSubview('#results-subview');
+					self.viewNavigator.showSubview('#results-subview');
+					$('#customer-subview').hide();
 					
 					var answer_obj = JSON.parse(data);
 					self.customer.id = answer_obj['id'];
@@ -89,18 +92,19 @@ ConfirmPurchaseController_cl = Class.create({
 					})
 					.done(function (data, textStatus, jqXHR){
 						self.order.close();
-						viewNavigator.showView('#start-view');
+						self.viewNavigator.showView('#start-view');
 					})
 					.fail(function (jqXHR, textStatus, errorThrown){
 					})
 					.always(function (data, textStatus, jqXHR){
-						viewNavigator.showView('#start-view');
+						self.viewNavigator.showView('#start-view');
 					});
 		});
 	
 		$('#results-subview').on('click', '#complete-purchase-button', function (event){
 			self.order.close();
-			viewNavigator.showView('#start-view');
+			$('#customer-subview').show();
+			self.viewNavigator.showView('#start-view');
 		});
 	},
 	
