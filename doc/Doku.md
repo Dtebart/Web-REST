@@ -17,6 +17,74 @@ An Komponenten existieren:
 
 ## 3. Client - API
 
+Die Client Implementierung basiert auf einigen nützlichen Klassen, deren Funktion und Methoden hier aufgelistet sind:
+
+### Article_cl
+
+Die *Article_cl* Klasse enthält Informationen über einen Artikel.
+
+Attribute:
+
+| Attribut | Beschreibung                                       | Typ                 |
+|----------|----------------------------------------------------|---------------------|
+|number| Die ID des Artikels | integer|
+|name | Name des Artikels | string|
+|price|Preis des Artikels | integer|
+
+Methoden:
+
+| Methodenname | Beschreibung                                       | Parameter                 | Rückgabewert |
+|---------------|----------------------------------------------------|---------------------------|---------------------------|
+|*Konstruktor(number, name, price)*|*Konstruktor*| ID, Name und Preis des Artikels| Nicht vorhanden|
+
+### ArticleList_cl
+
+Die ArticleList_cl Klasse speichert eine Liste von Artikeln.
+
+Attribute:
+
+| Attribut | Beschreibung                                       | Typ                 |
+|----------|----------------------------------------------------|---------------------|
+|list| Eine Liste in der die Artikel gespeichert werden| array |
+|selectedArticle | Momentan ausgewähler Artikel | object(Article_cl)|
+
+Methoden:
+
+| Methodenname | Beschreibung                                       | Parameter                 | Rückgabewert |
+|---------------|----------------------------------------------------|---------------------------|---------------------------|
+|*Konstruktor(list)*| *Konstruktor*| Liste in der die Artikel gespeichert werden| Nicht vorhanden|
+|addArticle(article)| Fügt *article* in die Artikelliste ein | Ein Artikel vom typ *Article_cl* | nicht Vorhanden|
+|setSelectedArticle(article)| Setzt *selectedArticle* auf *article* | Ein Artikel vom typ *Article_cl* | nicht Vorhanden|
+|getSelectedArticle()| Gibt den aktuell ausgewählten Artikel zurück | keine | ein Objekt vom Typ *Article_cl* |
+
+### Basket_cl
+
+Die Basket_cl Klasse verwaltet einen vom Nutzer angelegten Warenkorb.
+
+Attribute:
+
+| Attribut | Beschreibung                                       | Typ                 |
+|----------|----------------------------------------------------|---------------------|
+|list| Eine Liste in der die Artikel im Warenkorb gespeichert werden. | array |
+|id | Die ID des Warenkorbes. | integer|
+|totalPrice | Der Gesamtpreis des Warenkorbes. | integer |
+|online | Gibt an, ob der Warenkorb schon im Server existiert. | boolean |
+|selectedArticle | Der im Warenkorb aktuelle ausgewählte Artikel | ein Objekt vom Typ *Article_cl* |
+
+Methoden:
+
+| Methodenname | Beschreibung                                       | Parameter                 | Rückgabewert |
+|---------------|----------------------------------------------------|---------------------------|---------------------------|
+|setTotalPrice(totalPrice)| Verändert den Gesamtpreis zu *totalPrice* | Der neue Gesamtpreis | Nicht Vorhanden|
+|setQuantityofArticle(article, newQuantity)| setzt die Anzahl der Artikel vom typ *article* auf *newQuantity*, aktualisiert den Gesamtpreis| Der zu veränderne Artikel, Neue Anzahl | Nicht Vorhanden|
+|getQuantityofArticle(article) | Gibt die Anzahl der Artikel vom Typ *article* zurück | ein Artikel vom typ *Article_cl* | die Anzahl der Artikel (integer)|
+|empty| Löscht alle Artikel im in *list* | keine | nicht Vorhanden |
+|addArticle(article) | Fügt *article* in die Liste *list* ein | Ein Artikel vom Typ *Article_cl* | nicht Vorhanden |
+|deleteArticle() | Löscht *selectedArticle* aus *list* | keine |nicht Vorhanden |
+|getselectedArticle() | Gibt den im Warenkorb ausgewählten Artikel zurück | keine | Ein Artikel vom Typ *Article_cl* |
+|countArticle() | Zählt die Anzahl der Artikel im Warenkorb | keine | Anzahl der Artikel im Warenkorb (integer) |
+|getPrice() | Berechnet den Gesamtpreis des Warenkorbes | keine | Gesamtpreis des Warenkorbes (integer) |
+sendUpdate(article) | Sendet ein Update an den Server, um den Warenkorb zu synchronisieren | Neu ausgesuchter Artikel | nicht Vorhanden | 
 
 ## 4. Server - API
 
@@ -71,3 +139,41 @@ Das Warenkorb - Modul bietet Methoden um Warenkörbe zu speichern, zu editieren,
 |get(consumerbasket_id)|GET| Liefert Warenkorb mit der ID *consumerbasket_id* im JSON Format.|ID des Warenkorbs|Warenkorb im JSON Format|
 |update(consumerbasket_id)|POST| Überschreibt Warenkorb mit der ID *consumerbasket_id* mit dem im Body im JSON Format übergebenen Warenkorb|ID des Warenkorbs, Warenkorb als JSON Format im Body|Aktualisierter Warenkorb im JSON Format|
 |delete(consumerbasket_id)|POST| Löscht den Warenkorb mit der ID *consumerbasket_id* dauerhaft. | ID des Warenkorbes |"success" (string)|
+
+## 5. Daten
+
+In diesem Abschnitt werden alle Dictionaries und Ihre Bestandteile aufgelistet:
+
+### Artikel
+
+Dictionary, Aufbau:
+
+* name : *ArticleName*
+* price : *ArticlePrice*
+* number : *id*
+
+### Kunden
+
+Dictionary, Aufbau:
+
+* lastName : *lastName*
+* firstName : *firstName*
+
+### Einkaufswagen
+
+Dictionary, Aufbau:
+
+* id : *ID*
+* articles: *DictionaryOfArticles*
+
+### Bestellungen
+
+Dictionary, Aufbau:
+
+* id : *ID*
+* customer : *KundenDictionary*
+* basket : *EinkaufswagenDictionary*
+
+
+
+
