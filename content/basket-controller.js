@@ -21,8 +21,7 @@ BasketController_cl = Class.create({
 			if (self.order.id == undefined){
 				$.post('order/', JSON.parse(JSON.stringify(self.order)))
 					.done(function (data, textStatus, jqXHR){
-						var answer_obj = JSON.parse(data);
-						self.order.id = answer_obj['id'];
+						self.order.id = JSON.parse(data)['id'];
 					})
 					.fail(function (jqXHR, textStatus, errorThrown){
 					});
@@ -47,7 +46,7 @@ BasketController_cl = Class.create({
 			{
 				self.basket.setQuantityOfArticle(article, article.quantity + 1);
 			}
-			self.basket.sendUpdate(article);
+			self.sendBasketUpdate(article);
 		})
 			
 		$('#remove-quantity').click(function() {
@@ -56,14 +55,14 @@ BasketController_cl = Class.create({
 			{
 				self.basket.setQuantityOfArticle(article, article.quantity - 1);
 			}
-			self.basket.sendUpdate(article);
+			self.sendBasketUpdate(article);
 		})
 			
 		$('#delete-from-basket').click(function() {
 			var article = self.basket.getselectedArticle();
 		
 			self.basket.deleteArticle();
-			self.basket.sendUpdate(article);		
+			self.sendBasketUpdate(article);		
 		})
 	},
 	
@@ -74,5 +73,29 @@ BasketController_cl = Class.create({
 			self.basket.selectedArticle = $(this).children().first().text();
 			LITAPP.es_o.publish_px('basket-change', self.basket);
 		});
+	},
+	
+	sendBasketUpdate: function(article){
+		var self = this;
+		if (this.basket.online == false){
+			$.post('consumerbasket/', JSON.parse(JSON.stringify(article)))
+				.done(function(data, textStatus, jqXHR){
+					var basket = JSON.parse(data);
+						
+					self.basket.id = basket["id"];
+					self.basket.online = true;				
+				});
+		}
+		else{		
+			$.ajax({
+				url: 'consumerbasket/' + this.basket.id,
+				type: 'PUT',
+				data: JSON.stringify(this.basket),
+				contentType: "application/json",
+				processData: false,	
+				dataType: "text"
+			}).done(function (basket){				
+			});
+		}
 	}
 });

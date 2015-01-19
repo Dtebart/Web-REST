@@ -29,6 +29,19 @@ StartView_cl = Class.create({
 		}
 		
 		renderElement(elementName_s, templateName_s, data_opl);
+	},
+	
+	showBasket: function(){
+		$('#basket').show();
+	},
+	
+	showError: function(errortext){
+		$('#startview-errortext').html(errortext);
+	},
+	
+	deleteInfotext: function(){
+		$('#startview-errortext').html('');
+		$('#article-details').html('');
 	}
 });
 

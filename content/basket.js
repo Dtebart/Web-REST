@@ -90,34 +90,5 @@
 			price += this.list[i].price * this.list[i].quantity;
 		}
 		return price;
-	},
-	
-	sendUpdate: function (article) {
-		var self = this;
-		if (this.online == false){
-		$.post('consumerbasket/', JSON.parse(JSON.stringify(article)))
-			.done(function(data, textStatus, jqXHR){
-				var consumerbasket_obj = JSON.parse(data);
-					
-				self.id = consumerbasket_obj["id"];
-				self.online = true;				
-			});
-		}
-		else{
-			tmpBasket = {'id': basket.id, 'articles':{}};
-			for (i = 0; i < this.list.length; i++)
-			{				
-				tmpBasket.articles[i] = {'name':this.list[i]['name'], 'price':this.list[i]['price'], 'quantity': this.list[i]['quantity'], 'number':this.list[i]['number']};
-			}			
-			$.ajax({
-				url: 'consumerbasket/' + self.id,
-				type: 'PUT',
-				data: JSON.stringify(tmpBasket),
-				contentType: "application/json",
-				processData: false,	
-				dataType: "text"
-			}).done(function (basket_obj){				
-			});
-		}
 	}
 });
