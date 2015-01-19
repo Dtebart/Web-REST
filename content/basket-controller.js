@@ -14,6 +14,7 @@ BasketController_cl = Class.create({
 		
 		$('#show-overview-button').click(function (event){
 			self.viewNavigator.showView('#start-view');
+			self.basketView.deleteInfotext();
 		});
 	
 		$('#show-purchase-button').click(function(event){
@@ -38,31 +39,51 @@ BasketController_cl = Class.create({
 					});
 				}
 			self.viewNavigator.showView('#confirm-purchase-view');
+			self.basketView.deleteInfotext();
 		});
 		
 		$('#add-quantity').click(function() {
 			var article = self.basket.getselectedArticle();
-			if (article.quantity < 9)
-			{
-				self.basket.setQuantityOfArticle(article, article.quantity + 1);
+			if (article != undefined){
+				if (article.quantity < 9){
+					self.basket.setQuantityOfArticle(article, article.quantity + 1);
+					self.sendBasketUpdate(article);
+				}
+				else{
+					self.basketView.showError('Maximale Anzahl erreicht');
+				}
 			}
-			self.sendBasketUpdate(article);
+			else{
+				self.basketView.showError('Bitte einen Artikel anklicken');
+			}
 		})
 			
 		$('#remove-quantity').click(function() {
 			var article = self.basket.getselectedArticle();
-			if (article.quantity > 1)
-			{
-				self.basket.setQuantityOfArticle(article, article.quantity - 1);
+			if (article != undefined){
+				if (article.quantity > 1){
+					self.basket.setQuantityOfArticle(article, article.quantity - 1);
+					self.sendBasketUpdate(article);
+				}
+				else{
+					self.basketView.showError('Minimale Anzahl erreicht');
+				}
 			}
-			self.sendBasketUpdate(article);
+			else{
+				self.basketView.showError('Bitte einen Artikel anklicken');
+			}
 		})
 			
 		$('#delete-from-basket').click(function() {
 			var article = self.basket.getselectedArticle();
-		
-			self.basket.deleteArticle();
-			self.sendBasketUpdate(article);		
+			
+			if (article != undefined){
+				self.basket.deleteArticle();
+				self.sendBasketUpdate(article);
+			}
+			else{
+				self.basketView.showError('Bitte einen Artikel anklicken');
+			}
 		})
 	},
 	

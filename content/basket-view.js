@@ -13,5 +13,13 @@ BasketView_cl = Class.create({
 		}
 	
 		renderElement(elementName_s, templateName_s, data_opl);
+	},
+	
+	showError: function(errortext){
+		$('#basketview-errortext').html(errortext);
+	},
+	
+	deleteInfotext: function(){
+		$('#basketview-errortext').html('');
 	}
 });
