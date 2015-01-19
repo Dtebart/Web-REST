@@ -2,7 +2,7 @@
 @var h@
 @var rowClass_s = "";@
 @var order_o = context;@
-@for g = 0; g < context["customer"].length-1; g++@
+@for g = 0; g < context["customer"].length; g++@
 @var current_firstName = context["customer"][g].firstName@
 @var current_lastName = context["customer"][g].lastName@
 <p>

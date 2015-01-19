@@ -11,15 +11,17 @@ $(document).ready(function(){
 	startView = new StartView_cl();
 	get_data();
 	
-	$('#to-customer').on('click', function(event) {
+	$('.to-customer').on('click', function(event) {
 		get_data();
+		$('#start-screen').hide();
 		$('#head-order').hide();
 		$('#head-customer').show();
 		LITAPP.es_o.publish_px('show-customers', data_opl);
 
 	});	
-	$('#to-order').on('click', function(event) {
+	$('.to-order').on('click', function(event) {
 		get_data();
+		$('#start-screen').hide();
 		$('#head-order').show();
 		$('#head-customer').hide();		
 		LITAPP.es_o.publish_px('show-orders', data_opl);
