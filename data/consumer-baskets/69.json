@@ -1,1 +1,1 @@
-{"id": 69, "articles": {"1": {"price": "3.5", "quantity": 1, "name": "HN-Cappy"}}}
+{"online": true, "id": 69, "list": [{"quantity": 1, "number": 3, "name": "HN-Cup", "price": 2.5}, {"quantity": 1, "number": 2, "name": "HN-T-Shirt", "price": 7.99}], "totalPrice": 10.49}
