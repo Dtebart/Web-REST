@@ -9,7 +9,7 @@ function main(){
 	
 	var articleList = new ArticleList_cl([]);
 	var basket = new Basket_cl([]);
-	var customer = new Customer_cl('test', 'test');
+	var customer = new Customer_cl('', '');
 	var order = new Order_cl(customer, basket);
 	
 	var viewNavigator = new ViewNavigator_cl();

@@ -5,7 +5,6 @@ ConfirmPurchaseController_cl = Class.create({
 		this.order = order;
 		this.customer = customer;
 		this.customerList = new CustomerList_cl();
-		this.basket = basket;
 		
 		this.initButtonControl();
 		this.initCustomerControl();
@@ -29,52 +28,63 @@ ConfirmPurchaseController_cl = Class.create({
 		});
 		
 		$('#confirm-purchase-button').click(function(event){
-			if (self.customerList.selectedCustomer != undefined){
-				self.viewNavigator.showSubview('#results-subview');
-				$('#customer-subview').hide();
-				self.order.setCustomer(self.customerList.selectedCustomer);
-				
-				$.ajax({
-						url: 'order/' + self.order.id,
-						type: 'PUT',
-						data: JSON.stringify(self.order),
-						contentType: "application/json",
-						dataType: "text"
-						})
-						.done(function (data, textStatus, jqXHR){	
-						});
-			}
-			else{
-				$.post('customer/', JSON.parse(JSON.stringify(self.customer)))
-				.done(function(data, textStatus, jqXHR){
+			if (self.confirmPurchaseView.isCustomerTableVisible()){
+				if (self.customerList.selectedCustomer != undefined){
 					self.viewNavigator.showSubview('#results-subview');
 					$('#customer-subview').hide();
-					
-					var answer_obj = JSON.parse(data);
-					self.customer.id = answer_obj['id'];
-					self.order.setCustomer(self.customer);
+					self.order.setCustomer(self.customerList.selectedCustomer);
 					
 					$.ajax({
-						url: 'order/' + self.order.id,
-						type: 'PUT',
-						data: JSON.stringify(self.order),
-						contentType: "application/json",
-						dataType: "text"
-						})
-						.done(function (data, textStatus, jqXHR){	
+							url: 'order/' + self.order.id,
+							type: 'PUT',
+							data: JSON.stringify(self.order),
+							contentType: "application/json",
+							dataType: "text"
+							})
+							.done(function (data, textStatus, jqXHR){	
+							});
+				}
+				else{
+					self.confirmPurchaseView.showError('Bitte einen Kunden anklicken');
+				}
+			}
+			else{
+				if (!self.customer.isEmpty()){
+					$.post('customer/', JSON.parse(JSON.stringify(self.customer)))
+						.done(function(data, textStatus, jqXHR){
+							self.viewNavigator.showSubview('#results-subview');
+							$('#customer-subview').hide();
+							
+							var answer_obj = JSON.parse(data);
+							self.customer.id = answer_obj['id'];
+							self.order.setCustomer(self.customer);
+							
+							$.ajax({
+								url: 'order/' + self.order.id,
+								type: 'PUT',
+								data: JSON.stringify(self.order),
+								contentType: "application/json",
+								dataType: "text"
+								})
+								.done(function (data, textStatus, jqXHR){	
+								});
+				
+						}).fail(function (jqXHR, textStatus, errorThrown){
+							if (errorThrown == 'Method Not Allowed'){
+								self.confirmPurchaseView.showError('Kundendaten existieren bereits');
+							}
 						});
-		
-				}).fail(function (jqXHR, textStatus, errorThrown){
-					if (errorThrown == 'Method Not Allowed'){
-						alert('Nutzerdaten existieren bereits');
-					}
-				});
+				}
+				else{
+					self.confirmPurchaseView.showError('Bitte Kundendaten eingeben');
+				}
 			}
 		});
 	
 		$('#cancel-button').click(function(event){
+			self.confirmPurchaseView.reset();
 			$.ajax({
-				url: 'consumerbasket/' + this.id,
+				url: 'consumerbasket/' + self.order.basket.id,
 				type: 'DELETE',
 				contentType: "application/json",
 				dataType: "text"
@@ -105,6 +115,7 @@ ConfirmPurchaseController_cl = Class.create({
 			self.order.close();
 			$('#customer-subview').show();
 			self.viewNavigator.showView('#start-view');
+			self.confirmPurchaseView.reset();
 		});
 	},
 	

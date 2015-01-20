@@ -33,6 +33,10 @@ Customer_cl = Class.create({
 		this.lastName = lastName;
 	},
 	
+	isEmpty: function(){
+		return (this.firstName == '' || this.lastName == '');
+	},
+	
 	clear: function(){
 		this.firstName = '';
 		this.lastName = '';

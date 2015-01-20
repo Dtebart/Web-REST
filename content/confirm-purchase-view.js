@@ -37,5 +37,22 @@ ConfirmPurchaseView_cl = Class.create({
 	showCustomerTable: function(){
 		$('#customer-table-subview').show();
 		$('#customer-info-form').hide();
+	},
+	
+	showError: function(errortext){
+		$('#confirm-purchase-view-errortext').html(errortext);
+	},
+	
+	deleteInfotext: function(){
+		$('#confirm-purchase-view-errortext').html('');
+	},
+	
+	isCustomerTableVisible: function(){
+		return $('#customer-table-subview').is(":visible"); 
+	},
+	
+	reset: function(){
+		this.deleteInfotext();
+		$('#customer-info-form input').val('');
 	}
 });
