@@ -20,6 +20,8 @@
 <li><a href="#article_cl">Article_cl</a></li>
 <li><a href="#articlelist_cl">ArticleList_cl</a></li>
 <li><a href="#basket_cl">Basket_cl</a></li>
+<li><a href="#customer_cl">Customer_cl</a></li>
+<li><a href="#customerlist_cl">CustomerList_cl</a></li>
 </ul></li>
 <li><a href="#server---api">4. Server - API</a><ul>
 <li><a href="#datenbank">Datenbank</a></li>
@@ -274,6 +276,127 @@
 <td style="text-align: left;">Sendet ein Update an den Server, um den Warenkorb zu synchronisieren</td>
 <td style="text-align: left;">Neu ausgesuchter Artikel</td>
 <td style="text-align: left;">nicht Vorhanden</td>
+</tr>
+</tbody>
+</table>
+<h3 id="customer_cl">Customer_cl</h3>
+<p>Die <em>Customer_cl</em> Klasse enthält Informationen über einen Kunden:</p>
+<p>Attribute:</p>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Attribut</th>
+<th style="text-align: left;">Beschreibung</th>
+<th style="text-align: left;">Typ</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">firstName</td>
+<td style="text-align: left;">der Vorname des Kunden</td>
+<td style="text-align: left;">string</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">lastName</td>
+<td style="text-align: left;">der Nachname des Kunden</td>
+<td style="text-align: left;">string</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">id</td>
+<td style="text-align: left;">die ID des Kunden</td>
+<td style="text-align: left;">integer</td>
+</tr>
+</tbody>
+</table>
+<p>Methoden:</p>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Methodenname</th>
+<th style="text-align: left;">Beschreibung</th>
+<th style="text-align: left;">Parameter</th>
+<th style="text-align: left;">Rückgabewert</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><em>Konstruktor(firstName, lastName)</em></td>
+<td style="text-align: left;"><em>Konstruktor</em></td>
+<td style="text-align: left;">Vor- und Nachname des Kunden</td>
+<td style="text-align: left;">Nicht Vorhanden</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">setFirstName(firstName)</td>
+<td style="text-align: left;">Setzt den Vornamen des Kunden auf <em>firstName</em></td>
+<td style="text-align: left;">Der neue Vorname des Kunden</td>
+<td style="text-align: left;">nicht Vorhanden</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">setLastName(lastName)</td>
+<td style="text-align: left;">Setzt den Nachnamen des Kunden auf <em>lastName</em></td>
+<td style="text-align: left;">der neue Nachname des Kunden</td>
+<td style="text-align: left;">nicht Vorhanden</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">clear()</td>
+<td style="text-align: left;">Setzt alle Attribute zurück</td>
+<td style="text-align: left;">keine</td>
+<td style="text-align: left;">nicht Vorhanden</td>
+</tr>
+</tbody>
+</table>
+<h3 id="customerlist_cl">CustomerList_cl</h3>
+<p>Die <em>CustomerList_cl</em> Klasse verwaltet eine Liste von <em>Customer_cl</em> Objekten.</p>
+<p>Attribute:</p>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Attribut</th>
+<th style="text-align: left;">Beschreibung</th>
+<th style="text-align: left;">Typ</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">list</td>
+<td style="text-align: left;">Eine Liste, die die <em>Customer_cl</em> Objekte enthält</td>
+<td style="text-align: left;">array</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">selectedCustomer</td>
+<td style="text-align: left;">Der momentan ausgewählte Kunde</td>
+<td style="text-align: left;"><em>Customer_cl</em></td>
+</tr>
+</tbody>
+</table>
+<p>Methoden:</p>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Methodenname</th>
+<th style="text-align: left;">Beschreibung</th>
+<th style="text-align: left;">Parameter</th>
+<th style="text-align: left;">Rückgabewert</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><em>Konstruktor()</em></td>
+<td style="text-align: left;"><em>Konstruktor</em></td>
+<td style="text-align: left;">keine</td>
+<td style="text-align: left;">nicht Vorhanden</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">addCustomer(customer)</td>
+<td style="text-align: left;">Fügt <em>customer</em> zu der Liste hinzu</td>
+<td style="text-align: left;">Ein Objekt vom Typ <em>Customer_cl</em></td>
+<td style="text-align: left;">nicht Vorhanden</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">setSelectedCustomer(customer)</td>
+<td style="text-align: left;">Setzt den aktuell ausgewählten Kunden auf <em>customer</em></td>
+<td style="text-align: left;">Ein Objekt vom Typ <em>Customer_cl</em></td>
+<td style="text-align: left;">nicht vorhanden</td>
 </tr>
 </tbody>
 </table>

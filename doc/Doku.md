@@ -86,6 +86,46 @@ Methoden:
 |getPrice() | Berechnet den Gesamtpreis des Warenkorbes | keine | Gesamtpreis des Warenkorbes (integer) |
 sendUpdate(article) | Sendet ein Update an den Server, um den Warenkorb zu synchronisieren | Neu ausgesuchter Artikel | nicht Vorhanden | 
 
+### Customer_cl
+
+Die *Customer_cl* Klasse enthält Informationen über einen Kunden:
+
+Attribute:
+
+| Attribut | Beschreibung                                       | Typ                 |
+|----------|----------------------------------------------------|---------------------|
+|firstName | der Vorname des Kunden | string |
+|lastName| der Nachname des Kunden | string |
+|id | die ID des Kunden | integer |
+
+Methoden:
+
+| Methodenname | Beschreibung                                       | Parameter                 | Rückgabewert |
+|---------------|----------------------------------------------------|---------------------------|---------------------------|
+|*Konstruktor(firstName, lastName)*| *Konstruktor*| Vor- und Nachname des Kunden| Nicht Vorhanden |
+|setFirstName(firstName)| Setzt den Vornamen des Kunden auf *firstName* | Der neue Vorname des Kunden | nicht Vorhanden |
+|setLastName(lastName) | Setzt den Nachnamen des Kunden auf *lastName* | der neue Nachname des Kunden | nicht Vorhanden |
+|clear() | Setzt alle Attribute zurück | keine | nicht Vorhanden |
+
+###CustomerList_cl
+
+Die *CustomerList_cl* Klasse verwaltet eine Liste von *Customer_cl* Objekten.
+
+Attribute:
+
+| Attribut | Beschreibung                                       | Typ                 |
+|----------|----------------------------------------------------|---------------------|
+|list| Eine Liste, die die *Customer_cl* Objekte enthält | array |
+|selectedCustomer | Der momentan ausgewählte Kunde | *Customer_cl* |
+
+Methoden:
+
+| Methodenname | Beschreibung                                       | Parameter                 | Rückgabewert |
+|---------------|----------------------------------------------------|---------------------------|---------------------------|
+|*Konstruktor()* | *Konstruktor* | keine | nicht Vorhanden |
+|addCustomer(customer) | Fügt *customer* zu der Liste hinzu | Ein Objekt vom Typ *Customer_cl* | nicht Vorhanden |
+|setSelectedCustomer(customer)| Setzt den aktuell ausgewählten Kunden auf *customer* | Ein Objekt vom Typ *Customer_cl* | nicht vorhanden |
+
 ## 4. Server - API
 
 ### Datenbank
