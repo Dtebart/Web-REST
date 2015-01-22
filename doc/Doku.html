@@ -22,6 +22,7 @@
 <li><a href="#basket_cl">Basket_cl</a></li>
 <li><a href="#customer_cl">Customer_cl</a></li>
 <li><a href="#customerlist_cl">CustomerList_cl</a></li>
+<li><a href="#order_cl">Order_cl</a></li>
 </ul></li>
 <li><a href="#server---api">4. Server - API</a><ul>
 <li><a href="#datenbank">Datenbank</a></li>
@@ -397,6 +398,66 @@
 <td style="text-align: left;">Setzt den aktuell ausgewählten Kunden auf <em>customer</em></td>
 <td style="text-align: left;">Ein Objekt vom Typ <em>Customer_cl</em></td>
 <td style="text-align: left;">nicht vorhanden</td>
+</tr>
+</tbody>
+</table>
+<h3 id="order_cl">Order_cl</h3>
+<p>Die <em>Order_cl</em> Klasse dient zur Verwaltung einer Bestellung. Sie benötigt dafür den ausführenden Besteller und dessen Warenkorb.</p>
+<p>Attribute:</p>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Attribut</th>
+<th style="text-align: left;">Beschreibung</th>
+<th style="text-align: left;">Typ</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">customer</td>
+<td style="text-align: left;">Der Besteller</td>
+<td style="text-align: left;">Ein Objekt vom Typ <em>Customer_cl</em></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">basket</td>
+<td style="text-align: left;">der Warenkorb des Bestellers</td>
+<td style="text-align: left;">Ein Objekt vom Typ <em>Basket_cl</em></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">id</td>
+<td style="text-align: left;">Die ID der Bestellung</td>
+<td style="text-align: left;">integer</td>
+</tr>
+</tbody>
+</table>
+<p>Methoden:</p>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Methodenname</th>
+<th style="text-align: left;">Beschreibung</th>
+<th style="text-align: left;">Parameter</th>
+<th style="text-align: left;">Rückgabewert</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><em>Konstruktor(customer, basket)</em></td>
+<td style="text-align: left;"><em>Konstruktor</em></td>
+<td style="text-align: left;">Der Besteller (<em>Customer_cl</em>) sowie der Warenkorb (<em>Basket_cl</em>)</td>
+<td style="text-align: left;">nicht Vorhanden</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">setCustomer(customer)</td>
+<td style="text-align: left;">Ändert den Besteller zu <em>customer</em></td>
+<td style="text-align: left;">Ein Objekt vom Typ <em>Customer_cl</em></td>
+<td style="text-align: left;">nicht Vorhanden</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">close()</td>
+<td style="text-align: left;">Setzt alle Attribute zurück</td>
+<td style="text-align: left;">keine</td>
+<td style="text-align: left;">nicht Vorhanden</td>
 </tr>
 </tbody>
 </table>

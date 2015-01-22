@@ -126,6 +126,28 @@ Methoden:
 |addCustomer(customer) | Fügt *customer* zu der Liste hinzu | Ein Objekt vom Typ *Customer_cl* | nicht Vorhanden |
 |setSelectedCustomer(customer)| Setzt den aktuell ausgewählten Kunden auf *customer* | Ein Objekt vom Typ *Customer_cl* | nicht vorhanden |
 
+### Order_cl
+
+Die *Order_cl* Klasse dient zur Verwaltung einer Bestellung. Sie benötigt dafür den ausführenden Besteller und dessen Warenkorb.
+
+Attribute:
+
+| Attribut | Beschreibung                                       | Typ                 |
+|----------|----------------------------------------------------|---------------------|
+|customer| Der Besteller | Ein Objekt vom Typ *Customer_cl* |
+|basket | der Warenkorb des Bestellers | Ein Objekt vom Typ *Basket_cl* |
+|id | Die ID der Bestellung | integer |
+
+Methoden:
+
+| Methodenname | Beschreibung                                       | Parameter                 | Rückgabewert |
+|---------------|----------------------------------------------------|---------------------------|---------------------------|
+|*Konstruktor(customer, basket)* | *Konstruktor* | Der Besteller (*Customer_cl*) sowie der Warenkorb (*Basket_cl*) | nicht Vorhanden |
+|setCustomer(customer)| Ändert den Besteller zu *customer* | Ein Objekt vom Typ *Customer_cl* | nicht Vorhanden |
+|close() | Setzt alle Attribute zurück | keine | nicht Vorhanden |
+
+
+
 ## 4. Server - API
 
 ### Datenbank
