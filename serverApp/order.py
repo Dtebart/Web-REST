@@ -49,6 +49,7 @@ class Order(object):
         self.database_obj.editFile(id_data, "id")
         
         order_obj = cherrypy.request.body.params
+        print(order_obj)
         self.database_obj.insertFile(order_obj, str(self.last_id))
         
         return encoder.JSONEncoder().encode(id_data)        
