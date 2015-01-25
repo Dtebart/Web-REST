@@ -20,7 +20,7 @@ BasketController_cl = Class.create({
 		$('#show-purchase-button').click(function(event){
 			LITAPP.es_o.publish_px('order-change', self.order);
 			if (self.order.id == undefined){
-				$.post('order/', JSON.parse(JSON.stringify(self.order)))
+				$.post('order/', JSON.stringify(self.order))
 					.done(function (data, textStatus, jqXHR){
 						self.order.id = JSON.parse(data)['id'];
 					})

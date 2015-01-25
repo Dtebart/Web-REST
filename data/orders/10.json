@@ -1,1 +1,0 @@
-{"customer": {"lastName": "Hans", "id": 3, "firstName": "test"}, "basket": {"selectedArticle": "1", "totalPrice": 10.5, "list": [{"price": 3.5, "quantity": 3, "number": 1, "name": "HN-Cappy"}], "id": 10, "online": true}, "id": 10}
