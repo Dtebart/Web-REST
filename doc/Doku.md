@@ -146,7 +146,71 @@ Methoden:
 |setCustomer(customer)| Ändert den Besteller zu *customer* | Ein Objekt vom Typ *Customer_cl* | nicht Vorhanden |
 |close() | Setzt alle Attribute zurück | keine | nicht Vorhanden |
 
+### ViewNavigator_cl
 
+Die *ViewNavigator_cl* Klasse verwaltet die verschiedenen statischen Views innerhalb der Anwendung.
+
+Attribute:
+
+| Attribut | Beschreibung                                       | Typ                 |
+|----------|----------------------------------------------------|---------------------|
+|viewList | Eine Liste, in der alle Views gespeichert sind | array |
+|subviewList | Eine Liste, in der alle untergeordneten Views gespeichert sind |array|
+|currentView | die aktuell aktive View | string |
+
+Methoden:
+
+| Methodenname | Beschreibung                                       | Parameter                 | Rückgabewert |
+|---------------|----------------------------------------------------|---------------------------|---------------------------|
+|showView(viewId)| Alle Views werden versteckt und die View *viewId* wird angezeigt| die ID der neuen View | nicht Vorhanden |
+|showSubview(subviewId) | Die Subview *subviewId* wird angezeigt | die Id der Subview | nicht vorhanden | 
+
+### BasketController_cl
+
+Die *BasketController_cl* Klasse fügt im Konstruktor den angezeigten Buttons der Einkaufswagen Sicht Ihre Funktionalitäten hinzu.
+
+| Attribut | Beschreibung                                       | Typ                 |
+|----------|----------------------------------------------------|---------------------|
+|viewNavigator | das aktuelle *ViewNavigator_cl* Objekt | *ViewNavigator_cl* Objekt |
+|basketView | Das aktuelle Einkaufswagen - Sicht Objekt | *BasketView_cl* Objekt |
+|basket | Das aktuelle Einkaufswagen Objekt | *Basket_cl* Objekt |
+|order | Das aktuelle Order Objekt | *Order_cl* Objekt |
+
+### BasketView_cl
+
+Die *BasketView_cl* Klasse verwaltet die Darstellung der Warenkorb Ansicht. Wenn sich der Warenkorb innerhalb der Warenkorb Ansicht verändert, aktualisiert die Klasse automatisch die Ansicht.
+
+### ConfirmPurchaseController_cl
+
+Die *ConfirmPurchaseController_cl* Klasse fügt im Konstruktor den angezeigten Buttons der Bestätigungs - Sicht Ihre Funktionalitäten hinzu.
+
+| Attribut | Beschreibung                                       | Typ                 |
+|----------|----------------------------------------------------|---------------------|
+|viewNavigator | das aktuelle *ViewNavigator_cl* Objekt | *ViewNavigator_cl* Objekt |
+|order | Das aktuelle Order Objekt | *Order_cl* Objekt |
+|confirmPurchaseView | Das aktuelle *ConfirmPurchaseView_cl* Objekt | *ConfirmPurchaseView_cl* Objekt |
+|customer | Der aktuelle Kunde | *Customer_cl* Objekt |
+| customerList | Eine Liste mit allen Kunden | *CustomerList_cl* Objekt |
+
+
+### ConfirmPurchaseView_cl
+
+Die *ConfirmPurchaseView_cl* Klasse verwaltet die Darstellung der Bestätigungs - Ansicht. Wenn sich Werte innerhalb der Ansicht verändern, aktualisiert die Klasse automatisch die Ansicht.
+
+### StartView_cl
+
+Die *StartView_cl* Klasse verwaltet die Start-View. Wenn Änderungen am Einkaufswagen oder Artikeln gemacht werden, aktualisiert die Klasse automatisch die angezeigten Daten.
+
+### StartController_cl
+
+Die *StartController_cl* Klasse fügt im Konstruktor den angezeigten Buttons in der Start-View Ihre Funktionalitäten hinzu. Desweiteren stellt die Klasse den Nachrichtenaustausch mit dem Server für den Warenkorb bereit. Außerdem initialisiert die Klasse Die Artikelliste und ruft die Daten dafür vom Server ab.
+
+| Attribut | Beschreibung                                       | Typ                 |
+|----------|----------------------------------------------------|---------------------|
+|viewNavigator | das aktuelle *ViewNavigator_cl* Objekt | *ViewNavigator_cl* Objekt |
+|basket | Das aktuelle Einkaufswagen Objekt | *Basket_cl* Objekt |
+| articleList | Eine Liste mit allen Artikeln | *ArticleList_cl* Objekt |
+|startView | Das aktuelle Start-View Objekt | *StartView_cl* Objekt |
 
 ## 4. Server - API
 

@@ -23,6 +23,13 @@
 <li><a href="#customer_cl">Customer_cl</a></li>
 <li><a href="#customerlist_cl">CustomerList_cl</a></li>
 <li><a href="#order_cl">Order_cl</a></li>
+<li><a href="#viewnavigator_cl">ViewNavigator_cl</a></li>
+<li><a href="#basketcontroller_cl">BasketController_cl</a></li>
+<li><a href="#basketview_cl">BasketView_cl</a></li>
+<li><a href="#confirmpurchasecontroller_cl">ConfirmPurchaseController_cl</a></li>
+<li><a href="#confirmpurchaseview_cl">ConfirmPurchaseView_cl</a></li>
+<li><a href="#startview_cl">StartView_cl</a></li>
+<li><a href="#startcontroller_cl">StartController_cl</a></li>
 </ul></li>
 <li><a href="#server---api">4. Server - API</a><ul>
 <li><a href="#datenbank">Datenbank</a></li>
@@ -458,6 +465,170 @@
 <td style="text-align: left;">Setzt alle Attribute zurück</td>
 <td style="text-align: left;">keine</td>
 <td style="text-align: left;">nicht Vorhanden</td>
+</tr>
+</tbody>
+</table>
+<h3 id="viewnavigator_cl">ViewNavigator_cl</h3>
+<p>Die <em>ViewNavigator_cl</em> Klasse verwaltet die verschiedenen statischen Views innerhalb der Anwendung.</p>
+<p>Attribute:</p>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Attribut</th>
+<th style="text-align: left;">Beschreibung</th>
+<th style="text-align: left;">Typ</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">viewList</td>
+<td style="text-align: left;">Eine Liste, in der alle Views gespeichert sind</td>
+<td style="text-align: left;">array</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">subviewList</td>
+<td style="text-align: left;">Eine Liste, in der alle untergeordneten Views gespeichert sind</td>
+<td style="text-align: left;">array</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">currentView</td>
+<td style="text-align: left;">die aktuell aktive View</td>
+<td style="text-align: left;">string</td>
+</tr>
+</tbody>
+</table>
+<p>Methoden:</p>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Methodenname</th>
+<th style="text-align: left;">Beschreibung</th>
+<th style="text-align: left;">Parameter</th>
+<th style="text-align: left;">Rückgabewert</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">showView(viewId)</td>
+<td style="text-align: left;">Alle Views werden versteckt und die View <em>viewId</em> wird angezeigt</td>
+<td style="text-align: left;">die ID der neuen View</td>
+<td style="text-align: left;">nicht Vorhanden</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">showSubview(subviewId)</td>
+<td style="text-align: left;">Die Subview <em>subviewId</em> wird angezeigt</td>
+<td style="text-align: left;">die Id der Subview</td>
+<td style="text-align: left;">nicht vorhanden</td>
+</tr>
+</tbody>
+</table>
+<h3 id="basketcontroller_cl">BasketController_cl</h3>
+<p>Die <em>BasketController_cl</em> Klasse fügt im Konstruktor den angezeigten Buttons der Einkaufswagen Sicht Ihre Funktionalitäten hinzu.</p>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Attribut</th>
+<th style="text-align: left;">Beschreibung</th>
+<th style="text-align: left;">Typ</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">viewNavigator</td>
+<td style="text-align: left;">das aktuelle <em>ViewNavigator_cl</em> Objekt</td>
+<td style="text-align: left;"><em>ViewNavigator_cl</em> Objekt</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">basketView</td>
+<td style="text-align: left;">Das aktuelle Einkaufswagen - Sicht Objekt</td>
+<td style="text-align: left;"><em>BasketView_cl</em> Objekt</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">basket</td>
+<td style="text-align: left;">Das aktuelle Einkaufswagen Objekt</td>
+<td style="text-align: left;"><em>Basket_cl</em> Objekt</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">order</td>
+<td style="text-align: left;">Das aktuelle Order Objekt</td>
+<td style="text-align: left;"><em>Order_cl</em> Objekt</td>
+</tr>
+</tbody>
+</table>
+<h3 id="basketview_cl">BasketView_cl</h3>
+<p>Die <em>BasketView_cl</em> Klasse verwaltet die Darstellung der Warenkorb Ansicht. Wenn sich der Warenkorb innerhalb der Warenkorb Ansicht verändert, aktualisiert die Klasse automatisch die Ansicht.</p>
+<h3 id="confirmpurchasecontroller_cl">ConfirmPurchaseController_cl</h3>
+<p>Die <em>ConfirmPurchaseController_cl</em> Klasse fügt im Konstruktor den angezeigten Buttons der Bestätigungs - Sicht Ihre Funktionalitäten hinzu.</p>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Attribut</th>
+<th style="text-align: left;">Beschreibung</th>
+<th style="text-align: left;">Typ</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">viewNavigator</td>
+<td style="text-align: left;">das aktuelle <em>ViewNavigator_cl</em> Objekt</td>
+<td style="text-align: left;"><em>ViewNavigator_cl</em> Objekt</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">order</td>
+<td style="text-align: left;">Das aktuelle Order Objekt</td>
+<td style="text-align: left;"><em>Order_cl</em> Objekt</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">confirmPurchaseView</td>
+<td style="text-align: left;">Das aktuelle <em>ConfirmPurchaseView_cl</em> Objekt</td>
+<td style="text-align: left;"><em>ConfirmPurchaseView_cl</em> Objekt</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">customer</td>
+<td style="text-align: left;">Der aktuelle Kunde</td>
+<td style="text-align: left;"><em>Customer_cl</em> Objekt</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">customerList</td>
+<td style="text-align: left;">Eine Liste mit allen Kunden</td>
+<td style="text-align: left;"><em>CustomerList_cl</em> Objekt</td>
+</tr>
+</tbody>
+</table>
+<h3 id="confirmpurchaseview_cl">ConfirmPurchaseView_cl</h3>
+<p>Die <em>ConfirmPurchaseView_cl</em> Klasse verwaltet die Darstellung der Bestätigungs - Ansicht. Wenn sich Werte innerhalb der Ansicht verändern, aktualisiert die Klasse automatisch die Ansicht.</p>
+<h3 id="startview_cl">StartView_cl</h3>
+<p>Die <em>StartView_cl</em> Klasse verwaltet die Start-View. Wenn Änderungen am Einkaufswagen oder Artikeln gemacht werden, aktualisiert die Klasse automatisch die angezeigten Daten.</p>
+<h3 id="startcontroller_cl">StartController_cl</h3>
+<p>Die <em>StartController_cl</em> Klasse fügt im Konstruktor den angezeigten Buttons in der Start-View Ihre Funktionalitäten hinzu. Desweiteren stellt die Klasse den Nachrichtenaustausch mit dem Server für den Warenkorb bereit. Außerdem initialisiert die Klasse Die Artikelliste und ruft die Daten dafür vom Server ab.</p>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Attribut</th>
+<th style="text-align: left;">Beschreibung</th>
+<th style="text-align: left;">Typ</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">viewNavigator</td>
+<td style="text-align: left;">das aktuelle <em>ViewNavigator_cl</em> Objekt</td>
+<td style="text-align: left;"><em>ViewNavigator_cl</em> Objekt</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">basket</td>
+<td style="text-align: left;">Das aktuelle Einkaufswagen Objekt</td>
+<td style="text-align: left;"><em>Basket_cl</em> Objekt</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">articleList</td>
+<td style="text-align: left;">Eine Liste mit allen Artikeln</td>
+<td style="text-align: left;"><em>ArticleList_cl</em> Objekt</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">startView</td>
+<td style="text-align: left;">Das aktuelle Start-View Objekt</td>
+<td style="text-align: left;"><em>StartView_cl</em> Objekt</td>
 </tr>
 </tbody>
 </table>
