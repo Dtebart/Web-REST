@@ -3,19 +3,50 @@
 - ## Gruppenmitglieder: Redecker, Max; Tebart, Daniel
 - ## Datum: 29.01.2015
 
-## 1. Allgemeines zur Lösung
+# 1. Allgemeines zur Lösung
 Die Web-Anwendung HnFanShop ist eine Single-Page Webanwendung und wurde mit einer Client-Server Architektur auf der Basis des REST Ansatzes implementiert. Der Server wurde hierbei mit Python und dem Framework Cherrypy realisiert. Die Übertragung der Daten findet asynchron mit den Jquery-Ajax Methoden statt. Das Format der übertragenden ist JSON konform.
 
-## 2. Beschreibung der Komponenten
+Die Web-Anwendung simuliert einen Onlineshop. Es ist möglich, Artikel in einen Einkaufswagen zu speichern und diesen dann unter einem Namen zu bestellen. 
+
+# 2. Beschreibung des Datenaustauschs
+
+| URL            | HTTP-Methode | Bedeutung                    | erwartete Verarbeitung des Servers                             | erwartete Antwort des Servers                |
+|----------------|--------------|------------------------------|----------------------------------------------------------------|----------------------------------------------|
+|/article		 | GET          | Daten aller Artikel bereitstellen| Alle Artikel auslesen und in JSON Format speichern und senden | Liste aller Artikel im JSON Format |
+|/article/:id     | GET          | Daten des Artikels bereitstellen | Lädt Artikel mit der id in ein JSON Objekt. Objekt wird dann bereitgestellt | Ein Artikel im JSON Format |
+|/customer 		 | GET          | Daten aller Besteller bereitstellen | Alle Besteller auslesen und in JSON Format speichern und senden | Liste aller Besteller im JSON Format |
+|/customer/:id    | GET          | Daten des Bestellers bereitstellen | Lädt Besteller mit der id in ein JSON Objekt. Objekt wird dann bereitgestellt | Ein Besteller im JSON Format |
+|/customer + Daten im Body | POST | neue Besteller Daten; id wird als Ergebnis geliefert | Server überprüft zuerst ob der Besteller schon existiert. Falls nicht, wird der Besteller mit einer neuen ID gespeichert | Die ID des Bestellers |
+|/consumerbasket/:id   | GET           | Daten des Warenkorbs bereitstellen (einschließlich Bestellpositionen) | Lädt Warenkorb mit der id in ein JSON Objekt. Objekt wird dann bereitgestellt | Ein Warenkorb im JSON Format |
+|/consumerbasket + Daten im Body | POST | Neuer Warenkorb; id wird als Ergebnis geliefert | Warenkorb wird mit neuer ID im JSON Format gespeichert | ID des Warenkorbes |
+|/consumerbasket/:id + Daten im Body | PUT | Daten des Warenkorbs aktualisieren | Lese ID des Warenkorbes aus und überschreibe alten Warenkorb mit neuen Warenkorb | ID des Warenkorbes |
+|/consumerbasket/:id | DELETE | Warenkorb löschen | Löscht Warenkorb mit der gesendeten ID | "Success" string |
+|/order | GET | Daten aller Bestellungen bereitstellen | Alle Bestellungen auslesen und in JSON Format speichern und senden | Liste aller Bestellungen im JSON Format |
+|/order + Daten im Body | POST | neue Bestellung; id wird als Ergebnis geliefert | Die Bestellung wird mit neuer ID persistent gespeichert | Die ID der Bestellung |
+|/order/:id + Daten im Body | PUT | Aktualisierung der Daten der Bestellung | Bestellung mit der gleichen ID wird mit der neuen Bestellung überschrieben | Die Bestellung im JSON Format |
+
+# 3. Beschreibung der clientseitigen Komponenten 
+
+## 3.1 Zweck
+
+Die clientseitigen Komponenten dienen zur Veranschaulichung der Daten für den Nutzer, sowie für die Dateneingabe und als Schnitstelle zum Server.
+
+## 3.2 Aufbau
+
 An Komponenten existieren:
 
 * Eine Html Index-Datei
 * Eine Html Admin-Datei
 * Javascript Dateien zur Verwaltung von Bestellungen und Nutzern, für Clientseitige-Validierung und zum Versenden der Anfragen sowie Reagieren auf Server - Antworten
-* Ein Phython Modul für die Serverkonfigurationen sowie verschiedene Module für verschiedene Serverdienste, die von Client aufgerufen werden
 * Stylesheets für die HTML Elemente.
 
-## 3. Client - API
+## 3.3 Zusammenwirken mit anderen Komponenten
+
+Die verschiedenen Komponenten kommunizieren über ein Publish-Subscriber Muster. Das Muster wird in *es.js* implementiert. Objekte, die die View verwalten, melden sich bei dem verwaltenen Objekt an. Wenn nun eine Änderung im Datenbestand vorliegt (Bsp: Artikel wird in den Warenkorb gelegt), wird dies an das verwaltene Objekt gemeldet. Dieses ruft nun eine Methode im zuständigen View Objekt auf und die Ansicht wird aktualisiert.
+
+## 3.4 Client - API
+
+
 
 Die Client Implementierung basiert auf einigen nützlichen Klassen, deren Funktion und Methoden hier aufgelistet sind:
 
@@ -212,7 +243,22 @@ Die *StartController_cl* Klasse fügt im Konstruktor den angezeigten Buttons in 
 | articleList | Eine Liste mit allen Artikeln | *ArticleList_cl* Objekt |
 |startView | Das aktuelle Start-View Objekt | *StartView_cl* Objekt |
 
-## 4. Server - API
+# 4. Durchführung der serverseitigen Komponenten
+
+## 4.1 Zweck
+
+Die Serverseitigen Komponenten verwalten die Daten der Anwendung. Es werden Anfragen vom Client entgegengenommen und verarbeitet. Die Daten in der Anwendung sind durch mehrere verschiedene Anfragen veränderbar und abfragbar.
+
+## 4.2 Aufbau
+
+Die Komponenten sind unterteilt in ein Datenbankmodul und mehrere Module für die jeweiligen Anfragen (Siehe Kapitel 4.4).
+
+## 4.3 Zusammenwirken mit anderen Komponenten
+
+Die *Application_cl* Klasse bindet die anderen Module, die Anfragen bearbeiten, in die Serverstruktur ein. Deswegen benötigt die *Application_cl* Zugriff auf die anderen Module.  
+Außerdem nutzen die meisten Module das Datenbankmodul für einen Datenzugriff auf den persistenten Speicher. 
+
+## 4.4 Server - API
 
 ### Datenbank
 
@@ -266,39 +312,34 @@ Das Warenkorb - Modul bietet Methoden um Warenkörbe zu speichern, zu editieren,
 |update(consumerbasket_id)|POST| Überschreibt Warenkorb mit der ID *consumerbasket_id* mit dem im Body im JSON Format übergebenen Warenkorb|ID des Warenkorbs, Warenkorb als JSON Format im Body|Aktualisierter Warenkorb im JSON Format|
 |delete(consumerbasket_id)|POST| Löscht den Warenkorb mit der ID *consumerbasket_id* dauerhaft. | ID des Warenkorbes |"success" (string)|
 
-## 5. Daten
+# 5. Durchführung und Ergebnis der geforderten Prüfungen
 
-In diesem Abschnitt werden alle Dictionaries und Ihre Bestandteile aufgelistet:
+## 5.1 Durchführung
 
-### Artikel
+Planungsphase: 
 
-Dictionary, Aufbau:
+In der Planungsphase wurden die einzelnen Komponenten analysiert und in welcher Reihenfolge diese implementiert werden müssen. 
 
-* name : *ArticleName*
-* price : *ArticlePrice*
-* number : *id*
+Durchführung (zeitlich geordnet):
 
-### Kunden
 
-Dictionary, Aufbau:
+* Zuerst wurden die Startseite mit den Artikeln (noch statisch in der Webseite hinterlegt) entwickelt, parallel dazu wurde der Warenkorb angefangen.
+* Anschließend wurden die ersten Serverfunktionalitäten wie das Datenbankbankmodul oder das Artikelmodul entwickelt, parallel dazu wurde der Warenkorb (ohne Serveranbindung) fertig gestellt.
+* Das Einkaufswagenmodul serverseitig und die Kaufbestätigungssicht implementiert
+* Eine Klasse zur Verwaltung der verschiedenen Sichten (*navigator.js*) entwickelt
+* Die ersten Templates (für die Kaufbestätigungssicht) werden implementiert, sowie einige kleiner Funktionalitäten (z.B. Gesamtpreis in der Kaufbestätigungssicht).
+* Bestellungen sind implementiert (ohne Namen)
+* Implementierung der Möglichkeit, einen Namen für die Bestellung einzutragen
+* Template Engine wurde auch für andere Elemente implementiert
+* CSS Stylesheets eingefügt
+* Admin Seite fertiggestellt
+* Alle Objekte benutzen Klassennotation
+* Dokumentation angefertigt
+* Bugfixes
 
-* lastName : *lastName*
-* firstName : *firstName*
+## 5.2 Ergebnis
 
-### Einkaufswagen
-
-Dictionary, Aufbau:
-
-* id : *ID*
-* articles: *DictionaryOfArticles*
-
-### Bestellungen
-
-Dictionary, Aufbau:
-
-* id : *ID*
-* customer : *KundenDictionary*
-* basket : *EinkaufswagenDictionary*
+Die Anwendung läuft bis auf wenige Bugs solide. Die Aufgaben, die in der Anforderung beschrieben wurden, werden alle erfüllt. Serverabstürze sind bisher nicht aufgetreten. Jediglich manchmal gibt es Probleme mit den persistent gespeicherten JSON Dateien (vielleicht Kontrolle hinzufügen?).
 
 
 

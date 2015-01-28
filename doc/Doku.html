@@ -13,10 +13,14 @@
 <body>
 <nav id="TOC">
 <ul>
-<li><a href="#web-praktikum-4-dokumentation">Web Praktikum 4 Dokumentation</a><ul>
+<li><a href="#web-praktikum-4-dokumentation">Web Praktikum 4 Dokumentation</a></li>
 <li><a href="#allgemeines-zur-lösung">1. Allgemeines zur Lösung</a></li>
-<li><a href="#beschreibung-der-komponenten">2. Beschreibung der Komponenten</a></li>
-<li><a href="#client---api">3. Client - API</a><ul>
+<li><a href="#beschreibung-des-datenaustauschs">2. Beschreibung des Datenaustauschs</a></li>
+<li><a href="#beschreibung-der-clientseitigen-komponenten">3. Beschreibung der clientseitigen Komponenten</a><ul>
+<li><a href="#zweck">3.1 Zweck</a></li>
+<li><a href="#aufbau">3.2 Aufbau</a></li>
+<li><a href="#zusammenwirken-mit-anderen-komponenten">3.3 Zusammenwirken mit anderen Komponenten</a></li>
+<li><a href="#client---api">3.4 Client - API</a><ul>
 <li><a href="#article_cl">Article_cl</a></li>
 <li><a href="#articlelist_cl">ArticleList_cl</a></li>
 <li><a href="#basket_cl">Basket_cl</a></li>
@@ -31,19 +35,22 @@
 <li><a href="#startview_cl">StartView_cl</a></li>
 <li><a href="#startcontroller_cl">StartController_cl</a></li>
 </ul></li>
-<li><a href="#server---api">4. Server - API</a><ul>
+</ul></li>
+<li><a href="#durchführung-der-serverseitigen-komponenten">4. Durchführung der serverseitigen Komponenten</a><ul>
+<li><a href="#zweck-1">4.1 Zweck</a></li>
+<li><a href="#aufbau-1">4.2 Aufbau</a></li>
+<li><a href="#zusammenwirken-mit-anderen-komponenten-1">4.3 Zusammenwirken mit anderen Komponenten</a></li>
+<li><a href="#server---api">4.4 Server - API</a><ul>
 <li><a href="#datenbank">Datenbank</a></li>
 <li><a href="#kunden">Kunden</a></li>
 <li><a href="#bestellungen">Bestellungen</a></li>
 <li><a href="#artikel">Artikel</a></li>
 <li><a href="#warenkorb">Warenkorb</a></li>
 </ul></li>
-<li><a href="#daten">5. Daten</a><ul>
-<li><a href="#artikel-1">Artikel</a></li>
-<li><a href="#kunden-1">Kunden</a></li>
-<li><a href="#einkaufswagen">Einkaufswagen</a></li>
-<li><a href="#bestellungen-1">Bestellungen</a></li>
 </ul></li>
+<li><a href="#durchführung-und-ergebnis-der-geforderten-prüfungen">5. Durchführung und Ergebnis der geforderten Prüfungen</a><ul>
+<li><a href="#durchführung">5.1 Durchführung</a></li>
+<li><a href="#ergebnis">5.2 Ergebnis</a></li>
 </ul></li>
 </ul>
 </nav>
@@ -53,18 +60,121 @@
 <li><h2>Gruppenmitglieder: Redecker, Max; Tebart, Daniel</h2></li>
 <li><h2>Datum: 29.01.2015</h2></li>
 </ul>
-<h2 id="allgemeines-zur-lösung">1. Allgemeines zur Lösung</h2>
+<h1 id="allgemeines-zur-lösung">1. Allgemeines zur Lösung</h1>
 <p>Die Web-Anwendung HnFanShop ist eine Single-Page Webanwendung und wurde mit einer Client-Server Architektur auf der Basis des REST Ansatzes implementiert. Der Server wurde hierbei mit Python und dem Framework Cherrypy realisiert. Die Übertragung der Daten findet asynchron mit den Jquery-Ajax Methoden statt. Das Format der übertragenden ist JSON konform.</p>
-<h2 id="beschreibung-der-komponenten">2. Beschreibung der Komponenten</h2>
+<p>Die Web-Anwendung simuliert einen Onlineshop. Es ist möglich, Artikel in einen Einkaufswagen zu speichern und diesen dann unter einem Namen zu bestellen.</p>
+<h1 id="beschreibung-des-datenaustauschs">2. Beschreibung des Datenaustauschs</h1>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">URL</th>
+<th style="text-align: left;">HTTP-Methode</th>
+<th style="text-align: left;">Bedeutung</th>
+<th style="text-align: left;">erwartete Verarbeitung des Servers</th>
+<th style="text-align: left;">erwartete Antwort des Servers</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">/article</td>
+<td style="text-align: left;">GET</td>
+<td style="text-align: left;">Daten aller Artikel bereitstellen</td>
+<td style="text-align: left;">Alle Artikel auslesen und in JSON Format speichern und senden</td>
+<td style="text-align: left;">Liste aller Artikel im JSON Format</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">/article/:id</td>
+<td style="text-align: left;">GET</td>
+<td style="text-align: left;">Daten des Artikels bereitstellen</td>
+<td style="text-align: left;">Lädt Artikel mit der id in ein JSON Objekt. Objekt wird dann bereitgestellt</td>
+<td style="text-align: left;">Ein Artikel im JSON Format</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">/customer</td>
+<td style="text-align: left;">GET</td>
+<td style="text-align: left;">Daten aller Besteller bereitstellen</td>
+<td style="text-align: left;">Alle Besteller auslesen und in JSON Format speichern und senden</td>
+<td style="text-align: left;">Liste aller Besteller im JSON Format</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">/customer/:id</td>
+<td style="text-align: left;">GET</td>
+<td style="text-align: left;">Daten des Bestellers bereitstellen</td>
+<td style="text-align: left;">Lädt Besteller mit der id in ein JSON Objekt. Objekt wird dann bereitgestellt</td>
+<td style="text-align: left;">Ein Besteller im JSON Format</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">/customer + Daten im Body</td>
+<td style="text-align: left;">POST</td>
+<td style="text-align: left;">neue Besteller Daten; id wird als Ergebnis geliefert</td>
+<td style="text-align: left;">Server überprüft zuerst ob der Besteller schon existiert. Falls nicht, wird der Besteller mit einer neuen ID gespeichert</td>
+<td style="text-align: left;">Die ID des Bestellers</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">/consumerbasket/:id</td>
+<td style="text-align: left;">GET</td>
+<td style="text-align: left;">Daten des Warenkorbs bereitstellen (einschließlich Bestellpositionen)</td>
+<td style="text-align: left;">Lädt Warenkorb mit der id in ein JSON Objekt. Objekt wird dann bereitgestellt</td>
+<td style="text-align: left;">Ein Warenkorb im JSON Format</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">/consumerbasket + Daten im Body</td>
+<td style="text-align: left;">POST</td>
+<td style="text-align: left;">Neuer Warenkorb; id wird als Ergebnis geliefert</td>
+<td style="text-align: left;">Warenkorb wird mit neuer ID im JSON Format gespeichert</td>
+<td style="text-align: left;">ID des Warenkorbes</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">/consumerbasket/:id + Daten im Body</td>
+<td style="text-align: left;">PUT</td>
+<td style="text-align: left;">Daten des Warenkorbs aktualisieren</td>
+<td style="text-align: left;">Lese ID des Warenkorbes aus und überschreibe alten Warenkorb mit neuen Warenkorb</td>
+<td style="text-align: left;">ID des Warenkorbes</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">/consumerbasket/:id</td>
+<td style="text-align: left;">DELETE</td>
+<td style="text-align: left;">Warenkorb löschen</td>
+<td style="text-align: left;">Löscht Warenkorb mit der gesendeten ID</td>
+<td style="text-align: left;">&quot;Success&quot; string</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">/order</td>
+<td style="text-align: left;">GET</td>
+<td style="text-align: left;">Daten aller Bestellungen bereitstellen</td>
+<td style="text-align: left;">Alle Bestellungen auslesen und in JSON Format speichern und senden</td>
+<td style="text-align: left;">Liste aller Bestellungen im JSON Format</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">/order + Daten im Body</td>
+<td style="text-align: left;">POST</td>
+<td style="text-align: left;">neue Bestellung; id wird als Ergebnis geliefert</td>
+<td style="text-align: left;">Die Bestellung wird mit neuer ID persistent gespeichert</td>
+<td style="text-align: left;">Die ID der Bestellung</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">/order/:id + Daten im Body</td>
+<td style="text-align: left;">PUT</td>
+<td style="text-align: left;">Aktualisierung der Daten der Bestellung</td>
+<td style="text-align: left;">Bestellung mit der gleichen ID wird mit der neuen Bestellung überschrieben</td>
+<td style="text-align: left;">Die Bestellung im JSON Format</td>
+</tr>
+</tbody>
+</table>
+<h1 id="beschreibung-der-clientseitigen-komponenten">3. Beschreibung der clientseitigen Komponenten</h1>
+<h2 id="zweck">3.1 Zweck</h2>
+<p>Die clientseitigen Komponenten dienen zur Veranschaulichung der Daten für den Nutzer, sowie für die Dateneingabe und als Schnitstelle zum Server.</p>
+<h2 id="aufbau">3.2 Aufbau</h2>
 <p>An Komponenten existieren:</p>
 <ul>
 <li>Eine Html Index-Datei</li>
 <li>Eine Html Admin-Datei</li>
 <li>Javascript Dateien zur Verwaltung von Bestellungen und Nutzern, für Clientseitige-Validierung und zum Versenden der Anfragen sowie Reagieren auf Server - Antworten</li>
-<li>Ein Phython Modul für die Serverkonfigurationen sowie verschiedene Module für verschiedene Serverdienste, die von Client aufgerufen werden</li>
 <li>Stylesheets für die HTML Elemente.</li>
 </ul>
-<h2 id="client---api">3. Client - API</h2>
+<h2 id="zusammenwirken-mit-anderen-komponenten">3.3 Zusammenwirken mit anderen Komponenten</h2>
+<p>Die verschiedenen Komponenten kommunizieren über ein Publish-Subscriber Muster. Das Muster wird in <em>es.js</em> implementiert. Objekte, die die View verwalten, melden sich bei dem verwaltenen Objekt an. Wenn nun eine Änderung im Datenbestand vorliegt (Bsp: Artikel wird in den Warenkorb gelegt), wird dies an das verwaltene Objekt gemeldet. Dieses ruft nun eine Methode im zuständigen View Objekt auf und die Ansicht wird aktualisiert.</p>
+<h2 id="client---api">3.4 Client - API</h2>
 <p>Die Client Implementierung basiert auf einigen nützlichen Klassen, deren Funktion und Methoden hier aufgelistet sind:</p>
 <h3 id="article_cl">Article_cl</h3>
 <p>Die <em>Article_cl</em> Klasse enthält Informationen über einen Artikel.</p>
@@ -632,7 +742,14 @@
 </tr>
 </tbody>
 </table>
-<h2 id="server---api">4. Server - API</h2>
+<h1 id="durchführung-der-serverseitigen-komponenten">4. Durchführung der serverseitigen Komponenten</h1>
+<h2 id="zweck-1">4.1 Zweck</h2>
+<p>Die Serverseitigen Komponenten verwalten die Daten der Anwendung. Es werden Anfragen vom Client entgegengenommen und verarbeitet. Die Daten in der Anwendung sind durch mehrere verschiedene Anfragen veränderbar und abfragbar.</p>
+<h2 id="aufbau-1">4.2 Aufbau</h2>
+<p>Die Komponenten sind unterteilt in ein Datenbankmodul und mehrere Module für die jeweiligen Anfragen (Siehe Kapitel 4.4).</p>
+<h2 id="zusammenwirken-mit-anderen-komponenten-1">4.3 Zusammenwirken mit anderen Komponenten</h2>
+<p>Die <em>Application_cl</em> Klasse bindet die anderen Module, die Anfragen bearbeiten, in die Serverstruktur ein. Deswegen benötigt die <em>Application_cl</em> Zugriff auf die anderen Module.<br />Außerdem nutzen die meisten Module das Datenbankmodul für einen Datenzugriff auf den persistenten Speicher.</p>
+<h2 id="server---api">4.4 Server - API</h2>
 <h3 id="datenbank">Datenbank</h3>
 <p>Das Datenbank - Modul bietet einige nützliche Methoden um Dateien zu editieren, löschen oder neu zu erstellen:</p>
 <table>
@@ -821,33 +938,27 @@
 </tr>
 </tbody>
 </table>
-<h2 id="daten">5. Daten</h2>
-<p>In diesem Abschnitt werden alle Dictionaries und Ihre Bestandteile aufgelistet:</p>
-<h3 id="artikel-1">Artikel</h3>
-<p>Dictionary, Aufbau:</p>
+<h1 id="durchführung-und-ergebnis-der-geforderten-prüfungen">5. Durchführung und Ergebnis der geforderten Prüfungen</h1>
+<h2 id="durchführung">5.1 Durchführung</h2>
+<p>Planungsphase:</p>
+<p>In der Planungsphase wurden die einzelnen Komponenten analysiert und in welcher Reihenfolge diese implementiert werden müssen.</p>
+<p>Durchführung (zeitlich geordnet):</p>
 <ul>
-<li>name : <em>ArticleName</em></li>
-<li>price : <em>ArticlePrice</em></li>
-<li>number : <em>id</em></li>
+<li>Zuerst wurden die Startseite mit den Artikeln (noch statisch in der Webseite hinterlegt) entwickelt, parallel dazu wurde der Warenkorb angefangen.</li>
+<li>Anschließend wurden die ersten Serverfunktionalitäten wie das Datenbankbankmodul oder das Artikelmodul entwickelt, parallel dazu wurde der Warenkorb (ohne Serveranbindung) fertig gestellt.</li>
+<li>Das Einkaufswagenmodul serverseitig und die Kaufbestätigungssicht implementiert</li>
+<li>Eine Klasse zur Verwaltung der verschiedenen Sichten (<em>navigator.js</em>) entwickelt</li>
+<li>Die ersten Templates (für die Kaufbestätigungssicht) werden implementiert, sowie einige kleiner Funktionalitäten (z.B. Gesamtpreis in der Kaufbestätigungssicht).</li>
+<li>Bestellungen sind implementiert (ohne Namen)</li>
+<li>Implementierung der Möglichkeit, einen Namen für die Bestellung einzutragen</li>
+<li>Template Engine wurde auch für andere Elemente implementiert</li>
+<li>CSS Stylesheets eingefügt</li>
+<li>Admin Seite fertiggestellt</li>
+<li>Alle Objekte benutzen Klassennotation</li>
+<li>Dokumentation angefertigt</li>
+<li>Bugfixes</li>
 </ul>
-<h3 id="kunden-1">Kunden</h3>
-<p>Dictionary, Aufbau:</p>
-<ul>
-<li>lastName : <em>lastName</em></li>
-<li>firstName : <em>firstName</em></li>
-</ul>
-<h3 id="einkaufswagen">Einkaufswagen</h3>
-<p>Dictionary, Aufbau:</p>
-<ul>
-<li>id : <em>ID</em></li>
-<li>articles: <em>DictionaryOfArticles</em></li>
-</ul>
-<h3 id="bestellungen-1">Bestellungen</h3>
-<p>Dictionary, Aufbau:</p>
-<ul>
-<li>id : <em>ID</em></li>
-<li>customer : <em>KundenDictionary</em></li>
-<li>basket : <em>EinkaufswagenDictionary</em></li>
-</ul>
+<h2 id="ergebnis">5.2 Ergebnis</h2>
+<p>Die Anwendung läuft bis auf wenige Bugs solide. Die Aufgaben, die in der Anforderung beschrieben wurden, werden alle erfüllt. Serverabstürze sind bisher nicht aufgetreten. Jediglich manchmal gibt es Probleme mit den persistent gespeicherten JSON Dateien (vielleicht Kontrolle hinzufügen?).</p>
 </body>
 </html>
