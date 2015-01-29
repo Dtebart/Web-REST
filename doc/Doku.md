@@ -44,6 +44,12 @@ An Komponenten existieren:
 
 Die verschiedenen Komponenten kommunizieren über ein Publish-Subscriber Muster. Das Muster wird in *es.js* implementiert. Objekte, die die View verwalten, melden sich bei dem verwaltenen Objekt an. Wenn nun eine Änderung im Datenbestand vorliegt (Bsp: Artikel wird in den Warenkorb gelegt), wird dies an das verwaltene Objekt gemeldet. Dieses ruft nun eine Methode im zuständigen View Objekt auf und die Ansicht wird aktualisiert.
 
+Subscriber Klassen:
+
+* *StartView_cl* (Auch Admin Seite)
+* *BasketView_cl*
+* *ConfirmPurchaseView_cl*
+
 ## 3.4 Client - API
 
 
@@ -232,6 +238,10 @@ Die *ConfirmPurchaseView_cl* Klasse verwaltet die Darstellung der Bestätigungs 
 
 Die *StartView_cl* Klasse verwaltet die Start-View. Wenn Änderungen am Einkaufswagen oder Artikeln gemacht werden, aktualisiert die Klasse automatisch die angezeigten Daten.
 
+### StartView_cl (Admin Seite)
+
+Die *StartView_cl* Klasse verwaltet die Ansicht innerhalb der Admin Seite. Hier werden bei Bedarf Templates neu gerendert.
+
 ### StartController_cl
 
 Die *StartController_cl* Klasse fügt im Konstruktor den angezeigten Buttons in der Start-View Ihre Funktionalitäten hinzu. Desweiteren stellt die Klasse den Nachrichtenaustausch mit dem Server für den Warenkorb bereit. Außerdem initialisiert die Klasse Die Artikelliste und ruft die Daten dafür vom Server ab.
@@ -243,11 +253,13 @@ Die *StartController_cl* Klasse fügt im Konstruktor den angezeigten Buttons in 
 | articleList | Eine Liste mit allen Artikeln | *ArticleList_cl* Objekt |
 |startView | Das aktuelle Start-View Objekt | *StartView_cl* Objekt |
 
+
 # 4. Durchführung der serverseitigen Komponenten
 
 ## 4.1 Zweck
 
 Die Serverseitigen Komponenten verwalten die Daten der Anwendung. Es werden Anfragen vom Client entgegengenommen und verarbeitet. Die Daten in der Anwendung sind durch mehrere verschiedene Anfragen veränderbar und abfragbar.
+
 
 ## 4.2 Aufbau
 
@@ -339,7 +351,8 @@ Durchführung (zeitlich geordnet):
 
 ## 5.2 Ergebnis
 
-Die Anwendung läuft bis auf wenige Bugs solide. Die Aufgaben, die in der Anforderung beschrieben wurden, werden alle erfüllt. Serverabstürze sind bisher nicht aufgetreten. Jediglich manchmal gibt es Probleme mit den persistent gespeicherten JSON Dateien (vielleicht Kontrolle hinzufügen?).
+Die Anwendung läuft bis auf wenige Bugs solide. Die Aufgaben, die in der Anforderung beschrieben wurden, werden alle erfüllt. Serverabstürze sind bisher nicht aufgetreten. Jediglich manchmal gibt es Probleme mit den persistent gespeicherten JSON Dateien (vielleicht Kontrolle hinzufügen?). Desweiteren werden einige Fehler, die im Normalbetrieb nicht auftreten können, nicht abgefragt (Falsche URL etc)
+
 
 
 

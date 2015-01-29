@@ -33,6 +33,7 @@
 <li><a href="#confirmpurchasecontroller_cl">ConfirmPurchaseController_cl</a></li>
 <li><a href="#confirmpurchaseview_cl">ConfirmPurchaseView_cl</a></li>
 <li><a href="#startview_cl">StartView_cl</a></li>
+<li><a href="#startview_cl-admin-seite">StartView_cl (Admin Seite)</a></li>
 <li><a href="#startcontroller_cl">StartController_cl</a></li>
 </ul></li>
 </ul></li>
@@ -174,6 +175,12 @@
 </ul>
 <h2 id="zusammenwirken-mit-anderen-komponenten">3.3 Zusammenwirken mit anderen Komponenten</h2>
 <p>Die verschiedenen Komponenten kommunizieren über ein Publish-Subscriber Muster. Das Muster wird in <em>es.js</em> implementiert. Objekte, die die View verwalten, melden sich bei dem verwaltenen Objekt an. Wenn nun eine Änderung im Datenbestand vorliegt (Bsp: Artikel wird in den Warenkorb gelegt), wird dies an das verwaltene Objekt gemeldet. Dieses ruft nun eine Methode im zuständigen View Objekt auf und die Ansicht wird aktualisiert.</p>
+<p>Subscriber Klassen:</p>
+<ul>
+<li><em>StartView_cl</em> (Auch Admin Seite)</li>
+<li><em>BasketView_cl</em></li>
+<li><em>ConfirmPurchaseView_cl</em></li>
+</ul>
 <h2 id="client---api">3.4 Client - API</h2>
 <p>Die Client Implementierung basiert auf einigen nützlichen Klassen, deren Funktion und Methoden hier aufgelistet sind:</p>
 <h3 id="article_cl">Article_cl</h3>
@@ -709,6 +716,8 @@
 <p>Die <em>ConfirmPurchaseView_cl</em> Klasse verwaltet die Darstellung der Bestätigungs - Ansicht. Wenn sich Werte innerhalb der Ansicht verändern, aktualisiert die Klasse automatisch die Ansicht.</p>
 <h3 id="startview_cl">StartView_cl</h3>
 <p>Die <em>StartView_cl</em> Klasse verwaltet die Start-View. Wenn Änderungen am Einkaufswagen oder Artikeln gemacht werden, aktualisiert die Klasse automatisch die angezeigten Daten.</p>
+<h3 id="startview_cl-admin-seite">StartView_cl (Admin Seite)</h3>
+<p>Die <em>StartView_cl</em> Klasse verwaltet die Ansicht innerhalb der Admin Seite. Hier werden bei Bedarf Templates neu gerendert.</p>
 <h3 id="startcontroller_cl">StartController_cl</h3>
 <p>Die <em>StartController_cl</em> Klasse fügt im Konstruktor den angezeigten Buttons in der Start-View Ihre Funktionalitäten hinzu. Desweiteren stellt die Klasse den Nachrichtenaustausch mit dem Server für den Warenkorb bereit. Außerdem initialisiert die Klasse Die Artikelliste und ruft die Daten dafür vom Server ab.</p>
 <table>
@@ -959,6 +968,6 @@
 <li>Bugfixes</li>
 </ul>
 <h2 id="ergebnis">5.2 Ergebnis</h2>
-<p>Die Anwendung läuft bis auf wenige Bugs solide. Die Aufgaben, die in der Anforderung beschrieben wurden, werden alle erfüllt. Serverabstürze sind bisher nicht aufgetreten. Jediglich manchmal gibt es Probleme mit den persistent gespeicherten JSON Dateien (vielleicht Kontrolle hinzufügen?).</p>
+<p>Die Anwendung läuft bis auf wenige Bugs solide. Die Aufgaben, die in der Anforderung beschrieben wurden, werden alle erfüllt. Serverabstürze sind bisher nicht aufgetreten. Jediglich manchmal gibt es Probleme mit den persistent gespeicherten JSON Dateien (vielleicht Kontrolle hinzufügen?). Desweiteren werden einige Fehler, die im Normalbetrieb nicht auftreten können, nicht abgefragt (Falsche URL etc)</p>
 </body>
 </html>
