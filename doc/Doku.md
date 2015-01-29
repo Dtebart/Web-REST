@@ -6,7 +6,8 @@
 # 1. Allgemeines zur Lösung
 Die Web-Anwendung HnFanShop ist eine Single-Page Webanwendung und wurde mit einer Client-Server Architektur auf der Basis des REST Ansatzes implementiert. Der Server wurde hierbei mit Python und dem Framework Cherrypy realisiert. Die Übertragung der Daten findet asynchron mit den Jquery-Ajax Methoden statt. Das Format der übertragenden ist JSON konform.
 
-Die Web-Anwendung simuliert einen Onlineshop. Es ist möglich, Artikel in einen Einkaufswagen zu speichern und diesen dann unter einem Namen zu bestellen. 
+Die Web-Anwendung simuliert einen Onlineshop. Es ist möglich, Artikel aus einer Liste auszuwählen, ihn in einen Einkaufswagen zu legen und diesen dann unter einem Namen zu bestellen. Die Daten werden vom Client an den Server übertragen. Der Server speichert Einkaufswagen, Besteller und Bestellungen und kann diese auf Anfrage an den Client senden.
+Außerdem gibt es eine Adminseite (/admin). Dort ist es möglich, alle Bestellungen zu sehen.
 
 # 2. Beschreibung des Datenaustauschs
 
